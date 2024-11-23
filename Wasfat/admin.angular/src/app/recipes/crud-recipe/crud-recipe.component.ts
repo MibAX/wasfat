@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-crud-recipe',
@@ -6,5 +7,6 @@ import { Component } from '@angular/core';
   styleUrls: ['./crud-recipe.component.scss']
 })
 export class CrudRecipeComponent {
+  recipeFormGroup: FormGroup;
 
 }
