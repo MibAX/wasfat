@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { RecipeAdminService } from '@proxy/recipes';
@@ -8,7 +8,7 @@ import { RecipeAdminService } from '@proxy/recipes';
   templateUrl: './crud-recipe.component.html',
   styleUrls: ['./crud-recipe.component.scss']
 })
-export class CrudRecipeComponent {
+export class CrudRecipeComponent implements OnInit {
   recipeFormGroup: FormGroup;
 
   constructor(
@@ -16,6 +16,10 @@ export class CrudRecipeComponent {
     private fb: FormBuilder,
     private router: Router) {
 
+  }
+
+  ngOnInit(): void {
+    console.log('CrudRecipeComponent > ngOnInit')
   }
 
 
