@@ -28,8 +28,18 @@ export class CrudRecipeComponent implements OnInit {
   }
 
   cancel(): void {
-    this.router.navigate(["/recipes/list"])
+    this.router.navigate(["/recipes/list"]);
   }
+
+  createRecipe(): void {
+    this.recipeAdminSvc.create(this.recipeFormGroup.value).subscribe((response) => {
+      console.log('Recipe created successfully', response);
+      this.router.navigate(["/recipes/list"]);
+    });
+
+  }
+
+
 
 
 
