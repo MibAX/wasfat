@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { RecipeAdminService } from '@proxy/recipes';
 
@@ -25,7 +25,7 @@ export class CrudRecipeComponent implements OnInit {
 
   private buildFrom() {
     this.recipeFormGroup = this.fb.group({
-      name: [''],
+      name: ['', [Validators.required, Validators.minLength(3)]],
       description: ['']
     });
   }
@@ -35,6 +35,12 @@ export class CrudRecipeComponent implements OnInit {
   }
 
   createRecipe(): void {
+
+    if (this.recipeFormGroup.invalid) {
+      alert("some Fields are not valid.")
+      return;
+    }
+
     this.recipeAdminSvc.create(this.recipeFormGroup.value).subscribe((response) => {
       console.log('Recipe created successfully', response);
       this.router.navigate(["/recipes/list"]);
