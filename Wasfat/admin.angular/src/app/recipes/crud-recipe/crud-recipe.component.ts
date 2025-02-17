@@ -63,17 +63,28 @@ export class CrudRecipeComponent implements OnInit {
     this.router.navigate(["/recipes/list"]);
   }
 
-  createRecipe(): void {
+  saveRecipe(): void {
 
     if (this.recipeFormGroup.invalid) {
       alert("some Fields are not valid.")
       return;
     }
 
-    this.recipeAdminSvc.create(this.recipeFormGroup.value).subscribe((response) => {
-      console.log('Recipe created successfully', response);
-      this.router.navigate(["/recipes/list"]);
-    });
+    if (this.isEditMode && this.recipeId) {
+      // update
+      this.recipeAdminSvc.update(this.recipeId, this.recipeFormGroup.value).subscribe((response) => {
+        console.log('Recipe updated successfully', response);
+        this.router.navigate(["/recipes/list"]);
+      });
+    } else {
+      // create
+      this.recipeAdminSvc.create(this.recipeFormGroup.value).subscribe((response) => {
+        console.log('Recipe created successfully', response);
+        this.router.navigate(["/recipes/list"]);
+      });
+    }
+
+
 
   }
 
