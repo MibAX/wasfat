@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { RecipeAdminService, RecipeDto } from '@proxy/recipes';
 
 @Component({
@@ -10,7 +11,9 @@ export class RecipesListComponent implements OnInit {
 
   recipes: RecipeDto[] = [];
 
-  constructor(private recipeAdminSvc: RecipeAdminService) {
+  constructor(
+    private recipeAdminSvc: RecipeAdminService,
+    private router: Router) {
     console.log('RecipesListComponent > constructor');
 
   }
@@ -21,6 +24,10 @@ export class RecipesListComponent implements OnInit {
     this.recipeAdminSvc.getAllRecipes().subscribe(data => this.recipes = data);
 
 
+  }
+
+  newRecipe(): void {
+    this.router.navigate(["/recipes/crud"]);
   }
 
 }
