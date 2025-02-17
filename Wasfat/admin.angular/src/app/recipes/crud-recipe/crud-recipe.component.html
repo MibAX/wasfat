@@ -7,8 +7,8 @@
           Cancel
         </button>
 
-        <button type="button" class="me-2" mat-stroked-button color="primary" (click)="createRecipe()">
-          Create
+        <button type="button" mat-stroked-button color="primary" (click)="saveRecipe()">
+          {{ isEditMode ? 'Update' : 'Create' }}
         </button>
 
       </div>
