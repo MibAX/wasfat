@@ -1,7 +1,21 @@
-<h1>All My Recipes</h1>
-
-<ngx-datatable [rows]="recipes" default>
-    <ngx-datatable-column [name]="'Number'" prop="id"></ngx-datatable-column>
-    <ngx-datatable-column [name]="'Recipe Name'" prop="name"></ngx-datatable-column>
-    <ngx-datatable-column [name]="'Description'" prop="description"></ngx-datatable-column>
-</ngx-datatable>
+<div class="card">
+    <div class="card-header">
+        <div class="row">
+            <div class="col-md-6 border">
+                Left card header
+            </div>
+            <div class="col-md-6 border">
+                right card header
+            </div>
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <ngx-datatable [rows]="recipes" default>
+                <ngx-datatable-column [name]="'Number'" prop="id"></ngx-datatable-column>
+                <ngx-datatable-column [name]="'Recipe Name'" prop="name"></ngx-datatable-column>
+                <ngx-datatable-column [name]="'Description'" prop="description"></ngx-datatable-column>
+            </ngx-datatable>
+        </div>
+    </div>
+</div>
