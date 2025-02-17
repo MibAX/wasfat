@@ -1904,15 +1904,10 @@ Implement a method to fetch the recipe details using the recipe ID.
 `src`/`app`/`recipes`/`crud-recipe`/`crud-recipe.component.ts`
 
 ```typescript
-  private loadRecipe(id: number): void {
     this.recipeAdminSvc.get(id).subscribe(recipe => {
       // Populate the form with the retrieved recipe data
-      this.recipeFormGroup.patchValue({
-        name: recipe.name,
-        description: recipe.description
-      });
+
     });
-  }  
 ```
 
 ### 10.10 Patching Form Values  
