@@ -9,11 +9,11 @@ const routes: Routes = [
     component: RecipesListComponent,
   },
   {
-    path: 'crud',
+    path: 'create',
     component: CrudRecipeComponent,
   },
   {
-    path: 'crud/:id',
+    path: 'edit/:id',
     component: CrudRecipeComponent,
   },
 ];

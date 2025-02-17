@@ -27,11 +27,11 @@ export class RecipesListComponent implements OnInit {
   }
 
   newRecipe(): void {
-    this.router.navigate(["/recipes/crud"]);
+    this.router.navigate(["/recipes/create"]);
   }
 
   editRecipe(id: number): void {
-    this.router.navigate(["/recipes/crud", id]);
+    this.router.navigate(["/recipes/edit", id]);
   }
 
 }
