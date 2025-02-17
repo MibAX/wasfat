@@ -1943,24 +1943,26 @@ Implement a function that handles both creating and updating a recipe based on t
 
 ```typescript
   saveRecipe(): void {
+
     if (this.recipeFormGroup.invalid) {
-      alert("Some fields are not valid.");
+      alert("some Fields are not valid.")
       return;
     }
 
     if (this.isEditMode && this.recipeId) {
-      // Update existing recipe
-      this.recipeAdminSvc.update(this.recipeId, this.recipeFormGroup.value).subscribe(response => {
+      // update
+      this.recipeAdminSvc.update(this.recipeId, this.recipeFormGroup.value).subscribe((response) => {
         console.log('Recipe updated successfully', response);
         this.router.navigate(["/recipes/list"]);
       });
     } else {
-      // Create new recipe
-      this.recipeAdminSvc.create(this.recipeFormGroup.value).subscribe(response => {
+      // create
+      this.recipeAdminSvc.create(this.recipeFormGroup.value).subscribe((response) => {
         console.log('Recipe created successfully', response);
         this.router.navigate(["/recipes/list"]);
       });
     }
+    
   }
 ```
 
