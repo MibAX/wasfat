@@ -1948,7 +1948,7 @@ Implement a function that handles both creating and updating a recipe based on t
       return;
     }
 
-    if (this.isEditMode && this.recipeId !== null) {
+    if (this.isEditMode && this.recipeId) {
       // Update existing recipe
       this.recipeAdminSvc.update(this.recipeId, this.recipeFormGroup.value).subscribe(response => {
         console.log('Recipe updated successfully', response);
