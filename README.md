@@ -1822,10 +1822,10 @@ Ensure that the backend endpoint for updating a recipe is correctly implemented.
 `src`/`Wasfat.Application`/`Recipes`/`RecipeAdminAppService.cs` >  `UpdateAsync`
 
 ```csharp
-public override async Task<RecipeDto> UpdateAsync(int id, RecipeDto input)
-{
-  // ...
-}
+        public override async Task<RecipeDto> UpdateAsync(int id, RecipeDto input)
+        {
+          // ...
+        }
 ```
 
 ### 10.04 Verifying the Frontend Proxy for Update Recipe  
@@ -1848,7 +1848,7 @@ Add a new route that accepts a recipe ID for editing.
   {
     path: 'crud/:id',
     component: CrudRecipeComponent
-  }
+  }  
 ```
 
 ### 10.06 Declaring `recipeId` & `isEditMode`  
@@ -1858,8 +1858,8 @@ In the `CrudRecipeComponent`, declare properties to hold the recipe ID and to fl
 `src`/`app`/`recipes`/`crud-recipe`/`crud-recipe.component.ts`
 
 ```typescript
-recipeId: number | null = null;
-isEditMode = false;
+  recipeId: number | null = null;
+  isEditMode = false;
 ```
 
 ### 10.07 Injecting the ActivatedRoute Dependency  
@@ -1869,7 +1869,7 @@ Inject the `ActivatedRoute` service to access route parameters.
 `src`/`app`/`recipes`/`crud-recipe`/`crud-recipe.component.ts`
 
 ```typescript
-  private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute
 ```
 
 ### 10.08 Detecting Edit Mode  
@@ -1904,13 +1904,15 @@ Implement a method to fetch the recipe details using the recipe ID.
 `src`/`app`/`recipes`/`crud-recipe`/`crud-recipe.component.ts`
 
 ```typescript
-private loadRecipe(id: number): void {
-  this.recipeAdminSvc.get(id).subscribe(recipe => {
-    
-    // Patch Value the form with the retrieved recipe data
-
-  });
-}
+  private loadRecipe(id: number): void {
+    this.recipeAdminSvc.get(id).subscribe(recipe => {
+      // Populate the form with the retrieved recipe data
+      this.recipeFormGroup.patchValue({
+        name: recipe.name,
+        description: recipe.description
+      });
+    });
+  }  
 ```
 
 ### 10.10 Patching Form Values  
@@ -1933,9 +1935,9 @@ Change the button label based on the mode to reflect either creating or updating
 `src`/`app`/`recipes`/`crud-recipe`/`crud-recipe.component.html`
 
 ```html
-<button type="button" mat-stroked-button color="primary" (click)="saveRecipe()">
-  {{ isEditMode ? 'Save' : 'Create' }}
-</button>
+        <button type="button" mat-stroked-button color="primary" (click)="saveRecipe()">
+          {{ isEditMode ? 'Update' : 'Create' }}
+        </button>
 ```
 
 ### 10.12 Implementing the `saveRecipe()` Function  
@@ -1945,26 +1947,26 @@ Implement a function that handles both creating and updating a recipe based on t
 `src`/`app`/`recipes`/`crud-recipe`/`crud-recipe.component.ts`
 
 ```typescript
-saveRecipe(): void {
-  if (this.recipeFormGroup.invalid) {
-    alert("Some fields are not valid.");
-    return;
-  }
+  saveRecipe(): void {
+    if (this.recipeFormGroup.invalid) {
+      alert("Some fields are not valid.");
+      return;
+    }
 
-  if (this.isEditMode && this.recipeId !== null) {
-    // Update existing recipe
-    this.recipeAdminSvc.update(this.recipeId, this.recipeFormGroup.value).subscribe(response => {
-      console.log('Recipe updated successfully', response);
-      this.router.navigate(["/recipes/list"]);
-    });
-  } else {
-    // Create new recipe
-    this.recipeAdminSvc.create(this.recipeFormGroup.value).subscribe(response => {
-      console.log('Recipe created successfully', response);
-      this.router.navigate(["/recipes/list"]);
-    });
+    if (this.isEditMode && this.recipeId !== null) {
+      // Update existing recipe
+      this.recipeAdminSvc.update(this.recipeId, this.recipeFormGroup.value).subscribe(response => {
+        console.log('Recipe updated successfully', response);
+        this.router.navigate(["/recipes/list"]);
+      });
+    } else {
+      // Create new recipe
+      this.recipeAdminSvc.create(this.recipeFormGroup.value).subscribe(response => {
+        console.log('Recipe created successfully', response);
+        this.router.navigate(["/recipes/list"]);
+      });
+    }
   }
-}
 ```
 
 ### 10.13 Testing the Update Recipe Functionality  
@@ -1987,7 +1989,7 @@ Ensure that the following line is included in the `UpdateAsync` method to correc
 `src`/`Wasfat.Application`/`Recipes`/`RecipeAdminAppService.cs` > *UpdateAsync method*
 
 ```csharp
-input.Id = recipe.Id;
+            input.Id = recipe.Id;
 ```
 
 ### 10.15 Wrapping Recipes List Within a Bootstrap Card  
@@ -2025,11 +2027,11 @@ Add a "New Recipe" button that navigates to the create recipe form. Update both 
 `src`/`app`/`recipes`/`recipes-list`/`recipes-list.component.html`
 
 ```html
-<div class="col-md-6 border text-end">
-    <button type="button" mat-stroked-button color="primary" (click)="newRecipe()">
-        New Recipe
-    </button>
-</div>
+            <div class="col-md-6 border text-end">
+                <button type="button" mat-stroked-button color="primary" (click)="newRecipe()">
+                    New Recipe
+                </button>
+            </div>
 ```
 
 ### 10.17 Adding the Edit Recipe Buttons  
@@ -2048,13 +2050,13 @@ Ensure that each recipe row has an edit button that navigates to the editing rou
 `src`/`app`/`recipes`/`recipes-list`/`recipes-list.component.html`
 
 ```html
-<ngx-datatable-column [name]="'Edit'">
-    <ng-template let-row="row" ngx-datatable-cell-template>
-        <button mat-stroked-button color="primary" (click)="editRecipe(row.id)">
-            Edit
-        </button>
-    </ng-template>
-</ngx-datatable-column>
+                <ngx-datatable-column [name]="'Edit'">
+                    <ng-template let-row="row" ngx-datatable-cell-template>
+                        <button mat-stroked-button color="primary" (click)="editRecipe(row.id)">
+                            Edit
+                        </button>
+                    </ng-template>
+                </ngx-datatable-column>
 ```
 
 ### 10.189 Simplifying Navigation Menus
@@ -2130,27 +2132,27 @@ In this lecture, we update the recipe routes to be more user-friendly. Instead o
 **Before:**
 
 ```typescript
-{
-  path: 'crud',
-  component: CrudRecipeComponent
-},
-{
-  path: 'crud/:id',
-  component: CrudRecipeComponent
-}
+      {
+        path: 'crud',
+        component: CrudRecipeComponent
+      },
+      {
+        path: 'crud/:id',
+        component: CrudRecipeComponent
+      }
 ```
 
 **After:**
 
 ```typescript
-{
-  path: 'create',
-  component: CrudRecipeComponent
-},
-{
-  path: 'edit/:id',
-  component: CrudRecipeComponent
-}
+      {
+        path: 'create',
+        component: CrudRecipeComponent
+      },
+      {
+        path: 'edit/:id',
+        component: CrudRecipeComponent
+      }
 ```
 **⚠️ Note :**  
 > Be sure to update all references in your application from `/recipes/crud` and `/recipes/crud/:id` to `/recipes/create` and `/recipes/edit/:id` respectively. This includes any navigation links or redirects in your code.
