@@ -30,4 +30,8 @@ export class RecipesListComponent implements OnInit {
     this.router.navigate(["/recipes/crud"]);
   }
 
+  editRecipe(id: number): void {
+    this.router.navigate(["/recipes/crud", id]);
+  }
+
 }

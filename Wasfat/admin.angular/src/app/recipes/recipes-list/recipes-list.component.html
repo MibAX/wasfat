@@ -20,6 +20,15 @@
                 <ngx-datatable-column [name]="'Number'" prop="id"></ngx-datatable-column>
                 <ngx-datatable-column [name]="'Recipe Name'" prop="name"></ngx-datatable-column>
                 <ngx-datatable-column [name]="'Description'" prop="description"></ngx-datatable-column>
+
+                <ngx-datatable-column [name]="'Edit'">
+                    <ng-template let-row="row" ngx-datatable-cell-template>
+                        <button mat-stroked-button color="primary" (click)="editRecipe(row.id)">
+                            Edit
+                        </button>
+                    </ng-template>
+                </ngx-datatable-column>
+
             </ngx-datatable>
         </div>
     </div>
