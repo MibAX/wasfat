@@ -25,6 +25,23 @@ export class CrudRecipeComponent implements OnInit {
   ngOnInit(): void {
     console.log('CrudRecipeComponent > ngOnInit')
     this.buildFrom();
+
+    this.activatedRoute.paramMap.subscribe(params => {
+
+      const idParam = params.get('id');
+
+      if (!idParam) {
+        return;
+      }
+
+      this.recipeId = Number(idParam);
+
+      this.isEditMode = true;
+
+      // load recipe from backend 
+
+
+    })
   }
 
   private buildFrom() {
