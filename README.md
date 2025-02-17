@@ -1881,19 +1881,19 @@ Subscribe to the route parameters in `ngOnInit()` to determine if the component 
 ```typescript
     // Check if a recipe ID is provided in the activatedRoute
     this.activatedRoute.paramMap.subscribe(params => {
+
       const idParam = params.get('id');
 
       if (!idParam) {
-        return; // No recipe ID in route; exit early.
+        return;
       }
 
-      // Convert the id from a string to a number
       this.recipeId = Number(idParam);
 
       this.isEditMode = true;
 
-      // Load the recipe for editing
-      this.loadRecipe(this.recipeId);
+      // load recipe from backend       
+
     });
 ```
 
@@ -1903,11 +1903,11 @@ Implement a method to fetch the recipe details using the recipe ID.
 **Location**:  
 `src`/`app`/`recipes`/`crud-recipe`/`crud-recipe.component.ts`
 
-```typescript
-    this.recipeAdminSvc.get(id).subscribe(recipe => {
-      // Populate the form with the retrieved recipe data
+```typescript      
+      this.recipeAdminSvc.get(this.recipeId).subscribe(response => {
+        // Populate the form with the retrieved recipe data
 
-    });
+      });
 ```
 
 ### 10.10 Patching Form Values  
@@ -1918,8 +1918,8 @@ Use the `patchValue` method to update specific form fields with the recipe data.
 
 ```typescript
       this.recipeFormGroup.patchValue({
-        name: recipe.name,
-        description: recipe.description
+        name: response.name,
+        description: response.description
       });
 ```
 
