@@ -1962,7 +1962,7 @@ Implement a function that handles both creating and updating a recipe based on t
         this.router.navigate(["/recipes/list"]);
       });
     }
-    
+
   }
 ```
 
@@ -1998,7 +1998,14 @@ Enhance the UI of the recipes list by wrapping it in a Bootstrap card.
 ```html
 <div class="card">
   <div class="card-header">
-    this is the card header
+    <div class="row">
+      <div class="col-md-6 border">
+        Left card header
+      </div>
+      <div class="col-md-6 border">
+        right card header
+      </div>
+    </div>
   </div>
   <div class="card-body">
     <div class="row">
