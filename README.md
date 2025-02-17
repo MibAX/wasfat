@@ -1828,7 +1828,7 @@ Ensure that the backend endpoint for updating a recipe is correctly implemented.
         }
 ```
 
-### 10.04 Verifying the Frontend Proxy for Update Recipe  
+### 10.03 Verifying the Frontend Proxy for Update Recipe  
 If you do not see the update method in your Angular proxy, regenerate it using the following command.
 
 **Location**:  
@@ -1838,7 +1838,7 @@ If you do not see the update method in your Angular proxy, regenerate it using t
 abp generate-proxy -t ng
 ```
 
-### 10.05 Configuring Routing for Editing a Specific Recipe  
+### 10.04 Configuring Routing for Editing a Specific Recipe  
 Add a new route that accepts a recipe ID for editing.
 
 **Location**:  
@@ -1851,7 +1851,7 @@ Add a new route that accepts a recipe ID for editing.
   }  
 ```
 
-### 10.06 Declaring `recipeId` & `isEditMode`  
+### 10.05 Declaring `recipeId` & `isEditMode`  
 In the `CrudRecipeComponent`, declare properties to hold the recipe ID and to flag the component's mode (create or edit).
 
 **Location**:  
@@ -1862,7 +1862,7 @@ In the `CrudRecipeComponent`, declare properties to hold the recipe ID and to fl
   isEditMode = false;
 ```
 
-### 10.07 Injecting the ActivatedRoute Dependency  
+### 10.06 Injecting the ActivatedRoute Dependency  
 Inject the `ActivatedRoute` service to access route parameters.
 
 **Location**:  
@@ -1872,7 +1872,7 @@ Inject the `ActivatedRoute` service to access route parameters.
     private activatedRoute: ActivatedRoute
 ```
 
-### 10.08 Detecting Edit Mode  
+### 10.07 Detecting Edit Mode  
 Subscribe to the route parameters in `ngOnInit()` to determine if the component should operate in edit mode.
 
 **Location**:  
@@ -1897,7 +1897,7 @@ Subscribe to the route parameters in `ngOnInit()` to determine if the component 
     });
 ```
 
-### 10.09 Loading the Recipe from the Back End  
+### 10.08 Loading the Recipe from the Backend
 Implement a method to fetch the recipe details using the recipe ID.
 
 **Location**:  
@@ -1915,7 +1915,7 @@ Implement a method to fetch the recipe details using the recipe ID.
   }  
 ```
 
-### 10.10 Patching Form Values  
+### 10.09 Patching Form Values  
 Use the `patchValue` method to update specific form fields with the recipe data.
 
 **Location**:  
@@ -1928,7 +1928,7 @@ Use the `patchValue` method to update specific form fields with the recipe data.
       });
 ```
 
-### 10.11 Dynamically Labeling the Create/Save Button  
+### 10.10 Dynamically Labeling the Create/Save Button  
 Change the button label based on the mode to reflect either creating or updating a recipe.
 
 **Location**:  
@@ -1940,7 +1940,7 @@ Change the button label based on the mode to reflect either creating or updating
         </button>
 ```
 
-### 10.12 Implementing the `saveRecipe()` Function  
+### 10.11 Implementing the `saveRecipe()` Function  
 Implement a function that handles both creating and updating a recipe based on the `isEditMode` flag.
 
 **Location**:  
@@ -1969,12 +1969,12 @@ Implement a function that handles both creating and updating a recipe based on t
   }
 ```
 
-### 10.13 Testing the Update Recipe Functionality  
+### 10.12 Testing the Update Recipe Functionality  
 Test the functionality by navigating to a URL such as `/recipes/crud/39` to verify that:  
 - The form loads with the existing recipe data.  
 - Editing the fields and clicking the save button triggers the update process.
 
-### 10.14 Troubleshooting Internal Request Errors
+### 10.13 Troubleshooting Internal Request Errors
 
 To check backend error logs:
 
@@ -1992,7 +1992,7 @@ Ensure that the following line is included in the `UpdateAsync` method to correc
             input.Id = recipe.Id;
 ```
 
-### 10.15 Wrapping Recipes List Within a Bootstrap Card  
+### 10.14 Wrapping Recipes List Within a Bootstrap Card  
 Enhance the UI of the recipes list by wrapping it in a Bootstrap card.
 
 **Location**:  
@@ -2011,7 +2011,7 @@ Enhance the UI of the recipes list by wrapping it in a Bootstrap card.
 </div>
 ```
 
-### 10.16 Adding the New Recipe Button  
+### 10.15 Adding the New Recipe Button  
 Add a "New Recipe" button that navigates to the create recipe form. Update both the component and the HTML.
 
 **Component Location**:  
@@ -2034,7 +2034,7 @@ Add a "New Recipe" button that navigates to the create recipe form. Update both 
             </div>
 ```
 
-### 10.17 Adding the Edit Recipe Buttons  
+### 10.16 Adding the Edit Recipe Buttons  
 Ensure that each recipe row has an edit button that navigates to the editing route with the recipe ID. Update both the component and the HTML.
 
 **Component Location**:  
@@ -2059,7 +2059,7 @@ Ensure that each recipe row has an edit button that navigates to the editing rou
                 </ngx-datatable-column>
 ```
 
-### 10.189 Simplifying Navigation Menus
+### 10.17 Simplifying Navigation Menus
 
 In this lecture, we simplify the navigation structure. Instead of having sub-menus under "Recipes" (one for listing and one for create/edit), the parent menu now leads directly to the Recipes list, which contains buttons for creating and editing recipes.
 
@@ -2118,7 +2118,7 @@ In this lecture, we simplify the navigation structure. Instead of having sub-men
 ```
 
 
-### 10.19 Updating Recipe Routes for Better UX
+### 10.18 Updating Recipe Routes for Better UX
 
 In this lecture, we update the recipe routes to be more user-friendly. Instead of using the term "crud," which is more programmer-centric, we adopt intuitive route names that clearly describe the actions:
 
@@ -2158,7 +2158,7 @@ In this lecture, we update the recipe routes to be more user-friendly. Instead o
 > Be sure to update all references in your application from `/recipes/crud` and `/recipes/crud/:id` to `/recipes/create` and `/recipes/edit/:id` respectively. This includes any navigation links or redirects in your code.
 
 
-### 10.20 Summary
+### 10.19 Summary
 
 In this chapter, we extended the CRUD functionality for recipe management by implementing editing capabilities. We accomplished the following:
 
