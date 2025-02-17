@@ -16,28 +16,12 @@ function configureRoutes(routesService: RoutesService) {
         layout: eLayoutType.application,
       },
       {
-        path: '/',
+        path: '/recipes/list',
         name: '::Menu:Recipes',
         iconClass: 'fas fa-utensils',
         order: 2,
         layout: eLayoutType.application,
-      },
-      {
-        path: '/recipes/list',
-        name: '::Menu:RecipesList',
-        parentName: '::Menu:Recipes',
-        iconClass: 'fas fa-list',
-        order: 1,
-        layout: eLayoutType.application,
-      },
-      {
-        path: '/recipes/crud',
-        name: '::Menu:CrudRecipe',
-        parentName: '::Menu:Recipes',
-        iconClass: 'fas fa-plus',
-        order: 2,
-        layout: eLayoutType.application,
-      },
+      }
     ]);
   };
 }
