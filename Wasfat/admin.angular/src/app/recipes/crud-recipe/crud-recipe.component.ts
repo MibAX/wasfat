@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { RecipeAdminService } from '@proxy/recipes';
 
 @Component({
@@ -17,7 +17,8 @@ export class CrudRecipeComponent implements OnInit {
   constructor(
     private recipeAdminSvc: RecipeAdminService,
     private fb: FormBuilder,
-    private router: Router) {
+    private router: Router,
+    private activatedRoute: ActivatedRoute) {
 
   }
 
