@@ -10,6 +10,9 @@ import { RecipeAdminService } from '@proxy/recipes';
 })
 export class CrudRecipeComponent implements OnInit {
   recipeFormGroup: FormGroup;
+  recipeId: number | null = null;
+  isEditMode: boolean = false;
+
 
   constructor(
     private recipeAdminSvc: RecipeAdminService,
