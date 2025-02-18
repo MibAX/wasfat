@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { RecipeAdminService } from '@proxy/recipes';
+import { RecipeAdminService, RecipeDto } from '@proxy/recipes';
 
 @Component({
   selector: 'app-crud-recipe',
@@ -25,38 +25,7 @@ export class CrudRecipeComponent implements OnInit {
   ngOnInit(): void {
     console.log('CrudRecipeComponent > ngOnInit')
     this.buildFrom();
-
-    this.activatedRoute.paramMap.subscribe(params => {
-
-      const idParam = params.get('id');
-
-      if (!idParam) {
-        return;
-      }
-
-      this.recipeId = Number(idParam);
-
-      this.isEditMode = true;
-
-      // load recipe from backend
-      this.recipeAdminSvc.get(this.recipeId).subscribe(response => {
-        // Populate the form with the retrieved recipe data
-        this.recipeFormGroup.patchValue({
-          name: response.name,
-          description: response.description
-        });
-
-      });
-
-
-    })
-  }
-
-  private buildFrom() {
-    this.recipeFormGroup = this.fb.group({
-      name: ['', [Validators.required, Validators.minLength(3)]],
-      description: ['']
-    });
+    this.populateFromIfEditing();
   }
 
   cancel(): void {
@@ -88,6 +57,52 @@ export class CrudRecipeComponent implements OnInit {
 
   }
 
+  //#region Sub-Functions
+
+  private buildFrom() {
+    this.recipeFormGroup = this.fb.group({
+      name: ['', [Validators.required, Validators.minLength(3)]],
+      description: ['']
+    });
+  }
+
+  private populateFromIfEditing() {
+    this.activatedRoute.paramMap.subscribe(params => {
+      const idParam = this.getId(params);
+      if (this.isNotEditing(idParam)) {
+        return;
+      }
+      this.setEditingParams(idParam);
+      this.loadRecipe();
+    });
+  }
+
+  private getId(params) {
+    return params.get('id');
+  }
+
+  private isNotEditing(idParam: number) {
+    return !idParam;
+  }
+  private setEditingParams(idParam: string) {
+    this.recipeId = Number(idParam);
+    this.isEditMode = true;
+  }
+
+  private loadRecipe() {
+    this.recipeAdminSvc.get(this.recipeId).subscribe(response => {
+      this.populateForm(response);
+    });
+  }
+
+  private populateForm(response: RecipeDto) {
+    this.recipeFormGroup.patchValue({
+      name: response.name,
+      description: response.description
+    });
+  }
+
+  //#endregion
 
 
 
