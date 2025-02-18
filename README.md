@@ -1810,7 +1810,7 @@ This chapter provided a step-by-step guide to creating a polished recipe creatio
 ### 10.01 What You Will Learn in This Chapter  
 In this chapter, you will extend the recipe management functionality by enabling users to edit existing recipes. You will learn how to detect edit mode, load a recipe from the backend, patch form values, and implement a combined create/update method that dynamically handles both scenarios.
 
-### 10.02 Terminology  
+### 10.02 Terminology
 - **Edit Recipe**: The state of the component when an existing recipe is being modified rather than created.  
 - **Update Recipe**: The process of saving and persisting the modifications made during an edit session. This often involves validating the updated data and invoking a service method (or API call) to store the changes in the backend.  
 - **ActivatedRoute**: An Angular service that provides access to information about a route associated with a component loaded in an outlet.  
