@@ -1932,7 +1932,7 @@ Change the button label based on the mode to reflect either creating or updating
 
 ```html
         <button type="button" mat-stroked-button color="primary" (click)="saveRecipe()">
-          {{ isEditMode ? 'Update' : 'Create' }}
+          {{ isEditMode ? 'Save' : 'Create' }}
         </button>
 ```
 
@@ -2057,13 +2057,16 @@ Ensure that each recipe row has an edit button that navigates to the editing rou
 ```html
                 <ngx-datatable-column [name]="'Edit'">
                     <ng-template let-row="row" ngx-datatable-cell-template>
-                        <button mat-stroked-button color="primary" (click)="editRecipe(row.id)">
-                            Edit
-                        </button>
+
                     </ng-template>
                 </ngx-datatable-column>
 ```
 
+```html
+                        <button mat-stroked-button color="primary" (click)="editRecipe(row.id)">
+                            Edit
+                        </button>
+```
 ### 10.18 Simplifying Navigation Menus
 
 In this lecture, we simplify the navigation structure. Instead of having sub-menus under "Recipes" (one for listing and one for create/edit), the parent menu now leads directly to the Recipes list, which contains buttons for creating and editing recipes.
