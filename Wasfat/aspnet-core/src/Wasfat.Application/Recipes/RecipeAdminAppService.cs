@@ -1,25 +1,28 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Volo.Abp;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
 using Volo.Abp.Domain.Repositories;
+using Wasfat.Instructions;
 
 namespace Wasfat.Recipes
 {
     public class RecipeAdminAppService : CrudAppService<Recipe, RecipeDto, int, PagedAndSortedResultRequestDto>, IRecipeAppService
     {
         private readonly IRepository<Recipe, int> _recipesRepository;
+        private readonly IRepository<Instruction, int> _instructionsRepository;
 
         public RecipeAdminAppService(
-            IRepository<Recipe, int> recipesRepository
+            IRepository<Recipe, int> recipesRepository,
+            IRepository<Instruction, int> InstructionsRepository
             )
         : base(recipesRepository)
         {
             _recipesRepository = recipesRepository;
+            _instructionsRepository = InstructionsRepository;
         }
 
 
@@ -127,6 +130,24 @@ namespace Wasfat.Recipes
         }
 
 
+        public async Task<InstructionDto> CreateInstructionAsync(InstructionDto input)
+        {
+            var recipe = await _recipesRepository.FirstOrDefaultAsync(r => r.Id == input.RecipeId);
+
+            if (recipe == null)
+            {
+                throw new UserFriendlyException("Recipe not found.");
+            }
+
+            var instruction = ObjectMapper.Map<InstructionDto, Instruction>(input);
+
+            await _instructionsRepository.InsertAsync(instruction, autoSave: true);
+
+            var instructionDto = ObjectMapper.Map<Instruction, InstructionDto>(instruction);
+
+
+            return instructionDto;
+        }
 
 
     }

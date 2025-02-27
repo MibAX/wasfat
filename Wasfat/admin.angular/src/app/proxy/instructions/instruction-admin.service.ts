@@ -1,29 +1,19 @@
-import type { RecipeDto } from './models';
+import type { InstructionDto } from './models';
 import { RestService, Rest } from '@abp/ng.core';
 import type { PagedAndSortedResultRequestDto, PagedResultDto } from '@abp/ng.core';
 import { Injectable } from '@angular/core';
-import type { InstructionDto } from '../instructions/models';
 
 @Injectable({
   providedIn: 'root',
 })
-export class RecipeAdminService {
+export class InstructionAdminService {
   apiName = 'Default';
   
 
-  create = (input: RecipeDto, config?: Partial<Rest.Config>) =>
-    this.restService.request<any, RecipeDto>({
-      method: 'POST',
-      url: '/api/app/recipe-admin',
-      body: input,
-    },
-    { apiName: this.apiName,...config });
-  
-
-  createInstruction = (input: InstructionDto, config?: Partial<Rest.Config>) =>
+  create = (input: InstructionDto, config?: Partial<Rest.Config>) =>
     this.restService.request<any, InstructionDto>({
       method: 'POST',
-      url: '/api/app/recipe-admin/instruction',
+      url: '/api/app/instruction-admin',
       body: input,
     },
     { apiName: this.apiName,...config });
@@ -32,49 +22,49 @@ export class RecipeAdminService {
   delete = (id: number, config?: Partial<Rest.Config>) =>
     this.restService.request<any, void>({
       method: 'DELETE',
-      url: `/api/app/recipe-admin/${id}`,
+      url: `/api/app/instruction-admin/${id}`,
     },
     { apiName: this.apiName,...config });
   
 
   get = (id: number, config?: Partial<Rest.Config>) =>
-    this.restService.request<any, RecipeDto>({
+    this.restService.request<any, InstructionDto>({
       method: 'GET',
-      url: `/api/app/recipe-admin/${id}`,
+      url: `/api/app/instruction-admin/${id}`,
     },
     { apiName: this.apiName,...config });
   
 
-  getAllRecipes = (config?: Partial<Rest.Config>) =>
-    this.restService.request<any, RecipeDto[]>({
+  getAllInstructions = (config?: Partial<Rest.Config>) =>
+    this.restService.request<any, InstructionDto[]>({
       method: 'GET',
-      url: '/api/app/recipe-admin/recipes',
+      url: '/api/app/instruction-admin/instructions',
     },
     { apiName: this.apiName,...config });
   
 
   getList = (input: PagedAndSortedResultRequestDto, config?: Partial<Rest.Config>) =>
-    this.restService.request<any, PagedResultDto<RecipeDto>>({
+    this.restService.request<any, PagedResultDto<InstructionDto>>({
       method: 'GET',
-      url: '/api/app/recipe-admin',
+      url: '/api/app/instruction-admin',
       params: { sorting: input.sorting, skipCount: input.skipCount, maxResultCount: input.maxResultCount },
     },
     { apiName: this.apiName,...config });
   
 
   getRecent = (count: number = 3, config?: Partial<Rest.Config>) =>
-    this.restService.request<any, RecipeDto[]>({
+    this.restService.request<any, InstructionDto[]>({
       method: 'GET',
-      url: '/api/app/recipe-admin/recent',
+      url: '/api/app/instruction-admin/recent',
       params: { count },
     },
     { apiName: this.apiName,...config });
   
 
-  update = (id: number, input: RecipeDto, config?: Partial<Rest.Config>) =>
-    this.restService.request<any, RecipeDto>({
+  update = (id: number, input: InstructionDto, config?: Partial<Rest.Config>) =>
+    this.restService.request<any, InstructionDto>({
       method: 'PUT',
-      url: `/api/app/recipe-admin/${id}`,
+      url: `/api/app/instruction-admin/${id}`,
       body: input,
     },
     { apiName: this.apiName,...config });

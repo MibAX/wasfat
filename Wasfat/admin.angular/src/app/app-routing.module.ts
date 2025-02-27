@@ -29,10 +29,15 @@ const routes: Routes = [
     path: 'recipes',
     loadChildren: () => import('./recipes/recipes.module').then(m => m.RecipesModule),
   },
+  {
+    path: 'instructions',
+    loadChildren: () =>
+      import('./instructions/instructions.module').then(m => m.InstructionsModule)
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes, {})],
   exports: [RouterModule],
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }

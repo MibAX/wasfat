@@ -21,7 +21,30 @@ function configureRoutes(routesService: RoutesService) {
         iconClass: 'fas fa-utensils',
         order: 2,
         layout: eLayoutType.application,
-      }
+      },
+      {
+        path: '',
+        name: '::Menu:Instructions',
+        iconClass: 'fas fa-home',
+        order: 2,
+        layout: eLayoutType.application,
+      },
+      {
+        path: '/instructions/list',
+        name: '::Menu:InstructionsList',
+        parentName: '::Menu:Instructions',
+        iconClass: 'fas fa-bars',
+        order: 1,
+        layout: eLayoutType.application,
+      },
+      {
+        path: '/instructions/crud',
+        name: '::Menu:CrudInstruction',
+        parentName: '::Menu:Instructions',
+        iconClass: 'fas fa-edit',
+        order: 2,
+        layout: eLayoutType.application,
+      },
     ]);
   };
 }

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Volo.Abp.Domain.Entities;
+using Wasfat.Instructions;
 
 namespace Wasfat.Recipes
 {
@@ -11,5 +12,7 @@ namespace Wasfat.Recipes
     {
         public string Name { get; set; }
         public string Description { get; set; }
+
+        public List<Instruction> Instructions { get; set; } = new();
     }
 }
