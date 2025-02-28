@@ -23,9 +23,6 @@ export class CrudInstructionComponent implements OnInit {
     this.isEditMode = data.isEditMode;
     this.instructionId = data.instructionId;
     this.recipeId = data.recipeId;
-    console.log('CrudInstructionComponent > constructor > isEditMode', this.isEditMode);
-    console.log('CrudInstructionComponent > constructor > instructionId', this.instructionId);
-    console.log('CrudInstructionComponent > constructor > recipeId', this.recipeId);
   }
 
   ngOnInit(): void {
