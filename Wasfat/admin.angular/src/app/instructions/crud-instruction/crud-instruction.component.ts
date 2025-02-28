@@ -32,6 +32,8 @@ export class CrudInstructionComponent implements OnInit {
     this.buildForm();
     if (this.isEditMode && this.instructionId) {
       this.loadInstruction();
+    } else {
+      this.setOrderForNextInstruction();
     }
   }
 
@@ -51,28 +53,34 @@ export class CrudInstructionComponent implements OnInit {
     });
   }
 
+  private setOrderForNextInstruction() {
+    this.instructionAdminSvc.getNextInstructionOrder(this.recipeId).subscribe(order => {
+      this.instructionFormGroup.patchValue({ order });
+    });
+  }
+
   saveInstruction(): void {
     if (this.instructionFormGroup.invalid) {
       alert('Some fields are not valid.');
       return;
     }
 
-    // const instructionFormData = {
-    //   ...this.instructionFormGroup.value,
-    //   recipeId: this.recipeId
-    // };
-
-    //console.log('Instruction Form Data:', instructionFormData); // Debugging line
+    const instructionData = {
+      ...this.instructionFormGroup.getRawValue(),
+      recipeId: this.recipeId
+    };
 
     if (this.isEditMode && this.instructionId) {
-      this.instructionAdminSvc.update(this.instructionId, this.instructionFormGroup.value).subscribe(response => {
+      // update 
+      this.instructionAdminSvc.update(this.instructionId, instructionData).subscribe(response => {
         console.log('Instruction updated successfully', response);
         this.dialogRef.close(true);
       }, error => {
         console.error('Error updating instruction:', error);
       });
     } else {
-      this.instructionAdminSvc.create(this.instructionFormGroup.value).subscribe(response => {
+      //create
+      this.instructionAdminSvc.create(instructionData).subscribe(response => {
         console.log('Instruction created successfully', response);
         this.dialogRef.close(true);
       }, error => {

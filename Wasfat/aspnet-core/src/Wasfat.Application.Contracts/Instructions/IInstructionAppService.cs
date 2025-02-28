@@ -16,5 +16,7 @@ namespace Wasfat.Instructions
         Task<List<InstructionDto>> GetAllInstructionsAsync();
 
         Task<List<InstructionDto>> GetRecipeInstructionsAsync(int recipeId);
+
+        Task<int> GetNextInstructionOrderAsync(int recipeId);
     }
 }

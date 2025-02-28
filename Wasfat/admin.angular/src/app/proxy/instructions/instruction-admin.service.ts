@@ -52,6 +52,14 @@ export class InstructionAdminService {
     { apiName: this.apiName,...config });
   
 
+  getNextInstructionOrder = (recipeId: number, config?: Partial<Rest.Config>) =>
+    this.restService.request<any, number>({
+      method: 'GET',
+      url: `/api/app/instruction-admin/next-instruction-order/${recipeId}`,
+    },
+    { apiName: this.apiName,...config });
+  
+
   getRecent = (count: number = 3, config?: Partial<Rest.Config>) =>
     this.restService.request<any, InstructionDto[]>({
       method: 'GET',

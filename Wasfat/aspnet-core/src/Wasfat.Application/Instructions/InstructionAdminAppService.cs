@@ -141,5 +141,16 @@ namespace Wasfat.Instructions
             return ObjectMapper.Map<List<Instruction>, List<InstructionDto>>(sortedInstructions);
         }
 
+        public async Task<int> GetNextInstructionOrderAsync(int recipeId)
+        {
+            var instructions = await _instructionsRepository.GetListAsync(i => i.RecipeId == recipeId);
+
+            if (instructions.Any())
+            {
+                return instructions.Max(i => i.Order) + 1;
+            }
+            return 1;
+        }
+
     }
 }
