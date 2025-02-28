@@ -11,7 +11,7 @@ import { CrudInstructionComponent } from '../crud-instruction/crud-instruction.c
 })
 export class InstructionsListComponent implements OnInit {
   instructions: InstructionDto[] = [];
-  recipeId: number;
+  recipeId: number | null = null;
 
   constructor(
     private instructionAdminSvc: InstructionAdminService,
@@ -25,19 +25,24 @@ export class InstructionsListComponent implements OnInit {
   ngOnInit(): void {
     console.log('InstructionsListComponent > ngOnInit');
     this.route.paramMap.subscribe(params => {
-      this.recipeId = Number(params.get('id'));
+      const recipeIdParam = params.get('id');
+      this.recipeId = recipeIdParam ? Number(recipeIdParam) : null;
       console.log('InstructionsListComponent > ngOnInit > recipeId', this.recipeId);
       this.loadInstructions();
     });
   }
 
   loadInstructions(): void {
-    this.instructionAdminSvc.getRecipeInstructions(this.recipeId).subscribe(data => this.instructions = data);
+    if (this.recipeId !== null) {
+      this.instructionAdminSvc.getRecipeInstructions(this.recipeId).subscribe(data => this.instructions = data);
+    } else {
+      this.instructionAdminSvc.getAllInstructions().subscribe(data => this.instructions = data);
+    }
   }
 
   newInstruction(): void {
     const dialogRef = this.dialog.open(CrudInstructionComponent, {
-      width: '8000px',
+      width: '800px',
       data: { isEditMode: false, recipeId: this.recipeId }
     });
 
