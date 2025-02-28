@@ -37,7 +37,7 @@ export class InstructionsListComponent implements OnInit {
 
   newInstruction(): void {
     const dialogRef = this.dialog.open(CrudInstructionComponent, {
-      width: '400px',
+      width: '8000px',
       data: { isEditMode: false, recipeId: this.recipeId }
     });
 
@@ -50,7 +50,7 @@ export class InstructionsListComponent implements OnInit {
 
   editInstruction(id: number): void {
     const dialogRef = this.dialog.open(CrudInstructionComponent, {
-      width: '400px',
+      width: '800px',
       data: { isEditMode: true, instructionId: id, recipeId: this.recipeId }
     });
 
