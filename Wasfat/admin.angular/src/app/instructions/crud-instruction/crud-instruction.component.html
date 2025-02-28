@@ -18,6 +18,28 @@
     <form [formGroup]="instructionFormGroup">
       <div class="row">
         <div class="col-md-6">
+          <mat-form-field class="w-50" appearance="outline">
+            <mat-label>Recipe Id</mat-label>
+            <input matInput formControlName="recipeId" placeholder="Enter instruction recipe" readonly>
+            <mat-error *ngIf="instructionFormGroup.get('recipeId').hasError('required')">
+              Recipe Id is required
+            </mat-error>
+            <mat-error *ngIf="instructionFormGroup.get('recipeId').hasError('min')">
+              Recipe Id must be at least 1
+            </mat-error>
+          </mat-form-field>
+          <mat-form-field class="w-50" appearance="outline">
+            <mat-label>Instruction Order</mat-label>
+            <input matInput formControlName="order" placeholder="Enter instruction order">
+            <mat-error *ngIf="instructionFormGroup.get('order').hasError('required')">
+              Instruction order is required
+            </mat-error>
+            <mat-error *ngIf="instructionFormGroup.get('order').hasError('min')">
+              Instruction order must be at least 1
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-md-6">
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>Instruction Text</mat-label>
             <input matInput formControlName="text" placeholder="Enter instruction text">
@@ -29,7 +51,6 @@
             </mat-error>
           </mat-form-field>
         </div>
-        <div class="col-md-6"></div>
       </div>
     </form>
   </div>

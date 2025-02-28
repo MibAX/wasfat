@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
+using Wasfat.Instructions;
 
 namespace Wasfat.Recipes
 {
@@ -14,5 +15,7 @@ namespace Wasfat.Recipes
         Task<List<RecipeDto>> GetRecentAsync(int count = 3);
 
         Task<List<RecipeDto>> GetAllRecipesAsync();
+
+        Task<List<InstructionDto>> GetInstructionsAsync(int recipeId);
     }
 }

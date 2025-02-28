@@ -53,6 +53,14 @@ export class RecipeAdminService {
     { apiName: this.apiName,...config });
   
 
+  getInstructions = (recipeId: number, config?: Partial<Rest.Config>) =>
+    this.restService.request<any, InstructionDto[]>({
+      method: 'GET',
+      url: `/api/app/recipe-admin/instructions/${recipeId}`,
+    },
+    { apiName: this.apiName,...config });
+  
+
   getList = (input: PagedAndSortedResultRequestDto, config?: Partial<Rest.Config>) =>
     this.restService.request<any, PagedResultDto<RecipeDto>>({
       method: 'GET',

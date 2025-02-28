@@ -17,12 +17,12 @@ namespace Wasfat.Recipes
 
         public RecipeAdminAppService(
             IRepository<Recipe, int> recipesRepository,
-            IRepository<Instruction, int> InstructionsRepository
+            IRepository<Instruction, int> instructionsRepository
             )
         : base(recipesRepository)
         {
             _recipesRepository = recipesRepository;
-            _instructionsRepository = InstructionsRepository;
+            _instructionsRepository = instructionsRepository;
         }
 
 
@@ -149,6 +149,10 @@ namespace Wasfat.Recipes
             return instructionDto;
         }
 
-
+        public async Task<List<InstructionDto>> GetInstructionsAsync(int recipeId)
+        {
+            var instructions = await _instructionsRepository.GetListAsync(i => i.RecipeId == recipeId);
+            return ObjectMapper.Map<List<Instruction>, List<InstructionDto>>(instructions);
+        }
     }
 }

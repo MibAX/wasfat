@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { RecipesListComponent } from './recipes-list/recipes-list.component';
 import { CrudRecipeComponent } from './crud-recipe/crud-recipe.component';
+import { InstructionsListComponent } from '../instructions/instructions-list/instructions-list.component';
 
 const routes: Routes = [
   {
@@ -15,6 +16,10 @@ const routes: Routes = [
   {
     path: 'edit/:id',
     component: CrudRecipeComponent,
+  },
+  {
+    path: ':id/instructions',
+    component: InstructionsListComponent,
   },
 ];
 
