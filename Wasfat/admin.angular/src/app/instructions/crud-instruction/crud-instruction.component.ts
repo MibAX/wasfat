@@ -72,16 +72,12 @@ export class CrudInstructionComponent implements OnInit {
       this.instructionAdminSvc.update(this.instructionId, instructionData).subscribe(response => {
         console.log('Instruction updated successfully', response);
         this.dialogRef.close(true);
-      }, error => {
-        console.error('Error updating instruction:', error);
       });
     } else {
-      //create
+      // create
       this.instructionAdminSvc.create(instructionData).subscribe(response => {
         console.log('Instruction created successfully', response);
         this.dialogRef.close(true);
-      }, error => {
-        console.error('Error creating instruction:', error);
       });
     }
   }

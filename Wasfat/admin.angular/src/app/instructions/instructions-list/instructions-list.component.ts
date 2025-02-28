@@ -42,8 +42,8 @@ export class InstructionsListComponent implements OnInit {
 
   newInstruction(): void {
     const dialogRef = this.dialog.open(CrudInstructionComponent, {
-      width: '50vw', // Use viewport width units
-      height: '60vh', // Use viewport height units
+      width: '50vw',
+      height: '60vh',
       data: { isEditMode: false, recipeId: this.recipeId }
     });
 
@@ -56,8 +56,8 @@ export class InstructionsListComponent implements OnInit {
 
   editInstruction(id: number): void {
     const dialogRef = this.dialog.open(CrudInstructionComponent, {
-      width: '50vw', // Use viewport width units
-      height: '60vh', // Use viewport height units
+      width: '50vw',
+      height: '60vh',
       data: { isEditMode: true, instructionId: id, recipeId: this.recipeId }
     });
 
