@@ -10,12 +10,16 @@ const routes: Routes = [
   },
   {
     path: 'list',
-    component: InstructionsListComponent
+    component: InstructionsListComponent,
   },
   {
-    path: 'crud',
-    component: CrudInstructionComponent
-  }
+    path: 'create',
+    component: CrudInstructionComponent,
+  },
+  {
+    path: 'edit/:id',
+    component: CrudInstructionComponent,
+  },
 ];
 
 @NgModule({

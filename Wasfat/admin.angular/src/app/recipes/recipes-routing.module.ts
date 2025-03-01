@@ -6,6 +6,10 @@ import { InstructionsListComponent } from '../instructions/instructions-list/ins
 
 const routes: Routes = [
   {
+    path: '',
+    component: RecipesListComponent
+  },
+  {
     path: 'list',
     component: RecipesListComponent,
   },
