@@ -2293,7 +2293,23 @@ Create a `MapperProfile` to map between the **Instruction** entity and its DTO.
     }
 ```
 
-### 11.10 - Defining the Service Interface  
+
+### 11.10 - Implementing the Service  
+Implement the service by copying the implementation from `RecipeAdminAppService` and replacing instances of **Recipe** with **Instruction**.
+
+**Location:**  
+`src`/`Wasfat.Application`/`Instructions`/`InstructionAdminAppService.cs`
+
+**⚠️ Note :**
+
+> copy `RecipeAdminAppService.cs` and modify as needed
+
+```csharp
+// code goes here 
+```
+
+
+### 11.11 - Defining the Service Interface  
 Define the service interface for managing the **Instruction** entity.
 
 **Location:**  
@@ -2306,19 +2322,13 @@ Define the service interface for managing the **Instruction** entity.
              PagedAndSortedResultRequestDto>
     {
 
+        Task<List<InstructionDto>> GetRecentAsync(int count = 3);
+
+        Task<List<InstructionDto>> GetAllInstructionsAsync();
 
     }
 ```
 
-### 11.11 - Implementing the Service  
-Implement the service by copying the implementation from `RecipeAdminAppService` and replacing instances of **Recipe** with **Instruction**.
-
-**Location:**  
-`src`/`Wasfat.Application`/`Instructions`/`InstructionAdminAppService.cs`
-
-```csharp
-// Copy and paste the `RecipeAdminAppService`, then replace `Recipe` with `Instruction` while maintaining case sensitivity.
-```
 
 ### 11.12 - Importing Sample Data  
 Use phpMyAdmin (or your preferred database tool) to import sample data for the **Instruction** entity.
@@ -2348,31 +2358,77 @@ Generate the `CrudInstruction` component to handle creating, reading, updating, 
 ng generate component instructions/crud-instruction
 ```
 
-### 11.16 - Adding the Main Route to the Instructions Module  
+### 11.16 - Adding the Main App Route to the Instructions Module  
 Configure the main route for the **instructions** module in your Angular application to establish the basic structure for the modules and components.
 
+src\app\
+
+**Location:**  
+`src`/`app`/`app-routing.module.ts`
+
 ```typescript
-// code or command goes here
+  {
+    path: 'instructions',
+    loadChildren: () =>
+      import('./instructions/instructions.module').then(m => m.InstructionsModule)
+  },
 ```
 
 ### 11.17 - Routing Inside the Instructions Module  
 Define specific routes for the `InstructionsList` and `CrudInstruction` components in the routing file.
 
 **Location:**  
-`src`/`app`/`instructions`/`instructions-routing.module.ts`
+`src`/`app`/`instructions`/`instructions-routing.module.ts` > `const routes`
 
 ```typescript
-// code or command goes here
+  {
+    path: '',
+    component: InstructionsListComponent
+  },
+  {
+    path: 'list',
+    component: InstructionsListComponent,
+  },
+  {
+    path: 'create',
+    component: CrudInstructionComponent,
+  },
+  {
+    path: 'edit/:id',
+    component: CrudInstructionComponent,
+  },
 ```
 
 ### 11.18 - Adding Menus for Our Routes  
 Configure the menus in your route provider to include navigation options for the **instructions** module.
 
 **Location:**  
-`src`/`app`/`route.provider.ts`
+`src`/`app`/`route.provider.ts` > `function configureRoutes`
 
 ```typescript
-// code or command goes here
+      {
+        path: '',
+        name: '::Menu:Instructions',
+        iconClass: 'fas fa-home',
+        order: 2,
+        layout: eLayoutType.application,
+      },
+      {
+        path: '/instructions/list',
+        name: '::Menu:InstructionsList',
+        parentName: '::Menu:Instructions',
+        iconClass: 'fas fa-bars',
+        order: 1,
+        layout: eLayoutType.application,
+      },
+      {
+        path: '/instructions/crud',
+        name: '::Menu:CrudInstruction',
+        parentName: '::Menu:Instructions',
+        iconClass: 'fas fa-edit',
+        order: 2,
+        layout: eLayoutType.application,
+      },
 ```
 
 ### 11.19 - Generating Proxy in the Frontend  
@@ -2382,24 +2438,45 @@ Generate the Angular proxy to include the updated methods by running:
 abp generate-proxy -t ng
 ```
 
-### 11.20 - Building the Instructions List Component  
+### 11.20 - Building the `Instructions` List Component  
 Start by copying the implementation from the `RecipesList` component TypeScript file and replacing **Recipe** with **Instruction**.
 
 **Location:**  
 `src`/`app`/`instructions`/`instructions-list`/`instructions-list.component.ts`
 
+
+**⚠️ Note :**
+
+> copy `recipes-list.component.ts` and modify as needed
+
 ```typescript
-// code or command goes here
+// code goes here 
 ```
 
-### 11.21 - Updating the HTML File for the Instructions List  
+### 11.21 - Updating the HTML File for the `Instructions` List  
 Copy and adjust the HTML file from the `RecipesList` component, replacing references to **Recipe** with **Instruction**.
 
 **Location:**  
 `src`/`app`/`instructions`/`instructions-list`/`instructions-list.component.html`
 
-```html
-<!-- code or command goes here -->
+**⚠️ Note :**
+
+> copy `recipes-list.component.html` and modify as needed
+
+```
+      <ngx-datatable [rows]="instructions" default>
+        <ngx-datatable-column [name]="'Order'" prop="order"></ngx-datatable-column>
+        <ngx-datatable-column [name]="'Text'" prop="text"></ngx-datatable-column>
+
+        <ngx-datatable-column [name]="'Edit'">
+          <ng-template let-row="row" ngx-datatable-cell-template>
+            <button mat-stroked-button color="primary" (click)="editInstruction(row.id)">
+              Edit
+            </button>
+          </ng-template>
+        </ngx-datatable-column>
+
+      </ngx-datatable>
 ```
 
 ### 11.22 - Importing the Shared Module  
@@ -2412,24 +2489,33 @@ Import the `SharedModule` into the **InstructionsModule** to ensure shared compo
 // code or command goes here
 ```
 
-### 11.23 - Building the CRUD Instruction Component  
+### 11.23 - Building the CRUD `Instruction` Component  
 Copy the implementation from the `CrudRecipe` component TypeScript file and replace **Recipe** with **Instruction**.
 
 **Location:**  
 `src`/`app`/`instructions`/`crud-instruction`/`crud-instruction.component.ts`
 
+**⚠️ Note :**
+
+> copy `crud-recipe.component.ts` and modify as needed
+
 ```typescript
-// code or command goes here
+// code goes here 
 ```
 
-### 11.24 - Updating the HTML File for the CRUD Instruction Component  
+### 11.24 - Updating the HTML File for the CRUD `Instruction` Component  
 Update the HTML file for the `CrudInstruction` component accordingly.
 
 **Location:**  
 `src`/`app`/`instructions`/`crud-instruction`/`crud-instruction.component.html`
 
+
+**⚠️ Note :**
+
+> copy `crud-recipe.component.html` and modify as needed
+
 ```html
-<!-- code or command goes here -->
+// code goes here 
 ```
 
 ### 11.25 - Enhancing CRUD Instruction: Opening as a Dialog  
@@ -2452,7 +2538,7 @@ Configure a route to display the instruction list for a selected recipe. For exa
 }
 ```
 
-### 11.27 - Implementing Navigation for Instruction-Specific Instructions  
+### 11.27 - Implementing Navigation for Recipe-Specific Instructions  
 Update your navigation to pass the necessary data when opening the dialog for a specific recipe’s instructions. Ensure the correct parameters are sent to the dialog component.
 
 ```typescript
@@ -2465,8 +2551,33 @@ Remove the standalone instructions list route from the main navigation if it is 
 **Location:**  
 `src`/`app`/`route.provider.ts`
 
+**🗑️ Deleted sub-menus:**  
+(No need to copy these sections; this code should be deleted)
+
 ```typescript
-// code or command goes here
+      {
+        path: '',
+        name: '::Menu:Instructions',
+        iconClass: 'fas fa-home',
+        order: 2,
+        layout: eLayoutType.application,
+      },
+      {
+        path: '/instructions/list',
+        name: '::Menu:InstructionsList',
+        parentName: '::Menu:Instructions',
+        iconClass: 'fas fa-bars',
+        order: 1,
+        layout: eLayoutType.application,
+      },
+      {
+        path: '/instructions/crud',
+        name: '::Menu:CrudInstruction',
+        parentName: '::Menu:Instructions',
+        iconClass: 'fas fa-edit',
+        order: 2,
+        layout: eLayoutType.application,
+      },
 ```
 
 ### 11.29 - Enhancing the UX: Setting Order for the Next Instruction  
@@ -2476,14 +2587,35 @@ Add a method to calculate and set the order for the next instruction. Update the
   `src`/`Wasfat.Application`/`Instructions`/`InstructionAdminAppService.cs`
 
   ```csharp
-  // code or command goes here
+          public async Task<int> GetNextInstructionOrderAsync(int recipeId)
+        {
+            var instructions = await _instructionsRepository.GetListAsync(i => i.RecipeId == recipeId);
+
+            if (instructions.Any())
+            {
+                return instructions.Max(i => i.Order) + 1;
+            }
+            return 1;
+        }
   ```
 
 - **Component Update Location:**  
-  `src`/`app`/`instructions`/`crud-instruction`/`crud-instruction.component.ts`
+  `src`/`app`/`instructions`/`crud-instruction`/`crud-instruction.component.ts` > `ngOnInit()`
 
   ```typescript
-  // code or command goes here
+    if (this.isEditMode && this.instructionId) {
+      this.loadInstruction();
+    } else {
+      this.setOrderForNextInstruction();
+    }
+  ```
+
+  ```typescript
+  private setOrderForNextInstruction() {
+    this.instructionAdminSvc.getNextInstructionOrder(this.recipeId).subscribe(order => {
+      this.instructionFormGroup.patchValue({ order });
+    });
+  }
   ```
 
 ### 11.30 - Summary  
