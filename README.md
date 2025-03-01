@@ -1408,6 +1408,9 @@ In this chapter, you will learn how to create a new recipe using a **Reactive Fo
 
 ```csharp
 public override async Task<RecipeDto> CreateAsync(RecipeDto input)
+{
+  // ...
+}
 ```
 
 
@@ -1648,7 +1651,7 @@ Check the changes in Angular.json
         </button>
 ```
 
-### 09.18 - HTML: Wrapping the ``Card Body Row`` with a Form Element
+### 09.18 - HTML: Wrapping the `Card Body Row` within a Form Element
 
 **Location**:  
 `src`\\`app`\\`recipes`\\`create-recipe`\\`create-recipe.component.html`
@@ -1799,3 +1802,381 @@ In this chapter, we learned how to build a Create Recipes Component in Angular.
   - Finally, we implemented the `createRecipe` method to validate the form, submit the data to the backend, and navigate to the recipe list upon successful creation.  
 
 This chapter provided a step-by-step guide to creating a polished recipe creation feature, setting the stage for editing existing recipes in the next chapter.
+
+---
+
+## 10 - Extending CRUD for Recipe Editing
+
+### 10.01 What You Will Learn in This Chapter  
+In this chapter, you will extend the recipe management functionality by enabling users to edit existing recipes. You will learn how to detect edit mode, load a recipe from the backend, patch form values, and implement a combined create/update method that dynamically handles both scenarios.
+
+### 10.02 Terminology
+- **Edit Recipe**: The state of the component when an existing recipe is being modified rather than created.  
+- **Update Recipe**: The process of saving and persisting the modifications made during an edit session. This often involves validating the updated data and invoking a service method (or API call) to store the changes in the backend.  
+- **ActivatedRoute**: An Angular service that provides access to information about a route associated with a component loaded in an outlet.  
+- **Patch Value**: A method used to update parts of a form with new values without affecting the entire form group.
+
+### 10.03 Verifying the Backend Update Recipe Endpoint
+Ensure that the backend endpoint for updating a recipe is correctly implemented.
+
+**Location**:  
+`src`/`Wasfat.Application`/`Recipes`/`RecipeAdminAppService.cs` >  `UpdateAsync`
+
+```csharp
+        public override async Task<RecipeDto> UpdateAsync(int id, RecipeDto input)
+        {
+          // ...
+        }
+```
+
+### 10.04 Verifying the Frontend Proxy for Update Recipe  
+If you do not see the update method in your Angular proxy, regenerate it using the following command.
+
+**Location**:  
+`PS`/`Wasfat`/`admin.angular`
+
+```bash
+abp generate-proxy -t ng
+```
+
+### 10.05 Configuring Routing for Editing a Specific Recipe  
+Add a new route that accepts a recipe ID for editing.
+
+**Location**:  
+`src`/`app`/`recipes`/`recipes-routing.module.ts`
+
+```typescript
+  {
+    path: 'crud/:id',
+    component: CrudRecipeComponent
+  }  
+```
+
+### 10.06 Declaring `recipeId` & `isEditMode`  
+In the `CrudRecipeComponent`, declare properties to hold the recipe ID and to flag the component's mode (create or edit).
+
+**Location**:  
+`src`/`app`/`recipes`/`crud-recipe`/`crud-recipe.component.ts`
+
+```typescript
+  recipeId: number | null = null;
+  isEditMode = false;
+```
+
+### 10.07 Injecting the ActivatedRoute Dependency  
+Inject the `ActivatedRoute` service to access route parameters.
+
+**Location**:  
+`src`/`app`/`recipes`/`crud-recipe`/`crud-recipe.component.ts`
+
+```typescript
+    private activatedRoute: ActivatedRoute
+```
+
+### 10.08 Detecting Edit Mode  
+Subscribe to the route parameters in `ngOnInit()` to determine if the component should operate in edit mode.
+
+**Location**:  
+`src`/`app`/`recipes`/`crud-recipe`/`crud-recipe.component.ts`
+
+```typescript
+    // Check if a recipe ID is provided in the activatedRoute
+    this.activatedRoute.paramMap.subscribe(params => {
+
+      const idParam = params.get('id');
+
+      if (!idParam) {
+        return;
+      }
+
+      this.recipeId = Number(idParam);
+
+      this.isEditMode = true;
+
+      // load recipe from backend       
+
+    });
+```
+
+### 10.09 Loading the Recipe from the Backend
+Implement a method to fetch the recipe details using the recipe ID.
+
+**Location**:  
+`src`/`app`/`recipes`/`crud-recipe`/`crud-recipe.component.ts`
+
+```typescript      
+      this.recipeAdminSvc.get(this.recipeId).subscribe(response => {
+        // Populate the form with the retrieved recipe data
+
+      });
+```
+
+### 10.10 Patching Form Values  
+Use the `patchValue` method to update specific form fields with the recipe data.
+
+**Location**:  
+`src`/`app`/`recipes`/`crud-recipe`/`crud-recipe.component.ts` > `loadRecipe` > `inside .subscribe` 
+
+```typescript
+      this.recipeFormGroup.patchValue({
+        name: response.name,
+        description: response.description
+      });
+```
+
+### 10.11 Dynamically Labeling the Create/Save Button  
+Change the button label based on the mode to reflect either creating or updating a recipe.
+
+**Location**:  
+`src`/`app`/`recipes`/`crud-recipe`/`crud-recipe.component.html`
+
+```html
+        <button type="button" mat-stroked-button color="primary" (click)="saveRecipe()">
+          {{ isEditMode ? 'Save' : 'Create' }}
+        </button>
+```
+
+### 10.12 Implementing the `saveRecipe()` Function  
+Implement a function that handles both creating and updating a recipe based on the `isEditMode` flag.
+
+**Location**:  
+`src`/`app`/`recipes`/`crud-recipe`/`crud-recipe.component.ts`
+
+```typescript
+  saveRecipe(): void {
+
+    if (this.recipeFormGroup.invalid) {
+      alert("some Fields are not valid.")
+      return;
+    }
+
+    if (this.isEditMode && this.recipeId) {
+      // update
+      this.recipeAdminSvc.update(this.recipeId, this.recipeFormGroup.value).subscribe((response) => {
+        console.log('Recipe updated successfully', response);
+        this.router.navigate(["/recipes/list"]);
+      });
+    } else {
+      // create
+      this.recipeAdminSvc.create(this.recipeFormGroup.value).subscribe((response) => {
+        console.log('Recipe created successfully', response);
+        this.router.navigate(["/recipes/list"]);
+      });
+    }
+
+  }
+```
+
+### 10.13 Testing the Update Recipe Functionality  
+Test the functionality by navigating to a URL such as `/recipes/crud/39` to verify that:  
+- The form loads with the existing recipe data.  
+- Editing the fields and clicking the save button triggers the update process.
+
+### 10.14 Troubleshooting Internal Request Errors
+
+To check backend error logs:
+
+1. In **Solution Explorer**, right-click on the `Wasfat.HttpApi.Host` project.
+2. Navigate to the **log** folder.
+3. Open the latest log file using Notepad++ to review any error messages.
+
+**Fix:**  
+Ensure that the following line is included in the `UpdateAsync` method to correctly set the DTO's Id:
+
+**Location:**  
+`src`/`Wasfat.Application`/`Recipes`/`RecipeAdminAppService.cs` > *UpdateAsync method*
+
+```csharp
+            input.Id = recipe.Id;
+```
+
+### 10.15 Wrapping Recipes List Within a Bootstrap Card  
+Enhance the UI of the recipes list by wrapping it in a Bootstrap card.
+
+**Location**:  
+`src`/`app`/`recipes`/`recipes-list`/`recipes-list.component.html`
+
+```html
+<div class="card">
+  <div class="card-header">
+    <div class="row">
+      <div class="col-md-6 border">
+        Left card header
+      </div>
+      <div class="col-md-6 border">
+        right card header
+      </div>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="row">
+      <!-- ngx-datatable goes here  -->
+    </div>
+  </div>
+</div>
+```
+
+### 10.16 Adding the New Recipe Button  
+Add a "New Recipe" button that navigates to the create recipe form. Update both the component and the HTML.
+
+**Component Location**:  
+`src`/`app`/`recipes`/`recipes-list`/`recipes-list.component.ts`
+
+```typescript
+  newRecipe(): void {
+    this.router.navigate(["/recipes/crud"]);
+  }
+```
+
+**HTML Location**:  
+`src`/`app`/`recipes`/`recipes-list`/`recipes-list.component.html`
+
+```html
+            <div class="col-md-6 border text-end">
+                <button type="button" mat-stroked-button color="primary" (click)="newRecipe()">
+                    New Recipe
+                </button>
+            </div>
+```
+
+### 10.17 Adding the Edit Recipe Buttons  
+Ensure that each recipe row has an edit button that navigates to the editing route with the recipe ID. Update both the component and the HTML.
+
+**Component Location**:  
+`src`/`app`/`recipes`/`recipes-list`/`recipes-list.component.ts`
+
+```typescript
+  editRecipe(id: number): void {
+    this.router.navigate(["/recipes/crud", id]);
+  }
+```
+
+**HTML Location**:  
+`src`/`app`/`recipes`/`recipes-list`/`recipes-list.component.html`
+
+```html
+                <ngx-datatable-column [name]="'Edit'">
+                    <ng-template let-row="row" ngx-datatable-cell-template>
+
+                    </ng-template>
+                </ngx-datatable-column>
+```
+
+```html
+                        <button mat-stroked-button color="primary" (click)="editRecipe(row.id)">
+                            Edit
+                        </button>
+```
+### 10.18 Simplifying Navigation Menus
+
+In this lecture, we simplify the navigation structure. Instead of having sub-menus under "Recipes" (one for listing and one for create/edit), the parent menu now leads directly to the Recipes list, which contains buttons for creating and editing recipes.
+
+**Location:**  
+`src`/`app`/`route.provider.ts`
+
+
+**⚠️ Note :**  
+> The change here is the addition of `/list` to the parent route. This small update directs the Recipes menu to point directly to the recipes list.
+
+**Before:**
+
+```typescript
+      {
+        path: '/recipes',
+        name: '::Menu:Recipes',
+        iconClass: 'fas fa-home',
+        order: 2,
+        layout: eLayoutType.application,
+      }
+```
+
+**After:**
+
+```typescript
+      {
+        path: '/recipes/list',
+        name: '::Menu:Recipes',
+        iconClass: 'fas fa-home',
+        order: 2,
+        layout: eLayoutType.application,
+      }
+```
+
+
+**🗑️ Deleted sub-menus:**  
+(No need to copy these sections; this code should be deleted)
+
+```typescript
+      {
+        path: '/recipes/list',
+        name: '::Menu:RecipesList',
+        parentName: '::Menu:Recipes',
+        iconClass: 'fas fa-home',
+        order: 1,
+        layout: eLayoutType.application,
+      },
+      {
+        path: '/recipes/crud',
+        name: '::Menu:CrudRecipe',
+        parentName: '::Menu:Recipes',
+        iconClass: 'fas fa-home',
+        order: 2,
+        layout: eLayoutType.application,
+      },
+```
+
+
+### 10.19 Updating Recipe Routes for Better UX
+
+In this lecture, we update the recipe routes to be more user-friendly. Instead of using the term "crud," which is more programmer-centric, we adopt intuitive route names that clearly describe the actions:
+
+**Location:**  
+`src`/`app`/`recipes`/`recipes-routing.module.ts`
+
+
+**⚠️ Note :**  
+> The change here is replacing `/crud` with `/create` for new recipes and `/crud/:id` with `/edit/:id` for editing existing recipes.
+
+**Before:**
+
+```typescript
+      {
+        path: 'crud',
+        component: CrudRecipeComponent
+      },
+      {
+        path: 'crud/:id',
+        component: CrudRecipeComponent
+      }
+```
+
+**After:**
+
+```typescript
+      {
+        path: 'create',
+        component: CrudRecipeComponent
+      },
+      {
+        path: 'edit/:id',
+        component: CrudRecipeComponent
+      }
+```
+**⚠️ Note :**  
+> Be sure to update all references in your application from `/recipes/crud` and `/recipes/crud/:id` to `/recipes/create` and `/recipes/edit/:id` respectively. This includes any navigation links or redirects in your code.
+
+
+### 10.20 Summary
+
+In this chapter, we extended the CRUD functionality for recipe management by implementing editing capabilities. We accomplished the following:
+
+- **Backend Update Verification:** Ensured the backend update endpoint correctly maps DTOs and updates recipes.
+- **Routing Configuration:** Updated Angular routing to include dynamic recipe IDs.
+- **Component Enhancements:** Declared `recipeId` and `isEditMode` properties and injected `ActivatedRoute` to detect edit mode.
+- **Data Loading & Patching:** Loaded recipe data from the backend and patched form values.
+- **Dynamic UI Elements:** Adjusted button labels and implemented a unified `saveRecipe()` function to handle both create and update operations.
+- **User-Friendly Routes:** Updated the routes to use `create` and `edit/:id` for improved clarity.
+- **UI Improvements:** Enhanced the recipes list with Bootstrap cards and added navigation buttons for creating and editing recipes.
+
+
+This completes the extension of the CRUD functionality for recipe editing.
