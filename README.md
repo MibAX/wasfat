@@ -1560,7 +1560,7 @@ implements OnInit
 
 ### 09.12 Adding Angular Material
 
-Run the following command in the Power Shell (PS) terminal 
+Run the following command in the Power Shell `PS>` terminal 
 
 ```Bash
 ng add @angular/material@16.2.14
@@ -2249,14 +2249,18 @@ Configure the **Instruction** entity within the `OnModelCreating` method to map 
 ```
 
 ### 11.06 - Adding a Migration  
-Create a new migration to apply the changes to the database. For example, run the following command in your terminal:
+Create a new migration to apply the changes to the database.
+
+Run the following command in the Package Manager Console `PM>` terminal
 
 ```bash
 Add-Migration AddInstructionEntity
 ```
 
 ### 11.07 - Applying the Migration  
-Update the database to apply the new migration with the following command:
+Update the database to apply the new migration 
+
+Run the following command in the Package Manager Console `PM>` terminal
 
 ```bash
 Update-Database
@@ -2338,7 +2342,9 @@ Use phpMyAdmin (or your preferred database tool) to import sample data for the *
 ```
 
 ### 11.13 - Generating the Instructions Module  
-Generate the Angular **instructions** module along with routing. For example, run:
+Generate the Angular **instructions** module along with routing.
+
+Run the following command in the Power Shell `PS>` terminal 
 
 ```bash
 ng generate module instructions --routing
@@ -2347,6 +2353,8 @@ ng generate module instructions --routing
 ### 11.14 - Generating the Instructions List Component  
 Generate the `InstructionsList` component within the **instructions** module:
 
+Run the following command in the Power Shell `PS>` terminal 
+
 ```bash
 ng generate component instructions/instructions-list
 ```
@@ -2354,14 +2362,14 @@ ng generate component instructions/instructions-list
 ### 11.15 - Generating the CRUD Instruction Component  
 Generate the `CrudInstruction` component to handle creating, reading, updating, and deleting instructions:
 
+Run the following command in the Power Shell `PS>` terminal 
+
 ```bash
 ng generate component instructions/crud-instruction
 ```
 
 ### 11.16 - Adding the Main App Route to the Instructions Module  
 Configure the main route for the **instructions** module in your Angular application to establish the basic structure for the modules and components.
-
-src\app\
 
 **Location:**  
 `src`/`app`/`app-routing.module.ts`
