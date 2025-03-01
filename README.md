@@ -2180,3 +2180,273 @@ In this chapter, we extended the CRUD functionality for recipe management by imp
 
 
 This completes the extension of the CRUD functionality for recipe editing.
+
+
+---
+
+## 11 - Implementing One-to-Many Relationships
+
+### 11.01 - What You Will Learn in This Chapter  
+In this chapter, you will learn how to implement a one-to-many relationship in your application using Abp.io. Specifically, you will create an **Instruction** entity that is associated with a **Recipe** entity. You will also set up the necessary backend and frontend components—including entity creation, DTOs, migrations, service implementation, Angular module generation, routing, and UI enhancements—to manage this relationship effectively.
+
+### 11.02 - Terminology  
+
+- **One-to-Many Relationship:** A database relationship where a single record in one table (e.g., Recipe) can be associated with multiple records in another table (e.g., Instruction).  
+- **Entity:** A class that represents a data model in the application and corresponds to a table in the database.  
+- **DTO (Data Transfer Object):** An object used to transfer data between different layers of the application.  
+- **DbContext:** A class that manages database connections and is used to query and save data.  
+- **Migration:** A version-controlled change to the database schema.  
+- **Service Interface:** An interface that defines the contract for a service, specifying which operations are available.
+
+### 11.03 - Creating the Instruction Entity Class  
+Add the **Instruction** entity class with its properties (excluding the using statements).
+
+**Location:**  
+`src`/`Wasfat.Domain`/`Instructions`/`Instruction.cs`
+
+```csharp
+// code or command goes here
+```
+
+### 11.04 - Adding the Instruction Entity to the DbContext  
+Add a `DbSet` for the **Instruction** entity to your DbContext.
+
+**Location:**  
+`src`/`Wasfat.EntityFrameworkCore`/`EntityFrameworkCore`/`WasfatDbContext.cs`
+
+```csharp
+// code or command goes here
+```
+
+### 11.05 - Mapping the Instruction Entity to a Database Table  
+Configure the **Instruction** entity within the `OnModelCreating` method to map it to the appropriate database table.
+
+**Location:**  
+`src`/`Wasfat.EntityFrameworkCore`/`EntityFrameworkCore`/`WasfatDbContext.cs`
+
+```csharp
+// code or command goes here
+```
+
+### 11.06 - Adding a Migration  
+Create a new migration to apply the changes to the database. For example, run the following command in your terminal:
+
+```bash
+dotnet ef migrations add AddInstructionEntity
+```
+
+### 11.07 - Applying the Migration  
+Update the database to apply the new migration with the following command:
+
+```bash
+dotnet ef database update
+```
+
+### 11.08 - Creating the Data Transfer Object (DTO)  
+Create the DTO for the **Instruction** entity.
+
+**Location:**  
+`src`/`Wasfat.Application.Contracts`/`Instructions`/`InstructionDto.cs`
+
+```csharp
+// code or command goes here
+```
+
+### 11.09 - Setting Up the Mapper Profile  
+Create a `MapperProfile` to map between the **Instruction** entity and its DTO.
+
+**Location:**  
+`src`/`Wasfat.Application`/`Instructions`/`InstructionMapperProfile.cs`
+
+```csharp
+// code or command goes here
+```
+
+### 11.10 - Defining the Service Interface  
+Define the service interface for managing the **Instruction** entity.
+
+**Location:**  
+`src`/`Wasfat.Application.Contracts`/`Instructions`/`IInstructionAppService.cs`
+
+```csharp
+// code or command goes here
+```
+
+### 11.11 - Implementing the Service  
+Implement the service by copying the implementation from `RecipeAdminAppService` and replacing instances of **Recipe** with **Instruction**.
+
+**Location:**  
+`src`/`Wasfat.Application`/`Instructions`/`InstructionAdminAppService.cs`
+
+```csharp
+// code or command goes here
+```
+
+### 11.12 - Importing Sample Data  
+Use phpMyAdmin (or your preferred database tool) to import sample data for the **Instruction** entity.
+
+```bash
+// code or command goes here
+```
+
+### 11.13 - Generating the Instructions Module  
+Generate the Angular **instructions** module along with routing. For example, run:
+
+```bash
+ng generate module instructions --routing
+```
+
+### 11.14 - Generating the Instructions List Component  
+Generate the `InstructionsList` component within the **instructions** module:
+
+```bash
+ng generate component instructions/instructions-list
+```
+
+### 11.15 - Generating the CRUD Instruction Component  
+Generate the `CrudInstruction` component to handle creating, reading, updating, and deleting instructions:
+
+```bash
+ng generate component instructions/crud-instruction
+```
+
+### 11.16 - Adding the Main Route to the Instructions Module  
+Configure the main route for the **instructions** module in your Angular application to establish the basic structure for the modules and components.
+
+```typescript
+// code or command goes here
+```
+
+### 11.17 - Routing Inside the Instructions Module  
+Define specific routes for the `InstructionsList` and `CrudInstruction` components in the routing file.
+
+**Location:**  
+`src`/`app`/`instructions`/`instructions-routing.module.ts`
+
+```typescript
+// code or command goes here
+```
+
+### 11.18 - Adding Menus for Our Routes  
+Configure the menus in your route provider to include navigation options for the **instructions** module.
+
+**Location:**  
+`src`/`app`/`route.provider.ts`
+
+```typescript
+// code or command goes here
+```
+
+### 11.19 - Generating Proxy in the Frontend  
+Generate the Angular proxy to include the updated methods by running:
+
+```bash
+abp generate-proxy -t ng
+```
+
+### 11.20 - Building the Instructions List Component  
+Start by copying the implementation from the `RecipesList` component TypeScript file and replacing **Recipe** with **Instruction**.
+
+**Location:**  
+`src`/`app`/`instructions`/`instructions-list`/`instructions-list.component.ts`
+
+```typescript
+// code or command goes here
+```
+
+### 11.21 - Updating the HTML File for the Instructions List  
+Copy and adjust the HTML file from the `RecipesList` component, replacing references to **Recipe** with **Instruction**.
+
+**Location:**  
+`src`/`app`/`instructions`/`instructions-list`/`instructions-list.component.html`
+
+```html
+<!-- code or command goes here -->
+```
+
+### 11.22 - Importing the Shared Module  
+Import the `SharedModule` into the **InstructionsModule** to ensure shared components and modules are available.
+
+**Location:**  
+`src`/`app`/`instructions`/`instructions.module.ts`
+
+```typescript
+// code or command goes here
+```
+
+### 11.23 - Building the CRUD Instruction Component  
+Copy the implementation from the `CrudRecipe` component TypeScript file and replace **Recipe** with **Instruction**.
+
+**Location:**  
+`src`/`app`/`instructions`/`crud-instruction`/`crud-instruction.component.ts`
+
+```typescript
+// code or command goes here
+```
+
+### 11.24 - Updating the HTML File for the CRUD Instruction Component  
+Update the HTML file for the `CrudInstruction` component accordingly.
+
+**Location:**  
+`src`/`app`/`instructions`/`crud-instruction`/`crud-instruction.component.html`
+
+```html
+<!-- code or command goes here -->
+```
+
+### 11.25 - Enhancing CRUD Instruction: Opening as a Dialog  
+Enhance the CRUD Instruction component so that it can open as a dialog for a better user experience.
+
+```typescript
+// code or command goes here
+```
+
+### 11.26 - Adding a Route to Open the Instruction List for a Selected Recipe  
+Configure a route to display the instruction list for a selected recipe. For example, add the following route configuration:
+
+**Location:**  
+`src`/`app`/`instructions`/`instructions-routing.module.ts`
+
+```typescript
+{
+  path: 'recipe/:id/instruction',
+  component: InstructionsListComponent
+}
+```
+
+### 11.27 - Implementing Navigation for Instruction-Specific Instructions  
+Update your navigation to pass the necessary data when opening the dialog for a specific recipe’s instructions. Ensure the correct parameters are sent to the dialog component.
+
+```typescript
+// code or command goes here
+```
+
+### 11.28 - Cleaning Up UI: Removing Instructions List from Main Navigation  
+Remove the standalone instructions list route from the main navigation if it is no longer required.
+
+**Location:**  
+`src`/`app`/`route.provider.ts`
+
+```typescript
+// code or command goes here
+```
+
+### 11.29 - Enhancing the UX: Setting Order for the Next Instruction  
+Add a method to calculate and set the order for the next instruction. Update the service and the component accordingly.
+
+- **Service Update Location:**  
+  `src`/`Wasfat.Application`/`Instructions`/`InstructionAdminAppService.cs`
+
+  ```csharp
+  // code or command goes here
+  ```
+
+- **Component Update Location:**  
+  `src`/`app`/`instructions`/`crud-instruction`/`crud-instruction.component.ts`
+
+  ```typescript
+  // code or command goes here
+  ```
+
+### 11.30 - Summary  
+In this chapter, we successfully implemented a one-to-many relationship between **Recipe** and **Instruction**. We covered creating the **Instruction** entity, updating the DbContext, creating and applying database migrations, setting up DTOs, implementing the service layer, generating the Angular module and components, and enhancing the user experience with improved navigation and dynamic order setting for instructions. This comprehensive guide demonstrates how to manage one-to-many relationships in a full-stack ABP application.
