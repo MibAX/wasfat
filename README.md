@@ -2317,7 +2317,7 @@ Implement the service by copying the implementation from `RecipeAdminAppService`
 `src`/`Wasfat.Application`/`Instructions`/`InstructionAdminAppService.cs`
 
 ```csharp
-**"Copy and paste the `RecipeAdminAppService`, then replace `Recipe` with `Instruction` while maintaining case sensitivity."**
+// Copy and paste the `RecipeAdminAppService`, then replace `Recipe` with `Instruction` while maintaining case sensitivity.
 ```
 
 ### 11.12 - Importing Sample Data  
