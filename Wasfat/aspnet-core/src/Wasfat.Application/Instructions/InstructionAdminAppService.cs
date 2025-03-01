@@ -10,7 +10,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Wasfat.Instructions
 {
-    public class InstructionAdminAppService : CrudAppService<Instruction, InstructionDto, int, PagedAndSortedResultRequestDto>, IInstructionAppService
+    public class InstructionAdminAppService : CrudAppService<Instruction, InstructionDto, int, PagedAndSortedResultRequestDto>, IInstructionAdminAppService
     {
         private readonly IRepository<Instruction, int> _instructionsRepository;
         private readonly ILogger<InstructionAdminAppService> _logger;

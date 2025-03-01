@@ -5,7 +5,7 @@ using Volo.Abp.Application.Services;
 
 namespace Wasfat.Instructions
 {
-    public interface IInstructionAppService : ICrudAppService<
+    public interface IInstructionAdminAppService : ICrudAppService<
              InstructionDto,
              int,
              PagedAndSortedResultRequestDto>
