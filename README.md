@@ -2208,6 +2208,16 @@ Add the **Instruction** entity class with its properties (excluding the using st
 // code or command goes here
 ```
 
+### 11.04 - Modifying the `Recipe` Entity:  Adding  Navigation to `instructions`
+Add the **Instruction** entity class with its properties (excluding the using statements).
+
+**Location:**  
+`src`/`Wasfat.Domain`/`Instructions`/`Instruction.cs`
+
+```csharp
+// code or command goes here
+```
+
 ### 11.04 - Adding the Instruction Entity to the DbContext  
 Add a `DbSet` for the **Instruction** entity to your DbContext.
 
