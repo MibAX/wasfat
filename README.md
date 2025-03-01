@@ -2205,17 +2205,22 @@ Add the **Instruction** entity class with its properties (excluding the using st
 `src`/`Wasfat.Domain`/`Instructions`/`Instruction.cs`
 
 ```csharp
-// code or command goes here
+    public class Instruction : Entity<int>
+    {
+        public int RecipeId { get; set; }
+        public int Order { get; set; }      // Specifies the order of this instruction within the recipe
+        public string Text { get; set; }
+    }
 ```
 
 ### 11.04 - Modifying the `Recipe` Entity:  Adding  Navigation to `instructions`
-Add the **Instruction** entity class with its properties (excluding the using statements).
+To establish a relationship between Recipe and Instruction, add the Instructions navigation property to the Recipe entity.
 
 **Location:**  
-`src`/`Wasfat.Domain`/`Instructions`/`Instruction.cs`
+`src`/`Wasfat.Domain`/`Recipes`/`Recipe.cs`
 
 ```csharp
-// code or command goes here
+public List<Instruction> Instructions { get; set; } = new();
 ```
 
 ### 11.04 - Adding the Instruction Entity to the DbContext  
@@ -2225,7 +2230,7 @@ Add a `DbSet` for the **Instruction** entity to your DbContext.
 `src`/`Wasfat.EntityFrameworkCore`/`EntityFrameworkCore`/`WasfatDbContext.cs`
 
 ```csharp
-// code or command goes here
+    public DbSet<Instruction> Instructions { get; set; }
 ```
 
 ### 11.05 - Mapping the Instruction Entity to a Database Table  
@@ -2235,21 +2240,26 @@ Configure the **Instruction** entity within the `OnModelCreating` method to map 
 `src`/`Wasfat.EntityFrameworkCore`/`EntityFrameworkCore`/`WasfatDbContext.cs`
 
 ```csharp
-// code or command goes here
+        builder.Entity<Instruction>(b =>
+        {
+            b.ToTable(WasfatConsts.DbTablePrefix + "Instructions", WasfatConsts.DbSchema);
+            b.ConfigureByConvention(); //auto configure for the base class props
+
+        });
 ```
 
 ### 11.06 - Adding a Migration  
 Create a new migration to apply the changes to the database. For example, run the following command in your terminal:
 
 ```bash
-dotnet ef migrations add AddInstructionEntity
+Add-Migration AddInstructionEntity
 ```
 
 ### 11.07 - Applying the Migration  
 Update the database to apply the new migration with the following command:
 
 ```bash
-dotnet ef database update
+Update-Database
 ```
 
 ### 11.08 - Creating the Data Transfer Object (DTO)  
@@ -2259,7 +2269,12 @@ Create the DTO for the **Instruction** entity.
 `src`/`Wasfat.Application.Contracts`/`Instructions`/`InstructionDto.cs`
 
 ```csharp
-// code or command goes here
+    public class InstructionDto : EntityDto<int>
+    {
+        public int RecipeId { get; set; }
+        public int Order { get; set; }
+        public string Text { get; set; }
+    }
 ```
 
 ### 11.09 - Setting Up the Mapper Profile  
@@ -2269,17 +2284,30 @@ Create a `MapperProfile` to map between the **Instruction** entity and its DTO.
 `src`/`Wasfat.Application`/`Instructions`/`InstructionMapperProfile.cs`
 
 ```csharp
-// code or command goes here
+    public class InstructionMapperProfile : Profile
+    {
+        public InstructionMapperProfile()
+        {
+            CreateMap<Instruction, InstructionDto>().ReverseMap();
+        }
+    }
 ```
 
 ### 11.10 - Defining the Service Interface  
 Define the service interface for managing the **Instruction** entity.
 
 **Location:**  
-`src`/`Wasfat.Application.Contracts`/`Instructions`/`IInstructionAppService.cs`
+`src`/`Wasfat.Application.Contracts`/`Instructions`/`IInstructionAdminAppService.cs`
 
 ```csharp
-// code or command goes here
+    public interface IInstructionAdminAppService : ICrudAppService<
+             InstructionDto,
+             int,
+             PagedAndSortedResultRequestDto>
+    {
+
+
+    }
 ```
 
 ### 11.11 - Implementing the Service  
@@ -2289,7 +2317,7 @@ Implement the service by copying the implementation from `RecipeAdminAppService`
 `src`/`Wasfat.Application`/`Instructions`/`InstructionAdminAppService.cs`
 
 ```csharp
-// code or command goes here
+**"Copy and paste the `RecipeAdminAppService`, then replace `Recipe` with `Instruction` while maintaining case sensitivity."**
 ```
 
 ### 11.12 - Importing Sample Data  
