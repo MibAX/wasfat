@@ -2440,7 +2440,9 @@ Configure the menus in your route provider to include navigation options for the
 ```
 
 ### 11.19 - Generating Proxy in the Frontend  
-Generate the Angular proxy to include the updated methods by running:
+Generate the Angular proxy to include the updated methods
+
+Run the following command in the Power Shell `PS>` terminal 
 
 ```bash
 abp generate-proxy -t ng
