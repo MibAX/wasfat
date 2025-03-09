@@ -1,1 +1,36 @@
-<p>instructions-list works!</p>
+<div class="card">
+  <div class="card-header">
+    <div class="row">
+      <div class="col-md-6">
+        <!-- Left card header -->
+      </div>
+
+      <div class="col-md-6 text-end">
+        <!-- right card header -->
+        <button type="button" mat-stroked-button color="primary" (click)="newInstruction()">
+          New Instruction
+        </button>
+      </div>
+
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="row">
+      <ngx-datatable [rows]="instructions" default>
+        <ngx-datatable-column [name]="'Recipe ID'" prop="recipeId"></ngx-datatable-column>
+        <ngx-datatable-column [name]="'Instructions ID'" prop="id"></ngx-datatable-column>
+        <ngx-datatable-column [name]="'Order'" prop="order"></ngx-datatable-column>
+        <ngx-datatable-column [name]="'Text'" prop="text"></ngx-datatable-column>
+
+        <ngx-datatable-column [name]="'Edit'">
+          <ng-template let-row="row" ngx-datatable-cell-template>
+            <button mat-stroked-button color="primary" (click)="editInstruction(row.id)">
+              Edit
+            </button>
+          </ng-template>
+        </ngx-datatable-column>
+
+      </ngx-datatable>
+    </div>
+  </div>
+</div>
