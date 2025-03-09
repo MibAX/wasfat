@@ -2563,7 +2563,7 @@ import { InstructionAdminService } from '@proxy/instructions';
 })
 export class CrudInstructionComponent implements OnInit {
   instructionFormGroup: FormGroup;
-  recipeId: number | null = null;
+  recipeId: number | null = null;     // add this line 
   instructionId: number | null = null;
   isEditMode: boolean = false;
 
@@ -2596,6 +2596,7 @@ export class CrudInstructionComponent implements OnInit {
       this.instructionAdminSvc.get(this.instructionId).subscribe(response => {
         // Populate the form with the retrieved instruction data
         this.instructionFormGroup.patchValue({
+          // modify the patched properties
           recipeId: response.recipeId,
           order: response.order,
           text: response.text
@@ -2609,6 +2610,7 @@ export class CrudInstructionComponent implements OnInit {
 
   private buildFrom() {
     this.instructionFormGroup = this.fb.group({
+      // Modify the build form properties 
       recipeId: [''],
       order: [''],
       text: ['']
