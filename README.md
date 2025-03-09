@@ -2340,6 +2340,41 @@ Use phpMyAdmin (or your preferred database tool) to import sample data for the *
 ### 11.14 - Generating the Instructions Module  
 Generate the Angular **instructions** module along with routing. For example, run:
 
+This is the basic structure of our Angular application when we create our module and components.
+
+```
+app/
+│
+├── 📂 home/
+│   ├── home.component.ts
+│   └── home-routing.module.ts
+│   └── home.module.ts
+│
+├── 📂 recipes/
+│   ├── 📂 crud-recipe/
+│   │   └── crud-recipe.component.ts
+│   │
+│   ├── 📂 recipes-list/
+│   │   └── recipes-list.component.ts
+│   │
+│   ├── recipes.module.ts
+│   └── recipes-routing.module.ts
+│
+├── 📂 instructions/
+│   ├── 📂 crud-instruction/
+│   │   └── crud-instruction.component.ts
+│   │
+│   ├── 📂 instructions-list/
+│   │   └── instructions-list.component.ts
+│   │
+│   ├── instructions.module.ts
+│   └── instructions-routing.module.ts
+│
+├── app.component.ts
+├── app.module.ts
+└── app-routing.module.ts
+```
+
 ```bash
 ng generate module instructions --routing
 ```
@@ -2361,7 +2396,6 @@ ng generate component instructions/crud-instruction
 ### 11.17 - Adding a Main App Route to the Instructions Module  
 Configure the main route for the **instructions** module in your Angular application to establish the basic structure for the modules and components.
 
-src\app\
 
 **Location:**  
 `src`/`app`/`app-routing.module.ts`
