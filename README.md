@@ -2344,7 +2344,14 @@ Use phpMyAdmin (or your preferred database tool) to import sample data for the *
 ### 11.14 - Generating the Instructions Module  
 Generate the Angular **instructions** module along with routing. For example, run:
 
-This is the basic structure of our Angular application when we create our module and components.
+
+```bash
+ng generate module instructions --routing
+```
+
+
+**⚠️ Note :**
+> This is the basic structure of our Angular application when we create our module and its components.
 
 ```
 app/
@@ -2379,11 +2386,7 @@ app/
 └── app-routing.module.ts
 ```
 
-Below is the command to run in order to Generate the Instructions module 
 
-```bash
-ng generate module instructions --routing
-```
 
 ### 11.15 - Generating the Instructions List Component  
 Generate the `InstructionsList` component within the **instructions** module:
