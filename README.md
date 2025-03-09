@@ -2180,3 +2180,443 @@ In this chapter, we extended the CRUD functionality for recipe management by imp
 
 
 This completes the extension of the CRUD functionality for recipe editing.
+
+
+---
+
+## 11 - Implementing One-to-Many Relationships
+
+### 11.01 - What You Will Learn in This Chapter  
+In this chapter, you will learn how to implement a one-to-many relationship in your application using Abp.io. Specifically, you will create an **Instruction** entity that is associated with a **Recipe** entity. You will also set up the necessary backend and frontend components—including entity creation, DTOs, migrations, service implementation, Angular module generation, routing, and UI enhancements—to manage this relationship effectively.
+
+### 11.02 - Terminology  
+
+- **One-to-Many Relationship:** A database relationship where a single record in one table (e.g., Recipe) can be associated with multiple records in another table (e.g., Instruction).  
+- **Entity:** A class that represents a data model in the application and corresponds to a table in the database.  
+- **DTO (Data Transfer Object):** An object used to transfer data between different layers of the application.  
+- **DbContext:** A class that manages database connections and is used to query and save data.  
+- **Migration:** A version-controlled change to the database schema.  
+- **Service Interface:** An interface that defines the contract for a service, specifying which operations are available.
+
+### 11.03 - Creating the Instruction Entity Class  
+Add the **Instruction** entity class with its properties (excluding the using statements).
+
+**Location:**  
+`src`/`Wasfat.Domain`/`Instructions`/`Instruction.cs`
+
+```csharp
+    public class Instruction : Entity<int>
+    {
+        public int RecipeId { get; set; }
+        public int Order { get; set; }      // Specifies the order of this instruction within the recipe
+        public string Text { get; set; }
+    }
+```
+
+### 11.04 - Modifying the `Recipe` Entity:  Adding  Navigation to `instructions`
+To establish a relationship between Recipe and Instruction, add the Instructions navigation property to the Recipe entity.
+
+**Location:**  
+`src`/`Wasfat.Domain`/`Recipes`/`Recipe.cs`
+
+```csharp
+public List<Instruction> Instructions { get; set; } = new();
+```
+
+### 11.05 - Adding the Instruction Entity to the DbContext  
+Add a `DbSet` for the **Instruction** entity to your DbContext.
+
+**Location:**  
+`src`/`Wasfat.EntityFrameworkCore`/`EntityFrameworkCore`/`WasfatDbContext.cs`
+
+```csharp
+    public DbSet<Instruction> Instructions { get; set; }
+```
+
+### 11.06 - Mapping the Instruction Entity to a Database Table  
+Configure the **Instruction** entity within the `OnModelCreating` method to map it to the appropriate database table.
+
+**Location:**  
+`src`/`Wasfat.EntityFrameworkCore`/`EntityFrameworkCore`/`WasfatDbContext.cs`
+
+```csharp
+        builder.Entity<Instruction>(b =>
+        {
+            b.ToTable(WasfatConsts.DbTablePrefix + "Instructions", WasfatConsts.DbSchema);
+            b.ConfigureByConvention(); //auto configure for the base class props
+
+        });
+```
+
+### 11.07 - Adding a Migration  
+Create a new migration to apply the changes to the database. For example, run the following command in your terminal:
+
+```bash
+Add-Migration AddInstructionEntity
+```
+
+### 11.08 - Applying the Migration  
+Update the database to apply the new migration with the following command:
+
+```bash
+Update-Database
+```
+
+### 11.09 - Creating the Data Transfer Object (DTO)  
+Create the DTO for the **Instruction** entity.
+
+**Location:**  
+`src`/`Wasfat.Application.Contracts`/`Instructions`/`InstructionDto.cs`
+
+```csharp
+    public class InstructionDto : EntityDto<int>
+    {
+        public int RecipeId { get; set; }
+        public int Order { get; set; }
+        public string Text { get; set; }
+    }
+```
+
+### 11.10 - Setting Up the Mapper Profile  
+Create a `MapperProfile` to map between the **Instruction** entity and its DTO.
+
+**Location:**  
+`src`/`Wasfat.Application`/`Instructions`/`InstructionMapperProfile.cs`
+
+```csharp
+    public class InstructionMapperProfile : Profile
+    {
+        public InstructionMapperProfile()
+        {
+            CreateMap<Instruction, InstructionDto>().ReverseMap();
+        }
+    }
+```
+
+
+### 11.11 - Implementing the Backend Service  
+Implement the service by copying the implementation from `RecipeAdminAppService` and replacing instances of **Recipe** with **Instruction**.
+
+**Location:**  
+`src`/`Wasfat.Application`/`Instructions`/`InstructionAdminAppService.cs`
+
+**⚠️ Note :**
+
+> copy `RecipeAdminAppService.cs` and modify as needed
+
+```csharp
+// code goes here 
+```
+
+
+### 11.12 - Defining the Backend Service Interface  
+Define the service interface for managing the **Instruction** entity.
+
+**Location:**  
+`src`/`Wasfat.Application.Contracts`/`Instructions`/`IInstructionAdminAppService.cs`
+
+```csharp
+    public interface IInstructionAdminAppService : ICrudAppService<
+             InstructionDto,
+             int,
+             PagedAndSortedResultRequestDto>
+    {
+
+        Task<List<InstructionDto>> GetRecentAsync(int count = 3);
+
+        Task<List<InstructionDto>> GetAllInstructionsAsync();
+
+    }
+```
+
+
+### 11.13 - Importing Sample Data  
+Use phpMyAdmin (or your preferred database tool) to import sample data for the **Instruction** entity.
+
+```bash
+// code or command goes here
+```
+
+### 11.14 - Generating the Instructions Module  
+Generate the Angular **instructions** module along with routing. For example, run:
+
+```bash
+ng generate module instructions --routing
+```
+
+### 11.15 - Generating the Instructions List Component  
+Generate the `InstructionsList` component within the **instructions** module:
+
+```bash
+ng generate component instructions/instructions-list
+```
+
+### 11.16 - Generating the CRUD Instruction Component  
+Generate the `CrudInstruction` component to handle creating, reading, updating, and deleting instructions:
+
+```bash
+ng generate component instructions/crud-instruction
+```
+
+### 11.17 - Adding a Main App Route to the Instructions Module  
+Configure the main route for the **instructions** module in your Angular application to establish the basic structure for the modules and components.
+
+src\app\
+
+**Location:**  
+`src`/`app`/`app-routing.module.ts`
+
+```typescript
+  {
+    path: 'instructions',
+    loadChildren: () =>
+      import('./instructions/instructions.module').then(m => m.InstructionsModule)
+  },
+```
+
+### 11.18 - Routing Inside the Instructions Module  
+Define specific routes for the `InstructionsList` and `CrudInstruction` components in the routing file.
+
+**Location:**  
+`src`/`app`/`instructions`/`instructions-routing.module.ts` > `const routes`
+
+```typescript
+  {
+    path: '',
+    component: InstructionsListComponent
+  },
+  {
+    path: 'list',
+    component: InstructionsListComponent,
+  },
+  {
+    path: 'create',
+    component: CrudInstructionComponent,
+  },
+  {
+    path: 'edit/:id',
+    component: CrudInstructionComponent,
+  },
+```
+
+### 11.19 - Adding Menus for the Routes  
+Configure the menus in your route provider to include navigation options for the **instructions** module.
+
+**Location:**  
+`src`/`app`/`route.provider.ts` > `function configureRoutes`
+
+```typescript
+      {
+        path: '',
+        name: '::Menu:Instructions',
+        iconClass: 'fas fa-home',
+        order: 2,
+        layout: eLayoutType.application,
+      },
+      {
+        path: '/instructions/list',
+        name: '::Menu:InstructionsList',
+        parentName: '::Menu:Instructions',
+        iconClass: 'fas fa-bars',
+        order: 1,
+        layout: eLayoutType.application,
+      },
+      {
+        path: '/instructions/crud',
+        name: '::Menu:CrudInstruction',
+        parentName: '::Menu:Instructions',
+        iconClass: 'fas fa-edit',
+        order: 2,
+        layout: eLayoutType.application,
+      },
+```
+
+### 11.20 - Generating Proxy in the Frontend  
+Generate the Angular proxy to include the updated methods by running:
+
+```bash
+abp generate-proxy -t ng
+```
+
+### 11.21 - Building the `Instructions` List Component  
+Start by copying the implementation from the `RecipesList` component TypeScript file and replacing **Recipe** with **Instruction**.
+
+**Location:**  
+`src`/`app`/`instructions`/`instructions-list`/`instructions-list.component.ts`
+
+
+**⚠️ Note :**
+
+> copy `recipes-list.component.ts` and modify as needed
+
+```typescript
+// code goes here 
+```
+
+### 11.22 - Updating the HTML File for the `Instructions` List  
+Copy and adjust the HTML file from the `RecipesList` component, replacing references to **Recipe** with **Instruction**.
+
+**Location:**  
+`src`/`app`/`instructions`/`instructions-list`/`instructions-list.component.html`
+
+**⚠️ Note :**
+
+> copy `recipes-list.component.html` and modify as needed
+
+```
+      <ngx-datatable [rows]="instructions" default>
+        <ngx-datatable-column [name]="'Order'" prop="order"></ngx-datatable-column>
+        <ngx-datatable-column [name]="'Text'" prop="text"></ngx-datatable-column>
+
+        <ngx-datatable-column [name]="'Edit'">
+          <ng-template let-row="row" ngx-datatable-cell-template>
+            <button mat-stroked-button color="primary" (click)="editInstruction(row.id)">
+              Edit
+            </button>
+          </ng-template>
+        </ngx-datatable-column>
+
+      </ngx-datatable>
+```
+
+### 11.23 - Importing the Shared Module  
+Import the `SharedModule` into the **InstructionsModule** to ensure shared components and modules are available.
+
+**Location:**  
+`src`/`app`/`instructions`/`instructions.module.ts`
+
+```typescript
+// code or command goes here
+```
+
+### 11.24 - Building the CRUD `Instruction` Component  
+Copy the implementation from the `CrudRecipe` component TypeScript file and replace **Recipe** with **Instruction**.
+
+**Location:**  
+`src`/`app`/`instructions`/`crud-instruction`/`crud-instruction.component.ts`
+
+**⚠️ Note :**
+
+> copy `crud-recipe.component.ts` and modify as needed
+
+```typescript
+// code goes here 
+```
+
+### 11.25 - Updating the HTML File for the CRUD `Instruction` Component  
+Update the HTML file for the `CrudInstruction` component accordingly.
+
+**Location:**  
+`src`/`app`/`instructions`/`crud-instruction`/`crud-instruction.component.html`
+
+
+**⚠️ Note :**
+
+> copy `crud-recipe.component.html` and modify as needed
+
+```html
+// code goes here 
+```
+
+### 11.26 - Enhancing `Opening as a Dialog` for CRUD Instruction
+Enhance the CRUD Instruction component so that it can open as a dialog for a better user experience.
+
+```typescript
+// code or command goes here
+```
+
+### 11.27 - Adding a Route to Open the Instruction List for a Selected Recipe  
+Configure a route to display the instruction list for a selected recipe. For example, add the following route configuration:
+
+**Location:**  
+`src`/`app`/`instructions`/`instructions-routing.module.ts`
+
+```typescript
+{
+  path: 'recipe/:id/instruction',
+  component: InstructionsListComponent
+}
+```
+
+### 11.28 - Implementing Navigation for Recipe-Specific Instructions  
+Update your navigation to pass the necessary data when opening the dialog for a specific recipe’s instructions. Ensure the correct parameters are sent to the dialog component.
+
+```typescript
+// code or command goes here
+```
+
+### 11.29 - Cleaning Up UI: Removing Instructions List from Main Navigation  
+Remove the standalone instructions list route from the main navigation if it is no longer required.
+
+**Location:**  
+`src`/`app`/`route.provider.ts`
+
+**🗑️ Deleted sub-menus:**  
+(No need to copy these sections; this code should be deleted)
+
+```typescript
+      {
+        path: '',
+        name: '::Menu:Instructions',
+        iconClass: 'fas fa-home',
+        order: 2,
+        layout: eLayoutType.application,
+      },
+      {
+        path: '/instructions/list',
+        name: '::Menu:InstructionsList',
+        parentName: '::Menu:Instructions',
+        iconClass: 'fas fa-bars',
+        order: 1,
+        layout: eLayoutType.application,
+      },
+      {
+        path: '/instructions/crud',
+        name: '::Menu:CrudInstruction',
+        parentName: '::Menu:Instructions',
+        iconClass: 'fas fa-edit',
+        order: 2,
+        layout: eLayoutType.application,
+      },
+```
+
+### 11.30 - Enhancing the UX: Setting Order for the Next Instruction  
+Add a method to calculate and set the order for the next instruction. Update the service and the component accordingly.
+
+- **Service Update Location:**  
+  `src`/`Wasfat.Application`/`Instructions`/`InstructionAdminAppService.cs`
+
+  ```csharp
+          public async Task<int> GetNextInstructionOrderAsync(int recipeId)
+        {
+            var instructions = await _instructionsRepository.GetListAsync(i => i.RecipeId == recipeId);
+
+            if (instructions.Any())
+            {
+                return instructions.Max(i => i.Order) + 1;
+            }
+            return 1;
+        }
+  ```
+
+- **Component Update Location:**  
+  `src`/`app`/`instructions`/`crud-instruction`/`crud-instruction.component.ts` > `ngOnInit()`
+
+  ```typescript
+    if (this.isEditMode && this.instructionId) {
+      this.loadInstruction();
+    } else {
+      this.setOrderForNextInstruction();
+    }
+  ```
+
+  ```typescript
+  private setOrderForNextInstruction() {
+    this.instructionAdminSvc.getNextInstructionOrder(this.recipeId).subscribe(order => {
+      this.instructionFormGroup.patchValue({ order });
+    });
+  }
+  ```
+
+### 11.31 - Summary  
+In this chapter, we successfully implemented a one-to-many relationship between **Recipe** and **Instruction**. We covered creating the **Instruction** entity, updating the DbContext, creating and applying database migrations, setting up DTOs, implementing the service layer, generating the Angular module and components, and enhancing the user experience with improved navigation and dynamic order setting for instructions. This comprehensive guide demonstrates how to manage one-to-many relationships in a full-stack ABP application.
