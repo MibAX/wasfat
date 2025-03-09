@@ -2425,10 +2425,6 @@ Define specific routes for the `InstructionsList` and `CrudInstruction` componen
 
 ```typescript
   {
-    path: '',
-    component: InstructionsListComponent
-  },
-  {
     path: 'list',
     component: InstructionsListComponent,
   },
