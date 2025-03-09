@@ -2461,7 +2461,7 @@ Configure the menus in your route provider to include navigation options for the
         layout: eLayoutType.application,
       },
       {
-        path: '/instructions/crud',
+        path: '/instructions/create',
         name: '::Menu:CrudInstruction',
         parentName: '::Menu:Instructions',
         iconClass: 'fas fa-edit',
