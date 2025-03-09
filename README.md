@@ -2492,7 +2492,6 @@ Start by copying the implementation from the `RecipesList` component TypeScript 
 // 1. copy recipes-list.component.ts 
 // 2. replace `Recipe` with `Instruction`
 // 3. Modify as needed
-
 ```
 
 ### 11.22 - Updating the HTML File for the `Instructions` List  
@@ -2550,7 +2549,8 @@ Copy the implementation from the `CrudRecipe` component TypeScript file and repl
 ```typescript
 // 2. copy crud-recipe.component.ts 
 // 2. replace `Recipe` with `Instruction`
-// 3. Modify as needed```
+// 3. Modify as needed
+```
 
 ### 11.25 - Updating the HTML File for the CRUD `Instruction` Component  
 Update the HTML file for the `CrudInstruction` component accordingly.
