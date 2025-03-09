@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Volo.Abp.EntityFrameworkCore;
 using Wasfat.EntityFrameworkCore;
@@ -11,9 +12,11 @@ using Wasfat.EntityFrameworkCore;
 namespace Wasfat.Migrations
 {
     [DbContext(typeof(WasfatDbContext))]
-    partial class WasfatDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250309054415_AddInstructionsTable")]
+    partial class AddInstructionsTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
