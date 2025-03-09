@@ -2333,8 +2333,12 @@ Define the service interface for managing the **Instruction** entity.
 ### 11.13 - Importing Sample Data  
 Use phpMyAdmin (or your preferred database tool) to import sample data for the **Instruction** entity.
 
-```bash
-// code or command goes here
+**Location:**  
+`Sample Data Files`/`Chapter 11`/`truncate_and_seed_recipes_and_instructions.sql`
+
+
+```SQL
+// copy paste the data from inside the file truncate_and_seed_recipes_and_instructions.sql 
 ```
 
 ### 11.14 - Generating the Instructions Module  
@@ -2374,6 +2378,8 @@ app/
 ├── app.module.ts
 └── app-routing.module.ts
 ```
+
+Below is the command to run in order to Generate the Instructions module 
 
 ```bash
 ng generate module instructions --routing
