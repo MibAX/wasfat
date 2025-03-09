@@ -2489,7 +2489,10 @@ Start by copying the implementation from the `RecipesList` component TypeScript 
 > copy `recipes-list.component.ts` and modify as needed
 
 ```typescript
-// code goes here 
+// 1. copy recipes-list.component.ts 
+// 2. replace `Recipe` with `Instruction`
+// 3. Modify as needed
+
 ```
 
 ### 11.22 - Updating the HTML File for the `Instructions` List  
@@ -2504,6 +2507,8 @@ Copy and adjust the HTML file from the `RecipesList` component, replacing refere
 
 ```
       <ngx-datatable [rows]="instructions" default>
+        <ngx-datatable-column [name]="'Recipe ID'" prop="recipeId"></ngx-datatable-column>
+        <ngx-datatable-column [name]="'Instructions ID'" prop="id"></ngx-datatable-column>
         <ngx-datatable-column [name]="'Order'" prop="order"></ngx-datatable-column>
         <ngx-datatable-column [name]="'Text'" prop="text"></ngx-datatable-column>
 
@@ -2525,10 +2530,14 @@ Import the `SharedModule` into the **InstructionsModule** to ensure shared compo
 `src`/`app`/`instructions`/`instructions.module.ts`
 
 ```typescript
-// code or command goes here
+  imports: [
+    CommonModule,
+    RecipesRoutingModule,
+    SharedModule    // Add this line 
+  ]
 ```
 
-### 11.24 - Building the CRUD `Instruction` Component  
+### 11.24 - Building the CRUD Instruction Component  
 Copy the implementation from the `CrudRecipe` component TypeScript file and replace **Recipe** with **Instruction**.
 
 **Location:**  
@@ -2539,8 +2548,9 @@ Copy the implementation from the `CrudRecipe` component TypeScript file and repl
 > copy `crud-recipe.component.ts` and modify as needed
 
 ```typescript
-// code goes here 
-```
+// 2. copy crud-recipe.component.ts 
+// 2. replace `Recipe` with `Instruction`
+// 3. Modify as needed```
 
 ### 11.25 - Updating the HTML File for the CRUD `Instruction` Component  
 Update the HTML file for the `CrudInstruction` component accordingly.
@@ -2554,7 +2564,9 @@ Update the HTML file for the `CrudInstruction` component accordingly.
 > copy `crud-recipe.component.html` and modify as needed
 
 ```html
-// code goes here 
+// 1. copy crud-recipe.component.html 
+// 2. replace `Recipe` with `Instruction`
+// 3. Modify as needed
 ```
 
 ### 11.26 - Enhancing `Opening as a Dialog` for CRUD Instruction
