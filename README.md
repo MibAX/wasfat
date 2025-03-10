@@ -2282,26 +2282,25 @@ import { RecipeAdminService, RecipeDto } from '@proxy/recipes';
   styleUrls: ['./crud-recipe.component.scss']
 })
 export class CrudRecipeComponent implements OnInit {
-  recipeFormGroup: FormGroup;
+  FormGroup: FormGroup;
   recipeId: number | null = null;
   isEditMode: boolean = false;
-
 
   constructor(
     private recipeAdminSvc: RecipeAdminService,
     private fb: FormBuilder,
     private router: Router,
     private activatedRoute: ActivatedRoute) {
-
   }
 
   ngOnInit(): void {
+    console.log('CrudRecipeComponent > ngOnInit')
     this.buildFrom();
     this.patchIfEditMode();
   }
 
   private buildFrom() {
-    this.recipeFormGroup = this.fb.group({
+    this.FormGroup = this.fb.group({
       name: ['', [Validators.required, Validators.minLength(3)]],
       description: ['']
     });
@@ -2321,11 +2320,10 @@ export class CrudRecipeComponent implements OnInit {
   }
 
   save(): void {
-    if (this.recipeFormGroup.invalid) {
+    if (this.FormGroup.invalid) {
       alert("some Fields are not valid.")
       return;
     }
-
     if (this.isEditMode) {
       this.update();
     } else {
@@ -2333,7 +2331,7 @@ export class CrudRecipeComponent implements OnInit {
     }
   }
 
-  //#region Sub Functions
+  //#region Sub Functions 
 
   private setEditMode(idParam: string) {
     this.recipeId = Number(idParam);
@@ -2342,30 +2340,31 @@ export class CrudRecipeComponent implements OnInit {
 
   private fetchAndPatch() {
     this.recipeAdminSvc.get(this.recipeId).subscribe(response => {
-      this.patch(response);
+      this.patchForm(response);
     });
   }
 
-  private patch(recipe: RecipeDto) {
-    this.recipeFormGroup.patchValue({
+  private patchForm(recipe: RecipeDto) {
+    this.FormGroup.patchValue({
       name: recipe.name,
       description: recipe.description
     });
   }
 
   private update() {
-    this.recipeAdminSvc.update(this.recipeId, this.recipeFormGroup.value).subscribe((response) => {
-      console.log('Recipe updated successfully', response);
+    this.recipeAdminSvc.update(this.recipeId, this.FormGroup.value).subscribe((recipe) => {
+      console.log('Recipe updated successfully', recipe);
       this.router.navigate(["/recipes/list"]);
     });
   }
 
   private create() {
-    this.recipeAdminSvc.create(this.recipeFormGroup.value).subscribe((response) => {
-      console.log('Recipe created successfully', response);
+    this.recipeAdminSvc.create(this.FormGroup.value).subscribe((recipe) => {
+      console.log('Recipe created successfully', recipe);
       this.router.navigate(["/recipes/list"]);
     });
   }
+
   //#endregion
 
 }
