@@ -2340,11 +2340,11 @@ export class CrudRecipeComponent implements OnInit {
 
   private fetchAndPatch() {
     this.recipeAdminSvc.get(this.recipeId).subscribe(response => {
-      this.patchForm(response);
+      this.patch(response);
     });
   }
 
-  private patchForm(recipe: RecipeDto) {
+  private patch(recipe: RecipeDto) {
     this.FormGroup.patchValue({
       name: recipe.name,
       description: recipe.description
@@ -2368,7 +2368,6 @@ export class CrudRecipeComponent implements OnInit {
   //#endregion
 
 }
-
 ```
 
 
