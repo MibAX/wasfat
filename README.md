@@ -2340,10 +2340,10 @@ export class CrudRecipeComponent implements OnInit {
     });
   }
 
-  private patch(response: RecipeDto) {
+  private patch(recipe: RecipeDto) {
     this.recipeFormGroup.patchValue({
-      name: response.name,
-      description: response.description
+      name: recipe.name,
+      description: recipe.description
     });
   }
 
