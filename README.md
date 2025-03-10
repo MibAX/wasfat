@@ -2166,7 +2166,13 @@ In this lecture, we update the recipe routes to be more user-friendly. Instead o
 > Be sure to update all references in your application from `/recipes/crud` and `/recipes/crud/:id` to `/recipes/create` and `/recipes/edit/:id` respectively. This includes any navigation links or redirects in your code.
 
 
-### 10.20 Refactoring CRUD Recipe for Code Readability  
+### 10.20 Refactoring CRUD Recipe for Code Readability
+
+To improve code readability and organization, we recommend installing the following VS Code extension:
+
+🔹 **Extension: Create / Delete #region quickly**  
+[Download from Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=suadev.csharp-region-manager)  
+
 
 **Location:**  
 `src`/`app`/`recipes`/`crud-recipe`/`crud-recipe.component.ts`
