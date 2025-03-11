@@ -2166,7 +2166,120 @@ In this lecture, we update the recipe routes to be more user-friendly. Instead o
 > Be sure to update all references in your application from `/recipes/crud` and `/recipes/crud/:id` to `/recipes/create` and `/recipes/edit/:id` respectively. This includes any navigation links or redirects in your code.
 
 
-### 10.20 Summary
+### 10.20 Refactoring CRUD Recipe for Code Readability
+
+To improve code readability and organization, we recommend installing the following VS Code extension:
+
+🔹 **Extension: Create / Delete #region quickly**  
+[Download from Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=suadev.csharp-region-manager)  
+
+**Location:**  
+`src`/`app`/`recipes`/`crud-recipe`/`crud-recipe.component.ts`
+
+**👍 Refactored code:**
+
+```typescript
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import { RecipeAdminService, RecipeDto } from '@proxy/recipes';
+
+@Component({
+  selector: 'app-crud-recipe',
+  templateUrl: './crud-recipe.component.html',
+  styleUrls: ['./crud-recipe.component.scss']
+})
+export class CrudRecipeComponent implements OnInit {
+  formGroup: FormGroup;
+  recipeId: number | null = null;
+  isEditMode: boolean = false;
+
+  constructor(
+    private recipeAdminSvc: RecipeAdminService,
+    private fb: FormBuilder,
+    private router: Router,
+    private activatedRoute: ActivatedRoute) {
+
+  }
+
+  ngOnInit(): void {
+    console.log('CrudRecipeComponent > ngOnInit');
+    this.buildFrom();
+    this.patchIfEditMode();
+  }
+
+  private buildFrom() {
+    this.formGroup = this.fb.group({
+      name: ['', [Validators.required, Validators.minLength(3)]],
+      description: ['']
+    });
+  }
+
+  private patchIfEditMode() {
+    this.activatedRoute.paramMap.subscribe(params => {
+      const idParam = params.get('id');
+      if (!idParam) return;
+      this.setEditMOde(idParam);
+      this.fetchAndPatch();
+    });
+  }
+
+  cancel(): void {
+    this.router.navigate(["/recipes/list"]);
+  }
+
+  save(): void {
+    if (this.formGroup.invalid) {
+      alert("some fields are invalid");
+      return;
+    }
+    if (this.isEditMode) {
+      this.update();
+    } else {
+      this.create();
+    }
+  }
+
+  //#region Sub Functions 
+
+  private setEditMOde(idParam: string) {
+    this.recipeId = Number(idParam);
+    this.isEditMode = true;
+  }
+
+  private fetchAndPatch() {
+    this.recipeAdminSvc.get(this.recipeId).subscribe(recipe => {
+      this.patch(recipe);
+    });
+  }
+
+  private patch(response: RecipeDto) {
+    this.formGroup.patchValue({
+      name: response.name,
+      description: response.description
+    });
+  }
+
+  private update() {
+    this.recipeAdminSvc.update(this.recipeId, this.formGroup.value).subscribe(response => {
+      console.log('Recipe updated successfully', response);
+      this.router.navigate(["/recipes/list"]);
+    });
+  }
+
+  private create() {
+    this.recipeAdminSvc.create(this.formGroup.value).subscribe((response) => {
+      console.log('Recipe created successfully', response);
+      this.router.navigate(["/recipes/list"]);
+    });
+  }
+
+  //#endregion
+}
+```
+
+
+### 10.21 Summary
 
 In this chapter, we extended the CRUD functionality for recipe management by implementing editing capabilities. We accomplished the following:
 
@@ -2333,14 +2446,25 @@ Define the service interface for managing the **Instruction** entity.
 ### 11.13 - Importing Sample Data  
 Use phpMyAdmin (or your preferred database tool) to import sample data for the **Instruction** entity.
 
-```bash
-// code or command goes here
+**Location:**  
+`Sample Data Files`/`Chapter 11`/`truncate_and_seed_recipes_and_instructions.sql`
+
+
+```SQL
+// copy paste the data from inside the file truncate_and_seed_recipes_and_instructions.sql 
 ```
 
 ### 11.14 - Generating the Instructions Module  
 Generate the Angular **instructions** module along with routing. For example, run:
 
-This is the basic structure of our Angular application when we create our module and components.
+
+```bash
+ng generate module instructions --routing
+```
+
+
+**⚠️ Note :**
+> This is the basic structure of our Angular application when we create our module and its components.
 
 ```
 app/
@@ -2375,9 +2499,7 @@ app/
 └── app-routing.module.ts
 ```
 
-```bash
-ng generate module instructions --routing
-```
+
 
 ### 11.15 - Generating the Instructions List Component  
 Generate the `InstructionsList` component within the **instructions** module:
@@ -2416,10 +2538,6 @@ Define specific routes for the `InstructionsList` and `CrudInstruction` componen
 
 ```typescript
   {
-    path: '',
-    component: InstructionsListComponent
-  },
-  {
     path: 'list',
     component: InstructionsListComponent,
   },
@@ -2456,7 +2574,7 @@ Configure the menus in your route provider to include navigation options for the
         layout: eLayoutType.application,
       },
       {
-        path: '/instructions/crud',
+        path: '/instructions/create',
         name: '::Menu:CrudInstruction',
         parentName: '::Menu:Instructions',
         iconClass: 'fas fa-edit',
@@ -2484,7 +2602,9 @@ Start by copying the implementation from the `RecipesList` component TypeScript 
 > copy `recipes-list.component.ts` and modify as needed
 
 ```typescript
-// code goes here 
+// 1. copy recipes-list.component.ts 
+// 2. replace `Recipe` with `Instruction`
+// 3. Modify as needed
 ```
 
 ### 11.22 - Updating the HTML File for the `Instructions` List  
@@ -2499,6 +2619,8 @@ Copy and adjust the HTML file from the `RecipesList` component, replacing refere
 
 ```
       <ngx-datatable [rows]="instructions" default>
+        <ngx-datatable-column [name]="'Recipe ID'" prop="recipeId"></ngx-datatable-column>
+        <ngx-datatable-column [name]="'Instructions ID'" prop="id"></ngx-datatable-column>
         <ngx-datatable-column [name]="'Order'" prop="order"></ngx-datatable-column>
         <ngx-datatable-column [name]="'Text'" prop="text"></ngx-datatable-column>
 
@@ -2520,10 +2642,14 @@ Import the `SharedModule` into the **InstructionsModule** to ensure shared compo
 `src`/`app`/`instructions`/`instructions.module.ts`
 
 ```typescript
-// code or command goes here
+  imports: [
+    CommonModule,
+    RecipesRoutingModule,
+    SharedModule    // Add this line 
+  ]
 ```
 
-### 11.24 - Building the CRUD `Instruction` Component  
+### 11.24 - Building the CRUD Instruction Component  
 Copy the implementation from the `CrudRecipe` component TypeScript file and replace **Recipe** with **Instruction**.
 
 **Location:**  
@@ -2534,7 +2660,104 @@ Copy the implementation from the `CrudRecipe` component TypeScript file and repl
 > copy `crud-recipe.component.ts` and modify as needed
 
 ```typescript
-// code goes here 
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import { InstructionAdminService, InstructionDto } from '@proxy/instructions';
+
+@Component({
+  selector: 'app-crud-instruction',
+  templateUrl: './crud-instruction.component.html',
+  styleUrls: ['./crud-instruction.component.scss']
+})
+export class CrudInstructionComponent implements OnInit {
+  formGroup: FormGroup;
+  id: number | null = null;
+  recipeId: number | null = null;
+  isEditMode: boolean = false;
+
+  constructor(
+    private instructionAdminSvc: InstructionAdminService,
+    private fb: FormBuilder,
+    private router: Router,
+    private activatedRoute: ActivatedRoute) {
+  }
+
+  ngOnInit(): void {
+    console.log('CrudInstructionComponent > ngOnInit')
+    this.buildFrom();
+    this.patchIfEditMode();
+  }
+
+  private buildFrom() {
+    this.formGroup = this.fb.group({
+      recipeId: ['', [Validators.required, Validators.minLength(1)]],
+      order: ['', [Validators.required, Validators.minLength(1)]],
+      text: ['', [Validators.required, Validators.minLength(3)]],
+    });
+  }
+
+  private patchIfEditMode() {
+    this.activatedRoute.paramMap.subscribe(params => {
+      const idParam = params.get('id');
+      if (!idParam) return;
+      this.setEditMode(idParam);
+      this.fetchAndPatch();
+    });
+  }
+
+  cancel(): void {
+    this.router.navigate(["/instructions/list"]);
+  }
+
+  save(): void {
+    if (this.formGroup.invalid) {
+      alert("some Fields are not valid.")
+      return;
+    }
+    if (this.isEditMode) {
+      this.update();
+    } else {
+      this.create();
+    }
+  }
+
+  //#region Sub Functions 
+
+  private setEditMode(idParam: string) {
+    this.id = Number(idParam);
+    this.isEditMode = true;
+  }
+
+  private fetchAndPatch() {
+    this.instructionAdminSvc.get(this.id).subscribe(response => {
+      this.patch(response);
+    });
+  }
+
+  private patch(instruction: InstructionDto) {
+    this.formGroup.patchValue({
+      recipeId: instruction.recipeId,
+      order: instruction.order,
+      text: instruction.text,
+    });
+  }
+
+  private update() {
+    this.instructionAdminSvc.update(this.id, this.formGroup.value).subscribe((instruction) => {
+      console.log('Instruction updated successfully', instruction);
+      this.router.navigate(["/instructions/list"]);
+    });
+  }
+
+  private create() {
+    this.instructionAdminSvc.create(this.formGroup.value).subscribe((instruction) => {
+      console.log('Instruction created successfully', instruction);
+      this.router.navigate(["/instructions/list"]);
+    });
+  }
+  //#endregion
+}
 ```
 
 ### 11.25 - Updating the HTML File for the CRUD `Instruction` Component  
@@ -2549,37 +2772,118 @@ Update the HTML file for the `CrudInstruction` component accordingly.
 > copy `crud-recipe.component.html` and modify as needed
 
 ```html
-// code goes here 
+<div class="card">
+  <div class="card-header">
+    <div class="row">
+      <div class="col-md-6 ">
+
+        <button type="button" class="me-2" mat-stroked-button color="warn" (click)="cancel()">
+          Cancel
+        </button>
+
+        <button type="button" mat-stroked-button color="primary" (click)="save()">
+          {{ isEditMode ? 'Save' : 'Create' }}
+        </button>
+
+      </div>
+      <div class="col-md-6 ">
+        <!-- right card header -->
+      </div>
+    </div>
+  </div>
+  <div class="card-body">
+
+    <form [formGroup]="formGroup">
+
+      <div class="row">
+        <div class="col-md-6 ">
+
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Recipe Id</mat-label>
+            <input matInput formControlName="recipeId" placeholder="Enter recipe Id">
+          </mat-form-field>
+
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Order</mat-label>
+            <input matInput formControlName="order" placeholder="Enter instruction order inside recipe">
+          </mat-form-field>
+
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Text</mat-label>
+            <textarea matInput formControlName="text" placeholder="Enter instruction text"></textarea>
+          </mat-form-field>
+
+        </div>
+        <div class="col-md-6 ">
+          <!-- right card body -->
+        </div>
+      </div>
+
+
+    </form>
+
+  </div>
+</div>
 ```
 
-### 11.26 - Enhancing `Opening as a Dialog` for CRUD Instruction
-Enhance the CRUD Instruction component so that it can open as a dialog for a better user experience.
+### 11.27 - Displaying Instructions of a Single Recipe
 
-```typescript
-// code or command goes here
-```
+In this lecture, you will learn how to display **step-by-step instructions** for a specific recipe. You will:  
+✅ Prepare the backend endpoint to fetch instructions  
+✅ Configure routing to pass the recipe ID  
+✅ Handle the recipe ID in the instructions list  
 
-### 11.27 - Adding a Route to Open the Instruction List for a Selected Recipe  
-Configure a route to display the instruction list for a selected recipe. For example, add the following route configuration:
+### 11.27 - Preparing Backend: Getting Instructions of a Single Recipe
 
 **Location:**  
-`src`/`app`/`instructions`/`instructions-routing.module.ts`
+`src`/`Wasfat.Application`/`Instructions`/`InstructionAdminAppService.cs`  
 
-```typescript
+```csharp
+public async Task<List<InstructionDto>> GetRecipeInstructionsAsync(int recipeId)
 {
-  path: 'recipe/:id/instruction',
-  component: InstructionsListComponent
+    var instructions = await _instructionsRepository.GetListAsync(i => i.RecipeId == recipeId);
+
+    var sortedInstructions = instructions.OrderBy(i => i.Order).ToList();
+
+    return ObjectMapper.Map<List<Instruction>, List<InstructionDto>>(sortedInstructions);
 }
 ```
 
-### 11.28 - Implementing Navigation for Recipe-Specific Instructions  
+**Location:**  
+`src`/`Wasfat.Application.Contracts`/`Instructions`/`IInstructionAppService.cs`  
+
+```csharp
+Task<List<InstructionDto>> GetRecipeInstructionsAsync(int recipeId);
+```
+
+### 11.26 - Configure Routing to Instructions of a Single Recipe
+Configure a route to display the instruction list for a selected recipe. For example, add the following route configuration:
+
+**Location:**  
+`src`/`app`/`recipes`/`recipes-routing.module.ts`
+
+```typescript
+  {
+    path: ':id/instructions',
+    component: InstructionsListComponent,
+  },
+```
+
+### 11.27 - Handling the recipe ID in the instructions list
 Update your navigation to pass the necessary data when opening the dialog for a specific recipe’s instructions. Ensure the correct parameters are sent to the dialog component.
 
 ```typescript
 // code or command goes here
 ```
 
-### 11.29 - Cleaning Up UI: Removing Instructions List from Main Navigation  
+### 11.26 - Opening CRUD Instruction as a Dialog
+Enhance the CRUD Instruction component so that it can open as a dialog for a better user experience.
+
+```typescript
+// code or command goes here
+```
+
+### 11.28 - Cleaning Up UI: Removing Instructions List from Main Navigation  
 Remove the standalone instructions list route from the main navigation if it is no longer required.
 
 **Location:**  
@@ -2614,7 +2918,7 @@ Remove the standalone instructions list route from the main navigation if it is 
       },
 ```
 
-### 11.30 - Enhancing the UX: Setting Order for the Next Instruction  
+### 11.29 - Enhancing the UX: Setting Order for the Next Instruction  
 Add a method to calculate and set the order for the next instruction. Update the service and the component accordingly.
 
 - **Service Update Location:**  
@@ -2652,5 +2956,5 @@ Add a method to calculate and set the order for the next instruction. Update the
   }
   ```
 
-### 11.31 - Summary  
+### 11.30 - Summary  
 In this chapter, we successfully implemented a one-to-many relationship between **Recipe** and **Instruction**. We covered creating the **Instruction** entity, updating the DbContext, creating and applying database migrations, setting up DTOs, implementing the service layer, generating the Angular module and components, and enhancing the user experience with improved navigation and dynamic order setting for instructions. This comprehensive guide demonstrates how to manage one-to-many relationships in a full-stack ABP application.
