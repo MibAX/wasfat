@@ -2659,8 +2659,6 @@ Copy the implementation from the `CrudRecipe` component TypeScript file and repl
 
 > copy `crud-recipe.component.ts` and modify as needed
 
-**👍 Refactored code:**
-
 ```typescript
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -2773,8 +2771,6 @@ Update the HTML file for the `CrudInstruction` component accordingly.
 
 > copy `crud-recipe.component.html` and modify as needed
 
-**👍 Refactored code:**
-
 ```html
 <div class="card">
   <div class="card-header">
@@ -2830,14 +2826,7 @@ Update the HTML file for the `CrudInstruction` component accordingly.
 </div>
 ```
 
-### 11.26 - Enhancing `Opening as a Dialog` for CRUD Instruction
-Enhance the CRUD Instruction component so that it can open as a dialog for a better user experience.
-
-```typescript
-// code or command goes here
-```
-
-### 11.27 - Adding a Route to Open the Instruction List for a Selected Recipe  
+### 11.26 - Adding a Route to Open the Instruction List for a Selected Recipe  
 Configure a route to display the instruction list for a selected recipe. For example, add the following route configuration:
 
 **Location:**  
@@ -2850,14 +2839,14 @@ Configure a route to display the instruction list for a selected recipe. For exa
 }
 ```
 
-### 11.28 - Implementing Navigation for Recipe-Specific Instructions  
+### 11.27 - Implementing Navigation for Recipe-Specific Instructions  
 Update your navigation to pass the necessary data when opening the dialog for a specific recipe’s instructions. Ensure the correct parameters are sent to the dialog component.
 
 ```typescript
 // code or command goes here
 ```
 
-### 11.29 - Cleaning Up UI: Removing Instructions List from Main Navigation  
+### 11.28 - Cleaning Up UI: Removing Instructions List from Main Navigation  
 Remove the standalone instructions list route from the main navigation if it is no longer required.
 
 **Location:**  
@@ -2892,7 +2881,7 @@ Remove the standalone instructions list route from the main navigation if it is 
       },
 ```
 
-### 11.30 - Enhancing the UX: Setting Order for the Next Instruction  
+### 11.29 - Enhancing the UX: Setting Order for the Next Instruction  
 Add a method to calculate and set the order for the next instruction. Update the service and the component accordingly.
 
 - **Service Update Location:**  
@@ -2930,5 +2919,5 @@ Add a method to calculate and set the order for the next instruction. Update the
   }
   ```
 
-### 11.31 - Summary  
+### 11.30 - Summary  
 In this chapter, we successfully implemented a one-to-many relationship between **Recipe** and **Instruction**. We covered creating the **Instruction** entity, updating the DbContext, creating and applying database migrations, setting up DTOs, implementing the service layer, generating the Angular module and components, and enhancing the user experience with improved navigation and dynamic order setting for instructions. This comprehensive guide demonstrates how to manage one-to-many relationships in a full-stack ABP application.
