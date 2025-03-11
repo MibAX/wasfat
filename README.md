@@ -2659,15 +2659,13 @@ Copy the implementation from the `CrudRecipe` component TypeScript file and repl
 
 > copy `crud-recipe.component.ts` and modify as needed
 
-```typescript
-// 2. copy crud-recipe.component.ts 
-// 2. replace `Recipe` with `Instruction`
-// 3. Modify as needed
+**👍 Refactored code:**
 
+```typescript
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { InstructionAdminService } from '@proxy/instructions';
+import { InstructionAdminService, InstructionDto } from '@proxy/instructions';
 
 @Component({
   selector: 'app-crud-instruction',
@@ -2675,57 +2673,38 @@ import { InstructionAdminService } from '@proxy/instructions';
   styleUrls: ['./crud-instruction.component.scss']
 })
 export class CrudInstructionComponent implements OnInit {
-  instructionFormGroup: FormGroup;
+  formGroup: FormGroup;
+  id: number | null = null;
   recipeId: number | null = null;
-  instructionId: number | null = null;
   isEditMode: boolean = false;
-
 
   constructor(
     private instructionAdminSvc: InstructionAdminService,
     private fb: FormBuilder,
     private router: Router,
     private activatedRoute: ActivatedRoute) {
-
   }
 
   ngOnInit(): void {
     console.log('CrudInstructionComponent > ngOnInit')
     this.buildFrom();
-
-    this.activatedRoute.paramMap.subscribe(params => {
-
-      const idParam = params.get('id');
-
-      if (!idParam) {
-        return;
-      }
-
-      this.instructionId = Number(idParam);
-
-      this.isEditMode = true;
-
-      // load instruction from backend
-      this.instructionAdminSvc.get(this.instructionId).subscribe(instruction => {
-        // Populate the form with the retrieved instruction data
-        this.instructionFormGroup.patchValue({
-          recipeId: instruction.recipeId,
-          order: instruction.order,
-          text: instruction.text
-        });
-
-      });
-
-
-    })
+    this.patchIfEditMode();
   }
 
   private buildFrom() {
-    this.instructionFormGroup = this.fb.group({
-      // Modify the build form properties 
-      recipeId: [''],
-      order: [''],
-      text: ['']
+    this.formGroup = this.fb.group({
+      recipeId: ['', [Validators.required, Validators.minLength(1)]],
+      order: ['', [Validators.required, Validators.minLength(1)]],
+      text: ['', [Validators.required, Validators.minLength(3)]],
+    });
+  }
+
+  private patchIfEditMode() {
+    this.activatedRoute.paramMap.subscribe(params => {
+      const idParam = params.get('id');
+      if (!idParam) return;
+      this.setEditMode(idParam);
+      this.fetchAndPatch();
     });
   }
 
@@ -2733,30 +2712,54 @@ export class CrudInstructionComponent implements OnInit {
     this.router.navigate(["/instructions/list"]);
   }
 
-  saveInstruction(): void {
-
-    if (this.instructionFormGroup.invalid) {
+  save(): void {
+    if (this.formGroup.invalid) {
       alert("some Fields are not valid.")
       return;
     }
-
-    if (this.isEditMode && this.instructionId) {
-      // update
-      this.instructionAdminSvc.update(this.instructionId, this.instructionFormGroup.value).subscribe((response) => {
-        console.log('Instruction updated successfully', response);
-        this.router.navigate(["/instructions/list"]);
-      });
+    if (this.isEditMode) {
+      this.update();
     } else {
-      // create
-      this.instructionAdminSvc.create(this.instructionFormGroup.value).subscribe((response) => {
-        console.log('Instruction created successfully', response);
-        this.router.navigate(["/instructions/list"]);
-      });
+      this.create();
     }
   }
 
-}
+  //#region Sub Functions 
 
+  private setEditMode(idParam: string) {
+    this.id = Number(idParam);
+    this.isEditMode = true;
+  }
+
+  private fetchAndPatch() {
+    this.instructionAdminSvc.get(this.id).subscribe(response => {
+      this.patch(response);
+    });
+  }
+
+  private patch(instruction: InstructionDto) {
+    this.formGroup.patchValue({
+      recipeId: instruction.recipeId,
+      order: instruction.order,
+      text: instruction.text,
+    });
+  }
+
+  private update() {
+    this.instructionAdminSvc.update(this.id, this.formGroup.value).subscribe((instruction) => {
+      console.log('Instruction updated successfully', instruction);
+      this.router.navigate(["/instructions/list"]);
+    });
+  }
+
+  private create() {
+    this.instructionAdminSvc.create(this.formGroup.value).subscribe((instruction) => {
+      console.log('Instruction created successfully', instruction);
+      this.router.navigate(["/instructions/list"]);
+    });
+  }
+  //#endregion
+}
 ```
 
 ### 11.25 - Updating the HTML File for the CRUD `Instruction` Component  
@@ -2770,10 +2773,9 @@ Update the HTML file for the `CrudInstruction` component accordingly.
 
 > copy `crud-recipe.component.html` and modify as needed
 
+**👍 Refactored code:**
+
 ```html
-// 1. copy crud-recipe.component.html 
-// 2. replace `Recipe` with `Instruction`
-// 3. Modify as needed
 <div class="card">
   <div class="card-header">
     <div class="row">
@@ -2783,8 +2785,8 @@ Update the HTML file for the `CrudInstruction` component accordingly.
           Cancel
         </button>
 
-        <button type="button" mat-stroked-button color="primary" (click)="saveInstruction()">
-          {{ isEditMode ? 'Update' : 'Create' }}
+        <button type="button" mat-stroked-button color="primary" (click)="save()">
+          {{ isEditMode ? 'Save' : 'Create' }}
         </button>
 
       </div>
@@ -2795,19 +2797,19 @@ Update the HTML file for the `CrudInstruction` component accordingly.
   </div>
   <div class="card-body">
 
-    <form [formGroup]="instructionFormGroup">
+    <form [formGroup]="formGroup">
 
       <div class="row">
         <div class="col-md-6 ">
 
           <mat-form-field class="w-100" appearance="outline">
-            <mat-label>Recipe ID</mat-label>
-            <input matInput formControlName="recipeId" placeholder="Enter Recipe ID">
+            <mat-label>Recipe Id</mat-label>
+            <input matInput formControlName="recipeId" placeholder="Enter recipe Id">
           </mat-form-field>
 
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>Order</mat-label>
-            <input matInput formControlName="order" placeholder="Enter instruction order">
+            <input matInput formControlName="order" placeholder="Enter instruction order inside recipe">
           </mat-form-field>
 
           <mat-form-field class="w-100" appearance="outline">
@@ -2826,7 +2828,6 @@ Update the HTML file for the `CrudInstruction` component accordingly.
 
   </div>
 </div>
-
 ```
 
 ### 11.26 - Enhancing `Opening as a Dialog` for CRUD Instruction
