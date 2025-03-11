@@ -10,7 +10,7 @@ import { RecipeAdminService, RecipeDto } from '@proxy/recipes';
 })
 export class CrudRecipeComponent implements OnInit {
   formGroup: FormGroup;
-  recipeId: number | null = null;
+  id: number | null = null;
   isEditMode: boolean = false;
 
   constructor(
@@ -61,12 +61,12 @@ export class CrudRecipeComponent implements OnInit {
   //#region Sub Functions 
 
   private setEditMode(idParam: string) {
-    this.recipeId = Number(idParam);
+    this.id = Number(idParam);
     this.isEditMode = true;
   }
 
   private fetchAndPatch() {
-    this.recipeAdminSvc.get(this.recipeId).subscribe(response => {
+    this.recipeAdminSvc.get(this.id).subscribe(response => {
       this.patch(response);
     });
   }
@@ -79,7 +79,7 @@ export class CrudRecipeComponent implements OnInit {
   }
 
   private update() {
-    this.recipeAdminSvc.update(this.recipeId, this.formGroup.value).subscribe((recipe) => {
+    this.recipeAdminSvc.update(this.id, this.formGroup.value).subscribe((recipe) => {
       console.log('Recipe updated successfully', recipe);
       this.router.navigate(["/recipes/list"]);
     });
