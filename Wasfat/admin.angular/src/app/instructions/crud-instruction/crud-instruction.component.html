@@ -1,1 +1,52 @@
-<p>crud-instruction works!</p>
+<div class="card">
+  <div class="card-header">
+    <div class="row">
+      <div class="col-md-6 ">
+
+        <button type="button" class="me-2" mat-stroked-button color="warn" (click)="cancel()">
+          Cancel
+        </button>
+
+        <button type="button" mat-stroked-button color="primary" (click)="save()">
+          {{ isEditMode ? 'Save' : 'Create' }}
+        </button>
+
+      </div>
+      <div class="col-md-6 ">
+        <!-- right card header -->
+      </div>
+    </div>
+  </div>
+  <div class="card-body">
+
+    <form [formGroup]="formGroup">
+
+      <div class="row">
+        <div class="col-md-6 ">
+
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Recipe Id</mat-label>
+            <input matInput formControlName="recipeId" placeholder="Enter recipe Id">
+          </mat-form-field>
+
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Order</mat-label>
+            <input matInput formControlName="order" placeholder="Enter instruction order inside recipe">
+          </mat-form-field>
+
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Text</mat-label>
+            <textarea matInput formControlName="text" placeholder="Enter instruction text"></textarea>
+          </mat-form-field>
+
+        </div>
+        <div class="col-md-6 ">
+          <!-- right card body -->
+        </div>
+      </div>
+
+
+    </form>
+
+  </div>
+</div>
