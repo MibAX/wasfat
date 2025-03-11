@@ -9,7 +9,7 @@ import { RecipeAdminService, RecipeDto } from '@proxy/recipes';
   styleUrls: ['./crud-recipe.component.scss']
 })
 export class CrudRecipeComponent implements OnInit {
-  FormGroup: FormGroup;
+  formGroup: FormGroup;
   recipeId: number | null = null;
   isEditMode: boolean = false;
 
@@ -27,7 +27,7 @@ export class CrudRecipeComponent implements OnInit {
   }
 
   private buildFrom() {
-    this.FormGroup = this.fb.group({
+    this.formGroup = this.fb.group({
       name: ['', [Validators.required, Validators.minLength(3)]],
       description: ['']
     });
@@ -47,7 +47,7 @@ export class CrudRecipeComponent implements OnInit {
   }
 
   save(): void {
-    if (this.FormGroup.invalid) {
+    if (this.formGroup.invalid) {
       alert("some Fields are not valid.")
       return;
     }
@@ -72,21 +72,21 @@ export class CrudRecipeComponent implements OnInit {
   }
 
   private patch(recipe: RecipeDto) {
-    this.FormGroup.patchValue({
+    this.formGroup.patchValue({
       name: recipe.name,
       description: recipe.description
     });
   }
 
   private update() {
-    this.recipeAdminSvc.update(this.recipeId, this.FormGroup.value).subscribe((recipe) => {
+    this.recipeAdminSvc.update(this.recipeId, this.formGroup.value).subscribe((recipe) => {
       console.log('Recipe updated successfully', recipe);
       this.router.navigate(["/recipes/list"]);
     });
   }
 
   private create() {
-    this.recipeAdminSvc.create(this.FormGroup.value).subscribe((recipe) => {
+    this.recipeAdminSvc.create(this.formGroup.value).subscribe((recipe) => {
       console.log('Recipe created successfully', recipe);
       this.router.navigate(["/recipes/list"]);
     });
