@@ -2826,7 +2826,7 @@ Update the HTML file for the `CrudInstruction` component accordingly.
 </div>
 ```
 
-### 11.27 - Displaying Instructions of a Single Recipe
+### 11.26 - Displaying Instructions of a Single Recipe
 
 In this lecture, you will learn how to display **step-by-step instructions** for a specific recipe. You will:  
 ✅ Prepare the backend endpoint to fetch instructions  
@@ -2835,8 +2835,8 @@ In this lecture, you will learn how to display **step-by-step instructions** for
 
 ### 11.27 - Preparing Backend: Getting Instructions of a Single Recipe
 
-**Location:**  
-`src`/`Wasfat.Application`/`Instructions`/`InstructionAdminAppService.cs`  
+**Location:  `backend`**
+`src\Wasfat.Application\Instructions\InstructionAdminAppService.cs`
 
 ```csharp
 public async Task<List<InstructionDto>> GetRecipeInstructionsAsync(int recipeId)
@@ -2849,11 +2849,43 @@ public async Task<List<InstructionDto>> GetRecipeInstructionsAsync(int recipeId)
 }
 ```
 
-**Location:**  
+**Location:  `backend`**  
 `src`/`Wasfat.Application.Contracts`/`Instructions`/`IInstructionAppService.cs`  
 
 ```csharp
 Task<List<InstructionDto>> GetRecipeInstructionsAsync(int recipeId);
+```
+
+**Location: `frontend`**  
+`src\app\instructions\instructions-list\instructions-list.component.ts`
+
+```typescript
+  ngOnInit(): void {
+    console.log('InstructionsListComponent > ngOnInit');
+    this.fetch();
+  }
+
+  private fetch() {
+    const recipeId = this.activatedRoute.snapshot.queryParamMap.get('recipeId');
+    if (recipeId) {
+      this.fetchRecipeInstructions(recipeId);
+    } else {
+      this.fetchAllInstructions();
+    }
+  }
+
+  //#region Sub Functions 
+
+  private fetchRecipeInstructions(recipeId: string) {
+    this.instructionAdminSvc.getRecipeInstructions(Number(recipeId)).subscribe(instructions => this.instructions = instructions);
+  }
+
+  private fetchAllInstructions() {
+    this.instructionAdminSvc.getAllInstructions().subscribe(instructions => this.instructions = instructions);
+  }
+
+  //#endregion
+
 ```
 
 ### 11.26 - Configure Routing to Instructions of a Single Recipe
