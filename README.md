@@ -2947,7 +2947,6 @@ abp generate-proxy -t ng
 src\app\recipes\recipes-list\recipes-list.component.html
 
 ```html
-
                 <ngx-datatable-column [name]="'Instructions'">
                     <ng-template let-row="row" ngx-datatable-cell-template>
                         <button mat-stroked-button color="accent" (click)="navigateToInstructions(row.id)">
@@ -2955,17 +2954,9 @@ src\app\recipes\recipes-list\recipes-list.component.html
                         </button>
                     </ng-template>
                 </ngx-datatable-column>
-
 ```
 
-### 11.26 - Opening CRUD Instruction as a Dialog
-Enhance the CRUD Instruction component so that it can open as a dialog for a better user experience.
-
-```typescript
-// code or command goes here
-```
-
-### 11.28 - Cleaning Up UI: Removing Instructions List from Main Navigation  
+### 11.29 - Cleaning Up UI: Removing Instructions List from Main Navigation  
 Remove the standalone instructions list route from the main navigation if it is no longer required.
 
 **Location:**  
@@ -3000,7 +2991,143 @@ Remove the standalone instructions list route from the main navigation if it is 
       },
 ```
 
-### 11.29 - Enhancing the UX: Setting Order for the Next Instruction  
+### 11.30 - Summary  
+In this chapter, we successfully implemented a one-to-many relationship between **Recipe** and **Instruction**. We covered creating the **Instruction** entity, updating the DbContext, creating and applying database migrations, setting up DTOs, implementing the service layer, generating the Angular module and components, and enhancing the user experience with improved navigation and dynamic order setting for instructions. This comprehensive guide demonstrates how to manage one-to-many relationships in a full-stack ABP application.
+
+---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## 12 - MatDialg
+
+
+### 12.03 improting MatDialogModule
+
+**Location:**
+
+`src\app\shared\shared.module.ts` > `imports` & `exports`
+
+```typescript
+MatDialogModule
+```
+
+### 12.04 Preparing the Open dialog Triggering component
+
+**Location:**
+
+`src\app\instructions\instructions-list\instructions-list.component.ts` > `constructor`
+
+```typescript
+    private dialog: MatDialog,
+```
+
+**Location:**
+
+`src\app\instructions\instructions-list\instructions-list.component.ts` > `newInstruction()`
+
+```typescript
+  newInstruction(): void {
+    const dialogRef = this.dialog.open(CrudInstructionComponent, {
+      width: '50vw',
+      height: '60vh',
+      data: { isEditMode: false, recipeId: this.recipeId }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.fetch();
+      }
+    });
+  }
+```
+
+**Location:**
+
+`src\app\instructions\instructions-list\instructions-list.component.ts` > `editInstruction()`
+
+```typescript
+  editInstruction(id: number): void {
+    const dialogRef = this.dialog.open(CrudInstructionComponent, {
+      width: '50vw',
+      height: '60vh',
+      data: { isEditMode: true, recipeId: this.recipeId, instructionId: id }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.fetch();
+      }
+    });
+  }
+```
+### 12.05 preparing  Dialog component: this.dialogRef.close(true);
+
+**Location:**
+
+`src\app\instructions\crud-instruction\crud-instruction.component.ts` > `constructor` 
+
+```typescript
+    private dialogRef: MatDialogRef<CrudInstructionComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: any
+```
+
+Properly closing the Dialog 
+
+
+**Location:**
+
+src\app\instructions\crud-instruction\crud-instruction.component.ts
+
+```typescript
+  private update() {
+    this.instructionAdminSvc.update(this.id, this.formGroup.value).subscribe((instruction) => {
+      console.log('Instruction updated successfully', instruction);
+      //this.router.navigate(["/instructions/list"]);
+      this.dialogRef.close(true);
+    });
+  }
+
+  private create() {
+    this.instructionAdminSvc.create(this.formGroup.value).subscribe((instruction) => {
+      console.log('Instruction created successfully', instruction);
+      //this.router.navigate(["/instructions/list"]);
+      this.dialogRef.close(true);
+    });
+  }
+```
+
+
+
+### 12.04 - Enhancing the UX: Setting Order for the Next Instruction  
 Add a method to calculate and set the order for the next instruction. Update the service and the component accordingly.
 
 - **Service Update Location:**  
@@ -3037,6 +3164,3 @@ Add a method to calculate and set the order for the next instruction. Update the
     });
   }
   ```
-
-### 11.30 - Summary  
-In this chapter, we successfully implemented a one-to-many relationship between **Recipe** and **Instruction**. We covered creating the **Instruction** entity, updating the DbContext, creating and applying database migrations, setting up DTOs, implementing the service layer, generating the Angular module and components, and enhancing the user experience with improved navigation and dynamic order setting for instructions. This comprehensive guide demonstrates how to manage one-to-many relationships in a full-stack ABP application..
