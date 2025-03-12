@@ -2932,7 +2932,9 @@ abp generate-proxy -t ng
 ### 11.28 - Linking Recipe List to Related Instructions
 
 **Location:**
+
 `src\app\recipes\recipes-list\recipes-list.component.ts`
+
 ```typescript
 
   navigateToInstructions(recipeId: number): void {
@@ -2942,7 +2944,9 @@ abp generate-proxy -t ng
 ```
 
 **Location:**
+
 src\app\recipes\recipes-list\recipes-list.component.html
+
 ```html
 
                 <ngx-datatable-column [name]="'Instructions'">
