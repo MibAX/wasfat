@@ -2828,6 +2828,7 @@ Update the HTML file for the `CrudInstruction` component accordingly.
 
 
 ### 11.26 Reading Query Parameters from the URL
+
 example 
 
 https://example.com/recipe?`recipeId=123`&`type=vegan`
@@ -2840,10 +2841,19 @@ https://example.com/recipe?`recipeId=123`&`type=vegan`
 ```
 
 **Location:**  
+`src\app\instructions\instructions-list\instructions-list.component.ts` > constructor
+
+```typescript
+    private route: ActivatedRoute
+```
+
+**Location:**  
 `src\app\instructions\instructions-list\instructions-list.component.ts` > ngOnInit
 
 ```typescript
-    this.recipeId = Number(this.activatedRoute.snapshot.queryParamMap.get('recipeId'))
+    this.recipeId = Number(this.route.snapshot.queryParamMap.get('recipeId'))
+    console.log('Recipe Id is: ', this.recipeId);
+
 ```
 
 
