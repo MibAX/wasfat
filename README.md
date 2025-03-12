@@ -2828,13 +2828,6 @@ Update the HTML file for the `CrudInstruction` component accordingly.
 
 ### 11.26 - Displaying Instructions of a Single Recipe
 
-In this lecture, you will learn how to display **step-by-step instructions** for a specific recipe. You will:  
-✅ Prepare the backend endpoint to fetch instructions  
-✅ Configure routing to pass the recipe ID  
-✅ Handle the recipe ID in the instructions list  
-
-### 11.27 - Preparing Backend: Getting Instructions of a Single Recipe
-
 **Location:  `backend`**
 `src\Wasfat.Application\Instructions\InstructionAdminAppService.cs`
 
@@ -2886,26 +2879,6 @@ Task<List<InstructionDto>> GetRecipeInstructionsAsync(int recipeId);
 
   //#endregion
 
-```
-
-### 11.26 - Configure Routing to Instructions of a Single Recipe
-Configure a route to display the instruction list for a selected recipe. For example, add the following route configuration:
-
-**Location:**  
-`src`/`app`/`recipes`/`recipes-routing.module.ts`
-
-```typescript
-  {
-    path: ':id/instructions',
-    component: InstructionsListComponent,
-  },
-```
-
-### 11.27 - Handling the recipe ID in the instructions list
-Update your navigation to pass the necessary data when opening the dialog for a specific recipe’s instructions. Ensure the correct parameters are sent to the dialog component.
-
-```typescript
-// code or command goes here
 ```
 
 ### 11.26 - Opening CRUD Instruction as a Dialog
