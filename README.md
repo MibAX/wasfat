@@ -2831,7 +2831,14 @@ Update the HTML file for the `CrudInstruction` component accordingly.
 
 example 
 
-https://example.com/recipe?`recipeId=123`&`type=vegan`
+https://example.com/recipe?recipeId=123&type=vegan
+
+Query Parameters
+
+`{
+  recipeId: "2",
+  type: "vegan"
+}`
 
 **Location:**  
 `src\app\instructions\instructions-list\instructions-list.component.ts`
