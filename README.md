@@ -2826,7 +2826,25 @@ Update the HTML file for the `CrudInstruction` component accordingly.
 </div>
 ```
 
-### 11.26 - Displaying Instructions of a Single Recipe
+
+### 11.26 Reading Query Parameters from the URL
+
+**Location:**  
+`src\app\instructions\instructions-list\instructions-list.component.ts` > ngOnInit
+
+```typescript
+    recipeId: number | null = null;
+```
+
+**Location:**  
+`src\app\instructions\instructions-list\instructions-list.component.ts` > ngOnInit
+
+```typescript
+    this.recipeId = Number(this.activatedRoute.snapshot.queryParamMap.get('recipeId'))
+```
+
+
+### 11.27 - Displaying Instructions of a Single Recipe
 
 **Location:  `backend`**
 `src\Wasfat.Application\Instructions\InstructionAdminAppService.cs`
@@ -2870,29 +2888,26 @@ abp generate-proxy -t ng
 
 ```typescript
   private fetch() {
-    const recipeId = this.activatedRoute.snapshot.queryParamMap.get('recipeId');
-    if (recipeId) {
-      this.fetchRecipeInstructions(recipeId);
+    this.recipeId = Number(this.activatedRoute.snapshot.queryParamMap.get('recipeId'))
+    if (this.recipeId) {
+      this.fetchRecipeInstructions();
     } else {
-      this.fetchAllInstructions();
+      this.fetchAll();
     }
   }
 ```
 
 ```typescript
-
-  //#region Sub Functions 
-
-  private fetchRecipeInstructions(recipeId: string) {
-    this.instructionAdminSvc.getRecipeInstructions(Number(recipeId)).subscribe(instructions => this.instructions = instructions);
-  }
-
-  private fetchAllInstructions() {
+//#region Sub Functions 
+  private fetchAll() {
     this.instructionAdminSvc.getAllInstructions().subscribe(instructions => this.instructions = instructions);
   }
 
-  //#endregion
+  private fetchRecipeInstructions() {
+    this.instructionAdminSvc.getRecipeInstructions(this.recipeId).subscribe(instructions => this.instructions = instructions);
+  }
 
+  //#endregion  
 ```
 
 ### 11.26 - Opening CRUD Instruction as a Dialog
@@ -2976,4 +2991,4 @@ Add a method to calculate and set the order for the next instruction. Update the
   ```
 
 ### 11.30 - Summary  
-In this chapter, we successfully implemented a one-to-many relationship between **Recipe** and **Instruction**. We covered creating the **Instruction** entity, updating the DbContext, creating and applying database migrations, setting up DTOs, implementing the service layer, generating the Angular module and components, and enhancing the user experience with improved navigation and dynamic order setting for instructions. This comprehensive guide demonstrates how to manage one-to-many relationships in a full-stack ABP application...
+In this chapter, we successfully implemented a one-to-many relationship between **Recipe** and **Instruction**. We covered creating the **Instruction** entity, updating the DbContext, creating and applying database migrations, setting up DTOs, implementing the service layer, generating the Angular module and components, and enhancing the user experience with improved navigation and dynamic order setting for instructions. This comprehensive guide demonstrates how to manage one-to-many relationships in a full-stack ABP application..
