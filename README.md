@@ -2832,14 +2832,16 @@ Update the HTML file for the `CrudInstruction` component accordingly.
 `src\Wasfat.Application\Instructions\InstructionAdminAppService.cs`
 
 ```csharp
-public async Task<List<InstructionDto>> GetRecipeInstructionsAsync(int recipeId)
-{
-    var instructions = await _instructionsRepository.GetListAsync(i => i.RecipeId == recipeId);
+        public async Task<List<InstructionDto>> GetRecipeInstructionsAsync(int recipeId)
+        {
+            var instructions = await _instructionsRepository.GetListAsync(i => i.RecipeId == recipeId);
 
-    var sortedInstructions = instructions.OrderBy(i => i.Order).ToList();
+            var sortedInstructions = instructions.OrderBy(i => i.Order).ToList();
 
-    return ObjectMapper.Map<List<Instruction>, List<InstructionDto>>(sortedInstructions);
-}
+            var sortedInstructionDtos = ObjectMapper.Map<List<Instruction>, List<InstructionDto>>(sortedInstructions);
+
+            return sortedInstructionDtos;
+        }
 ```
 
 **Location:  `backend`**  
@@ -2850,6 +2852,13 @@ Task<List<InstructionDto>> GetRecipeInstructionsAsync(int recipeId);
 ```
 
 **Location: `frontend`**  
+`PS `\\`Wasfat`\\`admin.angular`>
+
+```bash
+abp generate-proxy -t ng
+```
+
+**Location: `frontend`**  
 `src\app\instructions\instructions-list\instructions-list.component.ts`
 
 ```typescript
@@ -2857,7 +2866,9 @@ Task<List<InstructionDto>> GetRecipeInstructionsAsync(int recipeId);
     console.log('InstructionsListComponent > ngOnInit');
     this.fetch();
   }
+```
 
+```typescript
   private fetch() {
     const recipeId = this.activatedRoute.snapshot.queryParamMap.get('recipeId');
     if (recipeId) {
@@ -2866,6 +2877,9 @@ Task<List<InstructionDto>> GetRecipeInstructionsAsync(int recipeId);
       this.fetchAllInstructions();
     }
   }
+```
+
+```typescript
 
   //#region Sub Functions 
 
@@ -2962,4 +2976,4 @@ Add a method to calculate and set the order for the next instruction. Update the
   ```
 
 ### 11.30 - Summary  
-In this chapter, we successfully implemented a one-to-many relationship between **Recipe** and **Instruction**. We covered creating the **Instruction** entity, updating the DbContext, creating and applying database migrations, setting up DTOs, implementing the service layer, generating the Angular module and components, and enhancing the user experience with improved navigation and dynamic order setting for instructions. This comprehensive guide demonstrates how to manage one-to-many relationships in a full-stack ABP application..
+In this chapter, we successfully implemented a one-to-many relationship between **Recipe** and **Instruction**. We covered creating the **Instruction** entity, updating the DbContext, creating and applying database migrations, setting up DTOs, implementing the service layer, generating the Angular module and components, and enhancing the user experience with improved navigation and dynamic order setting for instructions. This comprehensive guide demonstrates how to manage one-to-many relationships in a full-stack ABP application...
