@@ -2926,8 +2926,33 @@ abp generate-proxy -t ng
   private fetchRecipeInstructions() {
     this.instructionAdminSvc.getRecipeInstructions(this.recipeId).subscribe(instructions => this.instructions = instructions);
   }
-
   //#endregion  
+```
+
+### 11.28 - Linking Recipe List to Related Instructions
+
+**Location:**
+`src\app\recipes\recipes-list\recipes-list.component.ts`
+```typescript
+
+  navigateToInstructions(recipeId: number): void {
+    this.router.navigate(["/instructions/list"], { queryParams: { recipeId } });
+  }
+
+```
+
+**Location:**
+src\app\recipes\recipes-list\recipes-list.component.html
+```html
+
+                <ngx-datatable-column [name]="'Instructions'">
+                    <ng-template let-row="row" ngx-datatable-cell-template>
+                        <button mat-stroked-button color="accent" (click)="navigateToInstructions(row.id)">
+                            Instructions
+                        </button>
+                    </ng-template>
+                </ngx-datatable-column>
+
 ```
 
 ### 11.26 - Opening CRUD Instruction as a Dialog
