@@ -2867,6 +2867,7 @@ Query Parameters
 ### 11.27 - Displaying Instructions of a Single Recipe
 
 **Location:  `backend`**
+
 `src\Wasfat.Application\Instructions\InstructionAdminAppService.cs`
 
 ```csharp
@@ -2936,11 +2937,9 @@ abp generate-proxy -t ng
 `src\app\recipes\recipes-list\recipes-list.component.ts`
 
 ```typescript
-
-  navigateToInstructions(recipeId: number): void {
-    this.router.navigate(["/instructions/list"], { queryParams: { recipeId } });
+  navigateToInstructions(id: number): void {
+    this.router.navigate(["/instructions/list"], { queryParams: { recipeId: id } });
   }
-
 ```
 
 **Location:**
