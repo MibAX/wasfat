@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { InstructionAdminService, InstructionDto } from '@proxy/instructions';
 
 @Component({
@@ -13,17 +13,23 @@ export class InstructionsListComponent implements OnInit {
 
   constructor(
     private instructionAdminSvc: InstructionAdminService,
-    private router: Router) {
+    private router: Router,
+    private activatedRoute: ActivatedRoute) {
     console.log('InstructionsListComponent > constructor');
-
   }
 
   ngOnInit(): void {
     console.log('InstructionsListComponent > ngOnInit');
+    this.fetch();
+  }
 
-    this.instructionAdminSvc.getAllInstructions().subscribe(data => this.instructions = data);
-
-
+  private fetch() {
+    const recipeId = this.activatedRoute.snapshot.queryParamMap.get('recipeId');
+    if (recipeId) {
+      this.fetchRecipeInstructions(recipeId);
+    } else {
+      this.fetchAllInstructions();
+    }
   }
 
   newInstruction(): void {
@@ -34,4 +40,15 @@ export class InstructionsListComponent implements OnInit {
     this.router.navigate(["/instructions/edit", id]);
   }
 
+  //#region Sub Functions 
+
+  private fetchRecipeInstructions(recipeId: string) {
+    this.instructionAdminSvc.getRecipeInstructions(Number(recipeId)).subscribe(instructions => this.instructions = instructions);
+  }
+
+  private fetchAllInstructions() {
+    this.instructionAdminSvc.getAllInstructions().subscribe(instructions => this.instructions = instructions);
+  }
+
+  //#endregion
 }

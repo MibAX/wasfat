@@ -61,6 +61,14 @@ export class InstructionAdminService {
     { apiName: this.apiName,...config });
   
 
+  getRecipeInstructions = (recipeId: number, config?: Partial<Rest.Config>) =>
+    this.restService.request<any, InstructionDto[]>({
+      method: 'GET',
+      url: `/api/app/instruction-admin/recipe-instructions/${recipeId}`,
+    },
+    { apiName: this.apiName,...config });
+  
+
   update = (id: number, input: InstructionDto, config?: Partial<Rest.Config>) =>
     this.restService.request<any, InstructionDto>({
       method: 'PUT',
