@@ -22,13 +22,16 @@ export class InstructionsListComponent implements OnInit {
 
   ngOnInit(): void {
     console.log('InstructionsListComponent > ngOnInit');
+    this.fetch();
+  }
 
-    this.recipeId = Number(this.route.snapshot.queryParamMap.get('recipeId'))
-
-
-    this.instructionAdminSvc.getAllInstructions().subscribe(data => this.instructions = data);
-
-
+  private fetch() {
+    this.recipeId = Number(this.route.snapshot.queryParamMap.get('recipeId'));
+    if (this.recipeId) {
+      this.fetchRecipeInstructions();
+    } else {
+      this.fetchAll();
+    }
   }
 
   newInstruction(): void {
@@ -39,4 +42,15 @@ export class InstructionsListComponent implements OnInit {
     this.router.navigate(["/instructions/edit", id]);
   }
 
+  //#region Sub Functions 
+
+  private fetchRecipeInstructions() {
+    this.instructionAdminSvc.getRecipeInstructions(this.recipeId).subscribe(instructions => this.instructions = instructions);
+  }
+
+  private fetchAll() {
+    this.instructionAdminSvc.getAllInstructions().subscribe(instructions => this.instructions = instructions);
+  }
+
+  //#endregion
 }
