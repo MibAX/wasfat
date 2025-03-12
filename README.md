@@ -2828,9 +2828,12 @@ Update the HTML file for the `CrudInstruction` component accordingly.
 
 
 ### 11.26 Reading Query Parameters from the URL
+example 
+
+https://example.com/recipe?`recipeId=123`&`type=vegan`
 
 **Location:**  
-`src\app\instructions\instructions-list\instructions-list.component.ts` > ngOnInit
+`src\app\instructions\instructions-list\instructions-list.component.ts`
 
 ```typescript
     recipeId: number | null = null;
