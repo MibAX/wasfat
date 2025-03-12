@@ -34,4 +34,7 @@ export class RecipesListComponent implements OnInit {
     this.router.navigate(["/recipes/edit", id]);
   }
 
+  navigateToInstructions(id: number): void {
+    this.router.navigate(["/instructions/list"], { queryParams: { recipeId: id } });
+  }
 }
