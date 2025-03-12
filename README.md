@@ -2826,21 +2826,74 @@ Update the HTML file for the `CrudInstruction` component accordingly.
 </div>
 ```
 
-### 11.26 - Adding a Route to Open the Instruction List for a Selected Recipe  
-Configure a route to display the instruction list for a selected recipe. For example, add the following route configuration:
+### 11.26 - Displaying Instructions of a Single Recipe
 
-**Location:**  
-`src`/`app`/`instructions`/`instructions-routing.module.ts`
+In this lecture, you will learn how to display **step-by-step instructions** for a specific recipe. You will:  
+✅ Prepare the backend endpoint to fetch instructions  
+✅ Configure routing to pass the recipe ID  
+✅ Handle the recipe ID in the instructions list  
 
-```typescript
+### 11.27 - Preparing Backend: Getting Instructions of a Single Recipe
+
+**Location:  `backend`**  
+`src`/`Wasfat.Application`/`Instructions`/`InstructionAdminAppService.cs`  
+
+```csharp
+public async Task<List<InstructionDto>> GetRecipeInstructionsAsync(int recipeId)
 {
-  path: 'recipe/:id/instruction',
-  component: InstructionsListComponent
+    var instructions = await _instructionsRepository.GetListAsync(i => i.RecipeId == recipeId);
+
+    var sortedInstructions = instructions.OrderBy(i => i.Order).ToList();
+
+    return ObjectMapper.Map<List<Instruction>, List<InstructionDto>>(sortedInstructions);
 }
 ```
 
-### 11.27 - Implementing Navigation for Recipe-Specific Instructions  
+**Location:  `backend`**  
+`src`/`Wasfat.Application.Contracts`/`Instructions`/`IInstructionAppService.cs`  
+
+```csharp
+Task<List<InstructionDto>> GetRecipeInstructionsAsync(int recipeId);
+```
+
+**Location: `frontend`**  
+`src`/`app`/`instructions`/`crud-instruction`/`crud-instruction.component.html`
+
+`src\app\instructions\instructions-list\instructions-list.component.ts`
+
+```typescript
+  private fetchList() {
+    const recipeId = this.activatedRoute.snapshot.queryParamMap.get('recipeId');
+    if (recipeId) {
+      this.instructionAdminSvc.getRecipeInstructions(Number(recipeId)).subscribe(instructions => this.instructions = instructions);
+    } else {
+      this.instructionAdminSvc.getAllInstructions().subscribe(instructions => this.instructions = instructions);
+    }
+  }
+```
+
+### 11.26 - Configure Routing to Instructions of a Single Recipe
+Configure a route to display the instruction list for a selected recipe. For example, add the following route configuration:
+
+**Location:**  
+`src`/`app`/`recipes`/`recipes-routing.module.ts`
+
+```typescript
+  {
+    path: ':id/instructions',
+    component: InstructionsListComponent,
+  },
+```
+
+### 11.27 - Handling the recipe ID in the instructions list
 Update your navigation to pass the necessary data when opening the dialog for a specific recipe’s instructions. Ensure the correct parameters are sent to the dialog component.
+
+```typescript
+// code or command goes here
+```
+
+### 11.26 - Opening CRUD Instruction as a Dialog
+Enhance the CRUD Instruction component so that it can open as a dialog for a better user experience.
 
 ```typescript
 // code or command goes here
