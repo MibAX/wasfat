@@ -2956,7 +2956,7 @@ src\app\recipes\recipes-list\recipes-list.component.html
                 </ngx-datatable-column>
 ```
 
-### 11.29 - Cleaning Up UI: Removing Instructions List from Main Navigation  
+### 11.29 - Cleaning Up UI: Removing Instructions Links from Main Navigation  
 Remove the standalone instructions list route from the main navigation if it is no longer required.
 
 **Location:**  
@@ -2995,37 +2995,6 @@ Remove the standalone instructions list route from the main navigation if it is 
 In this chapter, we successfully implemented a one-to-many relationship between **Recipe** and **Instruction**. We covered creating the **Instruction** entity, updating the DbContext, creating and applying database migrations, setting up DTOs, implementing the service layer, generating the Angular module and components, and enhancing the user experience with improved navigation and dynamic order setting for instructions. This comprehensive guide demonstrates how to manage one-to-many relationships in a full-stack ABP application.
 
 ---
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 ## 12 - MatDialg
 
