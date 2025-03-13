@@ -138,6 +138,10 @@ namespace Wasfat.Instructions
         }
 
 
+            var sortedInstructionDtos = ObjectMapper.Map<List<Instruction>, List<InstructionDto>>(sortedInstructions);
+
+            return sortedInstructionDtos;
+        }
 
 
     }

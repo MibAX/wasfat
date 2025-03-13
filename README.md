@@ -2826,40 +2826,20 @@ Update the HTML file for the `CrudInstruction` component accordingly.
 </div>
 ```
 
-
-### 11.26 Reading Query Parameters from the URL
-
-**Location:**  
-`src\app\instructions\instructions-list\instructions-list.component.ts` > ngOnInit
-
-```typescript
-    recipeId: number | null = null;
-```
-
-**Location:**  
-`src\app\instructions\instructions-list\instructions-list.component.ts` > ngOnInit
-
-```typescript
-    this.recipeId = Number(this.activatedRoute.snapshot.queryParamMap.get('recipeId'))
-```
-
-
-### 11.27 - Displaying Instructions of a Single Recipe
+### 11.26 - Displaying Instructions of a Single Recipe
 
 **Location:  `backend`**
 `src\Wasfat.Application\Instructions\InstructionAdminAppService.cs`
 
 ```csharp
-        public async Task<List<InstructionDto>> GetRecipeInstructionsAsync(int recipeId)
-        {
-            var instructions = await _instructionsRepository.GetListAsync(i => i.RecipeId == recipeId);
+public async Task<List<InstructionDto>> GetRecipeInstructionsAsync(int recipeId)
+{
+    var instructions = await _instructionsRepository.GetListAsync(i => i.RecipeId == recipeId);
 
-            var sortedInstructions = instructions.OrderBy(i => i.Order).ToList();
+    var sortedInstructions = instructions.OrderBy(i => i.Order).ToList();
 
-            var sortedInstructionDtos = ObjectMapper.Map<List<Instruction>, List<InstructionDto>>(sortedInstructions);
-
-            return sortedInstructionDtos;
-        }
+    return ObjectMapper.Map<List<Instruction>, List<InstructionDto>>(sortedInstructions);
+}
 ```
 
 **Location:  `backend`**  
@@ -2870,13 +2850,6 @@ Task<List<InstructionDto>> GetRecipeInstructionsAsync(int recipeId);
 ```
 
 **Location: `frontend`**  
-`PS `\\`Wasfat`\\`admin.angular`>
-
-```bash
-abp generate-proxy -t ng
-```
-
-**Location: `frontend`**  
 `src\app\instructions\instructions-list\instructions-list.component.ts`
 
 ```typescript
@@ -2884,30 +2857,28 @@ abp generate-proxy -t ng
     console.log('InstructionsListComponent > ngOnInit');
     this.fetch();
   }
-```
 
-```typescript
   private fetch() {
-    this.recipeId = Number(this.activatedRoute.snapshot.queryParamMap.get('recipeId'))
-    if (this.recipeId) {
-      this.fetchRecipeInstructions();
+    const recipeId = this.activatedRoute.snapshot.queryParamMap.get('recipeId');
+    if (recipeId) {
+      this.fetchRecipeInstructions(recipeId);
     } else {
-      this.fetchAll();
+      this.fetchAllInstructions();
     }
   }
-```
 
-```typescript
-//#region Sub Functions 
-  private fetchAll() {
+  //#region Sub Functions 
+
+  private fetchRecipeInstructions(recipeId: string) {
+    this.instructionAdminSvc.getRecipeInstructions(Number(recipeId)).subscribe(instructions => this.instructions = instructions);
+  }
+
+  private fetchAllInstructions() {
     this.instructionAdminSvc.getAllInstructions().subscribe(instructions => this.instructions = instructions);
   }
 
-  private fetchRecipeInstructions() {
-    this.instructionAdminSvc.getRecipeInstructions(this.recipeId).subscribe(instructions => this.instructions = instructions);
-  }
+  //#endregion
 
-  //#endregion  
 ```
 
 ### 11.26 - Opening CRUD Instruction as a Dialog

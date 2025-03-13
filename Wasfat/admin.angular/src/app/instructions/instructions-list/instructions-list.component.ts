@@ -17,7 +17,6 @@ export class InstructionsListComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute) {
     console.log('InstructionsListComponent > constructor');
-
   }
 
   ngOnInit(): void {
