@@ -12,6 +12,7 @@ export class CrudRecipeComponent implements OnInit {
   formGroup: FormGroup;
   id: number | null = null;
   isEditMode: boolean = false;
+  recipe: RecipeDto | null = null;
 
   constructor(
     private recipeAdminSvc: RecipeAdminService,
@@ -67,6 +68,7 @@ export class CrudRecipeComponent implements OnInit {
 
   private fetchAndPatch() {
     this.recipeAdminSvc.get(this.id).subscribe(response => {
+      this.recipe = response; // Store the recipe with its instructions
       this.patch(response);
     });
   }

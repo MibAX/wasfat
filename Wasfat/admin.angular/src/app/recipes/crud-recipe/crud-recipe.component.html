@@ -45,3 +45,57 @@
 
   </div>
 </div>
+
+<!-- instructions -->
+<div class="card">
+  <div class="card-header">
+    <div class="row">
+      <div class="col-md-6 border">
+        Recipe Instructions
+      </div>
+      <div class="col-md-6 border text-end">
+        <button *ngIf="isEditMode" type="button" mat-stroked-button color="primary"
+          [routerLink]="['/instructions/create']" [queryParams]="{recipeId: id}">
+          Add Instruction
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="row">
+      <div class="col-md-12 border">
+        <!-- instructions list goes here -->
+        <div *ngIf="recipe && recipe.instructions && recipe.instructions.length > 0; else noInstructions">
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th>Order</th>
+                <th>Text</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let instruction of recipe.instructions">
+                <td>{{ instruction.order }}</td>
+                <td>{{ instruction.text }}</td>
+                <td>
+                  <button mat-stroked-button color="primary" [routerLink]="['/instructions/edit', instruction.id]">
+                    Edit
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <ng-template #noInstructions>
+          <div class="alert alert-info" *ngIf="isEditMode">
+            No instructions available. Add instructions to this recipe.
+          </div>
+          <div class="alert alert-info" *ngIf="!isEditMode">
+            Save the recipe first, then you can add instructions.
+          </div>
+        </ng-template>
+      </div>
+    </div>
+  </div>
+</div>
