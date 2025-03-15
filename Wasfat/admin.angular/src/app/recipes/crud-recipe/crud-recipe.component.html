@@ -69,15 +69,22 @@
           <div cdkDropList [cdkDropListSortingDisabled]="!isDragEnabled" (cdkDropListDropped)="drop($event)"
             class="instruction-list">
             <div *ngFor="let instruction of instructions.controls; let i = index" [formGroupName]="i"
-              class="mb-3 instruction-item" cdkDrag>
+              class="mb-3 instruction-item" [class.draggable-item]="isDragEnabled" cdkDrag>
               <div class="row align-items-center">
+                <!-- Add a drag indicator column that only shows when drag is enabled -->
+                <div class="col-md-1" *ngIf="isDragEnabled">
+                  <div class="drag-indicator d-flex justify-content-center align-items-center">
+                    <mat-icon>drag_indicator</mat-icon>
+                  </div>
+                </div>
+                <!-- Adjust column widths based on whether drag is enabled -->
                 <div class="col-md-2">
                   <mat-form-field class="w-100" appearance="outline">
                     <mat-label>Order</mat-label>
                     <input matInput formControlName="order" type="number" readonly>
                   </mat-form-field>
                 </div>
-                <div class="col-md-8">
+                <div [class]="isDragEnabled ? 'col-md-7' : 'col-md-8'">
                   <mat-form-field class="w-100" appearance="outline">
                     <mat-label>Text</mat-label>
                     <input matInput formControlName="text" required>

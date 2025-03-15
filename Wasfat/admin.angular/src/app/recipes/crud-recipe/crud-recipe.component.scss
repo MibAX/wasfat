@@ -16,7 +16,23 @@
   }
 }
 
-// You can remove the .drag-handle class since we're not using it anymore
+// Styles for when items are draggable
+.draggable-item {
+  cursor: move;
+  border-left: 4px solid #3f51b5; // Material primary color indicator
+
+  &:hover {
+    background: #f0f7ff;
+    border-color: #c0d7ff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+
+  .drag-indicator {
+    height: 100%;
+    color: #3f51b5;
+    opacity: 0.7;
+  }
+}
 
 // Keep these classes as they are - they control the visual feedback during drag operations
 .cdk-drag-preview {
