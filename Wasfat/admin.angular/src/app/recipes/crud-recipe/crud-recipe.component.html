@@ -55,9 +55,7 @@
           Instructions
         </div>
         <div class="col-md-6 border text-end">
-          <button type="button" class="me-2" mat-stroked-button color="primary" (click)="addInstruction()">
-            Add
-          </button>
+          <!-- Button removed from here -->
         </div>
       </div>
     </div>
@@ -86,6 +84,18 @@
                   Remove
                 </button>
               </div>
+            </div>
+          </div>
+
+          <!-- Add button placed after the last instruction -->
+          <div class="row">
+            <div class="col-md-10">
+              <!-- Empty space to align with the Remove button -->
+            </div>
+            <div class="col-md-2">
+              <button type="button" mat-stroked-button color="primary" (click)="addInstruction()">
+                Add
+              </button>
             </div>
           </div>
         </div>
