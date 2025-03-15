@@ -52,7 +52,6 @@
     <div class="card-header">
       <div class="row">
         <div class="col-md-6 border">
-          <!-- instructions left card header  -->
           Instructions
         </div>
         <div class="col-md-6 border text-end">
@@ -64,33 +63,33 @@
     </div>
     <div class="card-body">
       <div class="row">
-        <div class="col-md-12 border">
-          <!-- instructions card body -->
-          <div formArrayName="instructions">
-            <div *ngFor="let instruction of instructions.controls; let i = index" [formGroupName]="i"
-              class="d-flex align-items-center mb-2">
-              <!-- Step number input field -->
-              <mat-form-field appearance="outline" style="width: 100px; margin-right: 10px;">
-                <mat-label>Step #</mat-label>
-                <input matInput type="number" min="1" formControlName="order">
-              </mat-form-field>
+        <!-- instructions card body -->
+        <div formArrayName="instructions">
+          <div *ngFor="let instruction of instructions.controls; let i = index" [formGroupName]="i" class="mb-3">
+            <div class="row align-items-center">
+              <div class="col-md-2">
+                <mat-form-field class="w-100" appearance="outline">
+                  <mat-label>Order</mat-label>
+                  <input matInput formControlName="order" type="number">
+                </mat-form-field>
+              </div>
 
-              <!-- Instruction text input field -->
-              <mat-form-field appearance="outline" style="flex-grow: 1;">
-                <mat-label>Instruction</mat-label>
-                <input matInput formControlName="text" required>
-              </mat-form-field>
+              <div class="col-md-8">
+                <mat-form-field class="w-100" appearance="outline">
+                  <mat-label>Text</mat-label>
+                  <input matInput formControlName="text" required>
+                </mat-form-field>
+              </div>
 
-              <!-- Remove button -->
-              <button type="button" class="ms-2" mat-stroked-button color="warn" (click)="removeInstruction(i)">
-                Remove
-              </button>
+              <div class="col-md-2">
+                <button type="button" mat-stroked-button color="warn" (click)="removeInstruction(i)">
+                  Remove
+                </button>
+              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
   </div>
-
-
 </form>
