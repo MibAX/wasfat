@@ -41,25 +41,46 @@
         </div>
       </div>
 
+      <div class="row">
 
+      </div>
+    </div>
+  </div>
+  <hr>
+
+  <div class="card">
+    <div class="card-header">
+      <div class="row">
+        <div class="col-md-6 border">
+          <!-- instructions left card header  -->
+          Instructions
+        </div>
+        <div class="col-md-6 border text-end">
+          <button type="button" class="me-2" mat-stroked-button color="primary" (click)="addInstruction()">
+            Add
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="row">
+        <div class="col-md-12 border">
+          <!-- instructions card body -->
+          <div formArrayName="instructions">
+            <div *ngFor="let instruction of instructions.controls; let i = index" [formGroupName]="i">
+              <mat-form-field appearance="outline">
+                <mat-label>Step {{ i + 1 }}</mat-label>
+                <input matInput formControlName="text" required>
+              </mat-form-field>
+              <button type="button" class="me-2" mat-stroked-button color="warn" (click)="removeInstruction(i)">
+                Remove
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 
-  <h4>Instructions</h4>
-  <div formArrayName="instructions">
-    <div *ngFor="let instruction of instructions.controls; let i = index" [formGroupName]="i">
-      <mat-form-field appearance="outline">
-        <mat-label>Step {{ i + 1 }}</mat-label>
-        <input matInput formControlName="text" required>
-      </mat-form-field>
-      <button mat-button color="warn" (click)="removeInstruction(i)">Remove</button>
-    </div>
-  </div>
 
-  <button mat-button color="primary" (click)="addInstruction()">Add Instruction</button>
-
-  <div>
-    <button mat-stroked-button (click)="cancel()">Cancel</button>
-    <button mat-flat-button color="primary" (click)="save()">Save</button>
-  </div>
 </form>
