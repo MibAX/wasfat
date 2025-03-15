@@ -66,18 +66,13 @@
             <div *ngFor="let instruction of instructions.controls; let i = index" [formGroupName]="i"
               class="mb-3 instruction-item" cdkDrag>
               <div class="row align-items-center">
-                <div class="col-md-1">
-                  <div class="drag-handle" cdkDragHandle>
-                    <mat-icon>drag_indicator</mat-icon>
-                  </div>
-                </div>
                 <div class="col-md-2">
                   <mat-form-field class="w-100" appearance="outline">
                     <mat-label>Order</mat-label>
                     <input matInput formControlName="order" type="number" readonly>
                   </mat-form-field>
                 </div>
-                <div class="col-md-7">
+                <div class="col-md-8">
                   <mat-form-field class="w-100" appearance="outline">
                     <mat-label>Text</mat-label>
                     <input matInput formControlName="text" required>
