@@ -50,15 +50,18 @@
   <div class="card my-3">
     <div class="card-header">
       <div class="row">
-        <div class="col-md-6 lead">
-          Instructions
-        </div>
-        <div class="col-md-6 text-end">
+        <div class="col-md-4 d-flex align-items-center">
           <button type="button" mat-stroked-button [color]="isDragEnabled ? 'accent' : 'basic'"
             (click)="toggleDragDrop()">
             <mat-icon>{{ isDragEnabled ? 'low_priority' : 'reorder' }}</mat-icon>
             {{ isDragEnabled ? 'Disable Sorting' : 'Enable Sorting' }}
           </button>
+        </div>
+        <div class="col-md-4 lead d-flex align-items-center justify-content-center">
+          Instructions
+        </div>
+        <div class="col-md-4">
+          <!-- Right section - can be used for additional controls -->
         </div>
       </div>
     </div>
