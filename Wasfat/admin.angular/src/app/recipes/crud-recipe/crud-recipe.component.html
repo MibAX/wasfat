@@ -84,15 +84,15 @@
                     <input matInput formControlName="order" type="number" readonly>
                   </mat-form-field>
                 </div>
-                <div [class]="isDragEnabled ? 'col-md-7' : 'col-md-8'">
+                <div [class]="isDragEnabled ? 'col-md-8' : 'col-md-9'">
                   <mat-form-field class="w-100" appearance="outline">
                     <mat-label>Text</mat-label>
                     <input matInput formControlName="text" required>
                   </mat-form-field>
                 </div>
-                <div class="col-md-2">
-                  <button type="button" mat-icon-button color="warn" (click)="removeInstruction(i)">
-                    <mat-icon>delete_outline</mat-icon>
+                <div class="col-md-1">
+                  <button type="button" mat-icon-button color="warn" (click)="removeInstruction(i)" class="fa-button">
+                    <i class="fas fa-trash-alt"></i>
                   </button>
                 </div>
               </div>
@@ -105,8 +105,8 @@
               <!-- Empty space to align with the Remove button -->
             </div>
             <div class="col-md-2">
-              <button type="button" mat-stroked-button color="primary" (click)="addInstruction()">
-                <mat-icon>add</mat-icon> Add
+              <button type="button" mat-icon-button color="warn" (click)="addInstruction()">
+                <i class="fas fa-plus"></i>
               </button>
             </div>
           </div>
