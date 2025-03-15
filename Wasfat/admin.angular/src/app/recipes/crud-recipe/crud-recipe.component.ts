@@ -3,6 +3,7 @@ import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RecipeAdminService, RecipeDto } from '@proxy/recipes';
 import { InstructionDto } from '@proxy/instructions/models';
+import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 
 @Component({
   selector: 'app-crud-recipe',
@@ -159,6 +160,16 @@ export class CrudRecipeComponent implements OnInit {
     this.recipeAdminSvc.create(newRecipe).subscribe(recipe => {
       console.log('Recipe created successfully', recipe);
       this.router.navigate(["/recipes/list"]);
+    });
+  }
+
+  drop(event: CdkDragDrop<string[]>) {
+    // Reorder the form array controls
+    moveItemInArray(this.instructions.controls, event.previousIndex, event.currentIndex);
+
+    // Update the order field for each instruction
+    this.instructions.controls.forEach((control, index) => {
+      control.get('order').setValue(index + 1);
     });
   }
 }

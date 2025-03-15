@@ -62,38 +62,44 @@
       <div class="row">
         <!-- instructions card body -->
         <div formArrayName="instructions">
-          <div *ngFor="let instruction of instructions.controls; let i = index" [formGroupName]="i" class="mb-3">
-            <div class="row align-items-center">
-              <div class="col-md-2">
-                <mat-form-field class="w-100" appearance="outline">
-                  <mat-label>Order</mat-label>
-                  <input matInput formControlName="order" type="number">
-                </mat-form-field>
-              </div>
-
-              <div class="col-md-8">
-                <mat-form-field class="w-100" appearance="outline">
-                  <mat-label>Text</mat-label>
-                  <input matInput formControlName="text" required>
-                </mat-form-field>
-              </div>
-
-              <div class="col-md-2">
-                <button type="button" mat-stroked-button color="warn" (click)="removeInstruction(i)">
-                  Remove
-                </button>
+          <div cdkDropList (cdkDropListDropped)="drop($event)" class="instruction-list">
+            <div *ngFor="let instruction of instructions.controls; let i = index" [formGroupName]="i"
+              class="mb-3 instruction-item" cdkDrag>
+              <div class="row align-items-center">
+                <div class="col-md-1">
+                  <div class="drag-handle" cdkDragHandle>
+                    <mat-icon>drag_indicator</mat-icon>
+                  </div>
+                </div>
+                <div class="col-md-2">
+                  <mat-form-field class="w-100" appearance="outline">
+                    <mat-label>Order</mat-label>
+                    <input matInput formControlName="order" type="number" readonly>
+                  </mat-form-field>
+                </div>
+                <div class="col-md-7">
+                  <mat-form-field class="w-100" appearance="outline">
+                    <mat-label>Text</mat-label>
+                    <input matInput formControlName="text" required>
+                  </mat-form-field>
+                </div>
+                <div class="col-md-2">
+                  <button type="button" mat-stroked-button color="warn" (click)="removeInstruction(i)">
+                    <mat-icon>delete_outline</mat-icon> Remove
+                  </button>
+                </div>
               </div>
             </div>
           </div>
 
           <!-- Add button placed after the last instruction -->
-          <div class="row">
+          <div class="row mt-4">
             <div class="col-md-10">
               <!-- Empty space to align with the Remove button -->
             </div>
             <div class="col-md-2">
               <button type="button" mat-stroked-button color="primary" (click)="addInstruction()">
-                Add
+                <mat-icon>add</mat-icon> Add
               </button>
             </div>
           </div>
