@@ -58,7 +58,12 @@ namespace Wasfat.Recipes
 
         public override async Task<RecipeDto> UpdateAsync(int id, RecipeDto input)
         {
-            var recipe = await _recipesRepository.GetAsync(id);
+
+            var query = await _recipesRepository.GetQueryableAsync();
+
+            var recipe = await query
+                .Include(r => r.Instructions)
+                .SingleAsync(r => r.Id == id);
 
             input.Id = id;           
 
