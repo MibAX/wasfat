@@ -51,17 +51,14 @@
     <div class="card-header">
       <div class="row">
         <div class="col-md-4 d-flex align-items-center">
-          <button type="button" mat-stroked-button [color]="isDragEnabled ? 'accent' : 'basic'"
-            (click)="toggleDragDrop()" class="fa-button">
-            <i class="fas" [ngClass]="isDragEnabled ? 'fa-sort-amount-down' : 'fa-bars'"></i>
-            {{ isDragEnabled ? 'Disable Sorting' : 'Enable Sorting' }}
-          </button>
+          <div class="col-md-4 d-flex align-items-center">
+            <mat-slide-toggle [checked]="isDragEnabled" (change)="toggleDragDrop()" color="primary">
+              Reorder
+            </mat-slide-toggle>
+          </div>
         </div>
         <div class="col-md-4 lead d-flex align-items-center justify-content-center">
           Instructions
-        </div>
-        <div class="col-md-4">
-          <!-- Right section - can be used for additional controls -->
         </div>
       </div>
     </div>
@@ -108,7 +105,7 @@
               <!-- Empty space to align with the Remove button -->
             </div>
             <div class="col-md-2">
-              <button type="button" mat-icon-button color="warn" (click)="addInstruction()">
+              <button type="button" mat-icon-button color="primary" (click)="addInstruction()">
                 <i class="fas fa-plus"></i>
               </button>
             </div>
