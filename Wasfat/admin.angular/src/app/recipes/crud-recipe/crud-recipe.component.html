@@ -54,7 +54,11 @@
           Instructions
         </div>
         <div class="col-md-6 text-end">
-          <!-- Button removed from here -->
+          <button type="button" mat-stroked-button [color]="isDragEnabled ? 'accent' : 'basic'"
+            (click)="toggleDragDrop()">
+            <mat-icon>{{ isDragEnabled ? 'low_priority' : 'reorder' }}</mat-icon>
+            {{ isDragEnabled ? 'Disable Sorting' : 'Enable Sorting' }}
+          </button>
         </div>
       </div>
     </div>
@@ -62,7 +66,8 @@
       <div class="row">
         <!-- instructions card body -->
         <div formArrayName="instructions">
-          <div cdkDropList (cdkDropListDropped)="drop($event)" class="instruction-list">
+          <div cdkDropList [cdkDropListSortingDisabled]="!isDragEnabled" (cdkDropListDropped)="drop($event)"
+            class="instruction-list">
             <div *ngFor="let instruction of instructions.controls; let i = index" [formGroupName]="i"
               class="mb-3 instruction-item" cdkDrag>
               <div class="row align-items-center">

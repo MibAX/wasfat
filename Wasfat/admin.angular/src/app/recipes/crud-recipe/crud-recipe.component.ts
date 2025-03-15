@@ -15,6 +15,7 @@ export class CrudRecipeComponent implements OnInit {
   id: number | null = null;
   isEditMode: boolean = false;
   recipe: RecipeDto | null = null;
+  isDragEnabled = false;
 
   constructor(
     private recipeAdminSvc: RecipeAdminService,
@@ -164,12 +165,18 @@ export class CrudRecipeComponent implements OnInit {
   }
 
   drop(event: CdkDragDrop<string[]>) {
-    // Reorder the form array controls
+
+    if (!this.isDragEnabled) return;
+    // Reorder the form array controls  
     moveItemInArray(this.instructions.controls, event.previousIndex, event.currentIndex);
 
     // Update the order field for each instruction
     this.instructions.controls.forEach((control, index) => {
       control.get('order').setValue(index + 1);
     });
+  }
+
+  toggleDragDrop() {
+    this.isDragEnabled = !this.isDragEnabled;
   }
 }
