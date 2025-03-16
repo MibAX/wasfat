@@ -15,7 +15,7 @@ export class CrudRecipeComponent implements OnInit {
   get instructions(): FormArray { return this.formGroup.get('instructions') as FormArray; }  //Enables me to call this.instructions
   id: number | null = null;
   isEditMode: boolean = false;
-  recipe: RecipeDto | null = null;
+  recipe: RecipeDto;// = {} as RecipeDto;
   isDragEnabled = false;
 
   constructor(
@@ -83,7 +83,7 @@ export class CrudRecipeComponent implements OnInit {
 
   addInstruction() {
     this.instructions.push(this.fb.group({
-      id: [null], // New instructions have null ID
+      id: 0, // New instructions: Back and will create a new instruction if ID is set to null
       text: ['', Validators.required],
       order: [this.instructions.length + 1]
     }));
@@ -100,9 +100,9 @@ export class CrudRecipeComponent implements OnInit {
   }
 
   private fetchAndPatch() {
-    this.recipeAdminSvc.get(this.id).subscribe(response => {
-      this.recipe = response;
-      this.patch(response);
+    this.recipeAdminSvc.get(this.id).subscribe(recipe => {
+      this.recipe = recipe;
+      this.patch(recipe);
     });
   }
 
@@ -126,7 +126,7 @@ export class CrudRecipeComponent implements OnInit {
   }
 
   private update() {
-    this.syncRecipeWithFormValues();
+    this.recipe = this.formGroup.value;
 
     this.recipeAdminSvc.update(this.id, this.recipe).subscribe(recipe => {
       console.log('Recipe updated successfully', recipe);
@@ -135,34 +135,13 @@ export class CrudRecipeComponent implements OnInit {
   }
 
   private create() {
-    this.recipe = {} as RecipeDto;
-
-    this.syncRecipeWithFormValues();
-
+    this.recipe = this.formGroup.value;
     this.recipeAdminSvc.create(this.recipe).subscribe(recipe => {
       console.log('Recipe created successfully', recipe);
       this.router.navigate(["/recipes/list"]);
     });
   }
 
-  private syncRecipeWithFormValues() {
-    this.recipe.name = this.formGroup.value.name;
-    this.recipe.description = this.formGroup.value.description;
-    this.recipe.instructions = this.getFormInstructions();
-  }
-
-  private getFormInstructions(): InstructionDto[] {
-    let formInstructions: InstructionDto[] = [];
-    formInstructions = this.instructions.controls.map(control => {
-      return {
-        id: control.value.id ?? 0,  // Replace null with 0 for new instructions
-        text: control.value.text,
-        order: control.value.order
-      } as InstructionDto;
-    });
-
-    return formInstructions;
-  }
   // #endregion
 
 }
