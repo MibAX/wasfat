@@ -30,6 +30,9 @@ export class CrudRecipeComponent implements OnInit {
     this.patchIfEditMode();
   }
 
+  get instructions(): FormArray {
+    return this.formGroup.get('instructions') as FormArray;
+  }
   private buildForm() {
     this.formGroup = this.fb.group({
       name: ['', [Validators.required, Validators.minLength(3)]],
@@ -38,9 +41,6 @@ export class CrudRecipeComponent implements OnInit {
     });
   }
 
-  get instructions(): FormArray {
-    return this.formGroup.get('instructions') as FormArray;
-  }
 
   addInstruction() {
     this.instructions.push(this.fb.group({
@@ -112,56 +112,42 @@ export class CrudRecipeComponent implements OnInit {
   }
 
   private update() {
-    // Create a properly structured update object
-    const recipeToUpdate: RecipeDto = {
-      id: this.id,
-      name: this.formGroup.get('name').value,
-      description: this.formGroup.get('description').value,
-      instructions: this.instructions.controls.map(control => {
-        const instructionId = control.get('id').value;
+    this.syncRecipeWithFormValues();
 
-        return {
-          // For new instructions, send 0 instead of null to the backend
-          id: instructionId !== null ? instructionId : 0,
-          text: control.get('text').value,
-          order: control.get('order').value
-        } as InstructionDto;
-      })
-    };
-
-    // Filter out any instructions with empty text
-    recipeToUpdate.instructions = recipeToUpdate.instructions.filter(
-      instruction => instruction.text && instruction.text.trim() !== ''
-    );
-
-    this.recipeAdminSvc.update(this.id, recipeToUpdate).subscribe(recipe => {
+    this.recipeAdminSvc.update(this.id, this.recipe).subscribe(recipe => {
       console.log('Recipe updated successfully', recipe);
       this.router.navigate(["/recipes/list"]);
     });
   }
 
+  private syncRecipeWithFormValues() {
+    this.recipe.name = this.formGroup.value.name;
+    this.recipe.description = this.formGroup.value.description;
+    this.recipe.instructions = this.getFormInstructions();
+  }
+
   private create() {
-    const newRecipe: RecipeDto = {
-      name: this.formGroup.get('name').value,
-      description: this.formGroup.get('description').value,
-      instructions: this.instructions.controls.map((control, index) => {
-        return {
-          id: 0, // Use 0 instead of null for new instructions
-          text: control.get('text').value,
-          order: index + 1
-        } as InstructionDto;
-      })
-    };
+    this.recipe = {} as RecipeDto;
 
-    // Filter out any instructions with empty text
-    newRecipe.instructions = newRecipe.instructions.filter(
-      instruction => instruction.text && instruction.text.trim() !== ''
-    );
+    this.syncRecipeWithFormValues();
 
-    this.recipeAdminSvc.create(newRecipe).subscribe(recipe => {
+    this.recipeAdminSvc.create(this.recipe).subscribe(recipe => {
       console.log('Recipe created successfully', recipe);
       this.router.navigate(["/recipes/list"]);
     });
+  }
+
+  private getFormInstructions(): InstructionDto[] {
+    let formInstructions: InstructionDto[] = [];
+    formInstructions = this.instructions.controls.map(control => {
+      return {
+        id: control.value.id ?? 0,  // Replace null with 0 for new instructions
+        text: control.value.text,
+        order: control.value.order
+      } as InstructionDto;
+    });
+
+    return formInstructions;
   }
 
   drop(event: CdkDragDrop<string[]>) {
