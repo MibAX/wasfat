@@ -94,6 +94,7 @@ export class CrudRecipeComponent implements OnInit {
   }
 
   // #region Sub Functions
+
   private setEditMode(idParam: string) {
     this.id = Number(idParam);
     this.isEditMode = true;
@@ -148,14 +149,14 @@ export class CrudRecipeComponent implements OnInit {
   }
 
   private syncRecipeWithFormValues() {
-    // Assign primary fields directly
     this.recipe.name = this.formGroup.value.name;
     this.recipe.description = this.formGroup.value.description;
+    this.syncRecipeInstructionsWithFormValues();
+  }
 
-    // Clear existing instructions array and rebuild it
-    this.recipe.instructions = [];
+  private syncRecipeInstructionsWithFormValues() {
+    this.recipe.instructions = [];  //clear existing
 
-    // Use forEach for direct manipulation
     this.instructionsFormArray.controls.forEach(control => {
       this.recipe.instructions.push({
         id: control.value.id,
@@ -164,6 +165,5 @@ export class CrudRecipeComponent implements OnInit {
       } as InstructionDto);
     });
   }
-
   // #endregion
 }
