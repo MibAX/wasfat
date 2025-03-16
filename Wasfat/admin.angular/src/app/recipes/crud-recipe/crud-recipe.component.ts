@@ -12,7 +12,12 @@ import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 })
 export class CrudRecipeComponent implements OnInit {
   recipeFormGroup: FormGroup;
-  get instructionsFormGroupArray(): FormArray { return this.recipeFormGroup.get('instructions') as FormArray; }  //Enables me to call this.instructionsFormArray
+  get instructionsFormGroupArray(): FormArray {
+    return this.recipeFormGroup.get('instructions') as FormArray;
+  } 
+  set instructionsFormGroupArray(value: FormArray) {
+    this.recipeFormGroup.setControl('instructions', value);
+  }
   id: number | null = null;
   isEditMode: boolean = false;
   recipe: RecipeDto;// = {} as RecipeDto;
@@ -112,17 +117,17 @@ export class CrudRecipeComponent implements OnInit {
       description: recipe.description
     });
 
-    // Clear existing instructions before adding new ones
-    this.instructionsFormGroupArray.clear();
-
-    // Patch instructions into the form array - including the ID
-    recipe.instructions.forEach(instruction => {
-      this.instructionsFormGroupArray.push(this.fb.group({
+    // Create instruction form groups from recipe data
+    const instructionFormGroups = recipe.instructions.map(instruction =>
+      this.fb.group({
         id: [instruction.id],
         text: [instruction.text, Validators.required],
         order: [instruction.order]
-      }));
-    });
+      })
+    );
+
+    // Use the setter to replace the entire FormArray
+    this.instructionsFormGroupArray = this.fb.array(instructionFormGroups);
   }
 
   private update() {
