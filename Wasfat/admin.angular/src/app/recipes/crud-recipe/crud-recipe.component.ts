@@ -15,7 +15,7 @@ export class CrudRecipeComponent implements OnInit {
   get instructionsFormArray(): FormArray { return this.formGroup.get('instructions') as FormArray; }  //Enables me to call this.instructions
   id: number | null = null;
   isEditMode: boolean = false;
-  recipe: RecipeDto | null = null;
+  recipe: RecipeDto = {} as RecipeDto;
   isDragEnabled = false;
 
   constructor(
@@ -138,7 +138,6 @@ export class CrudRecipeComponent implements OnInit {
   }
 
   private create() {
-    this.recipe = {} as RecipeDto;
 
     this.syncRecipeWithFormValues();
 
@@ -149,18 +148,21 @@ export class CrudRecipeComponent implements OnInit {
   }
 
   private syncRecipeWithFormValues() {
-
+    // Assign primary fields directly
     this.recipe.name = this.formGroup.value.name;
     this.recipe.description = this.formGroup.value.description;
 
+    // Clear existing instructions array and rebuild it
+    this.recipe.instructions = [];
 
-    this.recipe.instructions = this.instructionsFormArray.controls.map(control => {
-      return {
+    // Use forEach for direct manipulation
+    this.instructionsFormArray.controls.forEach(control => {
+      this.recipe.instructions.push({
         id: control.value.id,
         order: control.value.order,
-        text: control.value.text,
-      } as InstructionDto;
-    })
+        text: control.value.text
+      } as InstructionDto);
+    });
   }
 
   // #endregion
