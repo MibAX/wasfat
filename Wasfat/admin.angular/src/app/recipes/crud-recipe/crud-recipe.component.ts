@@ -83,7 +83,7 @@ export class CrudRecipeComponent implements OnInit {
 
   addInstruction() {
     this.instructionsFormArray.push(this.fb.group({
-      id: [null], // New instructions have null ID
+      id: [0], // New instructions have Zero ID, backend will assign a new ID
       order: [this.instructionsFormArray.length + 1],
       text: ['', Validators.required],
     }));
@@ -149,23 +149,19 @@ export class CrudRecipeComponent implements OnInit {
   }
 
   private syncRecipeWithFormValues() {
+
     this.recipe.name = this.formGroup.value.name;
     this.recipe.description = this.formGroup.value.description;
-    this.recipe.instructions = this.getFormInstructions();
-  }
 
-  private getFormInstructions(): InstructionDto[] {
-    let formInstructions: InstructionDto[] = [];
-    formInstructions = this.instructionsFormArray.controls.map(control => {
+
+    this.recipe.instructions = this.instructionsFormArray.controls.map(control => {
       return {
-        id: control.value.id ?? 0,  // Replace null with 0 for new instructions
+        id: control.value.id,
         order: control.value.order,
         text: control.value.text,
       } as InstructionDto;
-    });
-
-    return formInstructions;
+    })
   }
-  // #endregion
 
+  // #endregion
 }
