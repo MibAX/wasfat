@@ -12,7 +12,7 @@ import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 })
 export class CrudRecipeComponent implements OnInit {
   formGroup: FormGroup;
-  get instructions(): FormArray { return this.formGroup.get('instructions') as FormArray; }  //Enables me to call this.instructions
+  get instructionsFormGroupArray(): FormArray { return this.formGroup.get('instructions') as FormArray; }  //Enables me to call this.instructions
   id: number | null = null;
   isEditMode: boolean = false;
   recipe: RecipeDto | null = null;
@@ -73,24 +73,24 @@ export class CrudRecipeComponent implements OnInit {
 
     if (!this.isDragEnabled) return;
     // Reorder the form array controls  
-    moveItemInArray(this.instructions.controls, event.previousIndex, event.currentIndex);
+    moveItemInArray(this.instructionsFormGroupArray.controls, event.previousIndex, event.currentIndex);
 
     // Update the order field for each instruction
-    this.instructions.controls.forEach((control, index) => {
+    this.instructionsFormGroupArray.controls.forEach((control, index) => {
       control.get('order').setValue(index + 1);
     });
   }
 
   addInstruction() {
-    this.instructions.push(this.fb.group({
+    this.instructionsFormGroupArray.push(this.fb.group({
       id: [null], // New instructions have null ID
       text: ['', Validators.required],
-      order: [this.instructions.length + 1]
+      order: [this.instructionsFormGroupArray.length + 1]
     }));
   }
 
   removeInstruction(index: number) {
-    this.instructions.removeAt(index);
+    this.instructionsFormGroupArray.removeAt(index);
   }
 
   // #region Sub Functions
@@ -113,11 +113,11 @@ export class CrudRecipeComponent implements OnInit {
     });
 
     // Clear existing instructions before adding new ones
-    this.instructions.clear();
+    this.instructionsFormGroupArray.clear();
 
     // Patch instructions into the form array - including the ID
     recipe.instructions.forEach(instruction => {
-      this.instructions.push(this.fb.group({
+      this.instructionsFormGroupArray.push(this.fb.group({
         id: [instruction.id],
         text: [instruction.text, Validators.required],
         order: [instruction.order]
@@ -153,7 +153,7 @@ export class CrudRecipeComponent implements OnInit {
 
   private getFormInstructions(): InstructionDto[] {
     let formInstructions: InstructionDto[] = [];
-    formInstructions = this.instructions.controls.map(control => {
+    formInstructions = this.instructionsFormGroupArray.controls.map(control => {
       return {
         id: control.value.id ?? 0,  // Replace null with 0 for new instructions
         text: control.value.text,
