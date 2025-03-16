@@ -14,7 +14,7 @@ export class CrudRecipeComponent implements OnInit {
   recipeFormGroup: FormGroup;
   get instructionsFormGroupArray(): FormArray {
     return this.recipeFormGroup.get('instructions') as FormArray;
-  } 
+  }
   set instructionsFormGroupArray(value: FormArray) {
     this.recipeFormGroup.setControl('instructions', value);
   }
@@ -117,17 +117,16 @@ export class CrudRecipeComponent implements OnInit {
       description: recipe.description
     });
 
-    // Create instruction form groups from recipe data
-    const instructionFormGroups = recipe.instructions.map(instruction =>
-      this.fb.group({
-        id: [instruction.id],
-        text: [instruction.text, Validators.required],
-        order: [instruction.order]
-      })
+    // Directly assign to instructionsFormGroupArray without intermediate variable
+    this.instructionsFormGroupArray = this.fb.array(
+      recipe.instructions.map(instruction =>
+        this.fb.group({
+          id: [instruction.id],
+          text: [instruction.text, Validators.required],
+          order: [instruction.order]
+        })
+      )
     );
-
-    // Use the setter to replace the entire FormArray
-    this.instructionsFormGroupArray = this.fb.array(instructionFormGroups);
   }
 
   private update() {
