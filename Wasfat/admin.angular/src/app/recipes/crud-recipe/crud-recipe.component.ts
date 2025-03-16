@@ -12,7 +12,7 @@ import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 })
 export class CrudRecipeComponent implements OnInit {
   formGroup: FormGroup;
-  get instructionsFormGroupArray(): FormArray { return this.formGroup.get('instructions') as FormArray; }  //Enables me to call this.instructions
+  get instructionsFormArray(): FormArray { return this.formGroup.get('instructions') as FormArray; }  //Enables me to call this.instructions
   id: number | null = null;
   isEditMode: boolean = false;
   recipe: RecipeDto | null = null;
@@ -73,24 +73,24 @@ export class CrudRecipeComponent implements OnInit {
 
     if (!this.isDragEnabled) return;
     // Reorder the form array controls  
-    moveItemInArray(this.instructionsFormGroupArray.controls, event.previousIndex, event.currentIndex);
+    moveItemInArray(this.instructionsFormArray.controls, event.previousIndex, event.currentIndex);
 
     // Update the order field for each instruction
-    this.instructionsFormGroupArray.controls.forEach((control, index) => {
+    this.instructionsFormArray.controls.forEach((control, index) => {
       control.get('order').setValue(index + 1);
     });
   }
 
   addInstruction() {
-    this.instructionsFormGroupArray.push(this.fb.group({
+    this.instructionsFormArray.push(this.fb.group({
       id: [null], // New instructions have null ID
+      order: [this.instructionsFormArray.length + 1],
       text: ['', Validators.required],
-      order: [this.instructionsFormGroupArray.length + 1]
     }));
   }
 
   removeInstruction(index: number) {
-    this.instructionsFormGroupArray.removeAt(index);
+    this.instructionsFormArray.removeAt(index);
   }
 
   // #region Sub Functions
@@ -100,27 +100,30 @@ export class CrudRecipeComponent implements OnInit {
   }
 
   private fetchAndPatch() {
-    this.recipeAdminSvc.get(this.id).subscribe(response => {
-      this.recipe = response;
-      this.patch(response);
+    this.recipeAdminSvc.get(this.id).subscribe(recipe => {
+      this.recipe = recipe;
+      this.patch(recipe);
     });
   }
 
   private patch(recipe: RecipeDto) {
+
     this.formGroup.patchValue({
       name: recipe.name,
       description: recipe.description
     });
 
-    // Clear existing instructions before adding new ones
-    this.instructionsFormGroupArray.clear();
+    this.instructionsFormArray.clear();
 
-    // Patch instructions into the form array - including the ID
+    this.patchInstructionsFormArray(recipe);
+  }
+
+  private patchInstructionsFormArray(recipe: RecipeDto) {
     recipe.instructions.forEach(instruction => {
-      this.instructionsFormGroupArray.push(this.fb.group({
+      this.instructionsFormArray.push(this.fb.group({
         id: [instruction.id],
-        text: [instruction.text, Validators.required],
-        order: [instruction.order]
+        order: [instruction.order],
+        text: [instruction.text, Validators.required]
       }));
     });
   }
@@ -153,11 +156,11 @@ export class CrudRecipeComponent implements OnInit {
 
   private getFormInstructions(): InstructionDto[] {
     let formInstructions: InstructionDto[] = [];
-    formInstructions = this.instructionsFormGroupArray.controls.map(control => {
+    formInstructions = this.instructionsFormArray.controls.map(control => {
       return {
         id: control.value.id ?? 0,  // Replace null with 0 for new instructions
+        order: control.value.order,
         text: control.value.text,
-        order: control.value.order
       } as InstructionDto;
     });
 
