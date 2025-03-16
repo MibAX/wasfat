@@ -12,7 +12,7 @@ import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 })
 export class CrudRecipeComponent implements OnInit {
   formGroup: FormGroup;
-  get instructions(): FormArray { return this.formGroup.get('instructions') as FormArray; }  //Enables me to call this.instructions
+  get instructionsFormArray(): FormArray { return this.formGroup.get('instructions') as FormArray; }  //Enables me to call this.instructionsFormArray
   id: number | null = null;
   isEditMode: boolean = false;
   recipe: RecipeDto;// = {} as RecipeDto;
@@ -73,24 +73,24 @@ export class CrudRecipeComponent implements OnInit {
 
     if (!this.isDragEnabled) return;
     // Reorder the form array controls  
-    moveItemInArray(this.instructions.controls, event.previousIndex, event.currentIndex);
+    moveItemInArray(this.instructionsFormArray.controls, event.previousIndex, event.currentIndex);
 
     // Update the order field for each instruction
-    this.instructions.controls.forEach((control, index) => {
+    this.instructionsFormArray.controls.forEach((control, index) => {
       control.get('order').setValue(index + 1);
     });
   }
 
   addInstruction() {
-    this.instructions.push(this.fb.group({
+    this.instructionsFormArray.push(this.fb.group({
       id: 0, // New instructions: Back and will create a new instruction if ID is set to null
       text: ['', Validators.required],
-      order: [this.instructions.length + 1]
+      order: [this.instructionsFormArray.length + 1]
     }));
   }
 
   removeInstruction(index: number) {
-    this.instructions.removeAt(index);
+    this.instructionsFormArray.removeAt(index);
   }
 
   // #region Sub Functions
@@ -113,11 +113,11 @@ export class CrudRecipeComponent implements OnInit {
     });
 
     // Clear existing instructions before adding new ones
-    this.instructions.clear();
+    this.instructionsFormArray.clear();
 
     // Patch instructions into the form array - including the ID
     recipe.instructions.forEach(instruction => {
-      this.instructions.push(this.fb.group({
+      this.instructionsFormArray.push(this.fb.group({
         id: [instruction.id],
         text: [instruction.text, Validators.required],
         order: [instruction.order]

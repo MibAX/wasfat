@@ -68,7 +68,7 @@
         <div formArrayName="instructions">
           <div cdkDropList [cdkDropListSortingDisabled]="!isDragEnabled" (cdkDropListDropped)="drop($event)"
             class="instruction-list">
-            <div *ngFor="let instruction of instructions.controls; let i = index" [formGroupName]="i"
+            <div *ngFor="let instruction of instructionsFormArray.controls; let i = index" [formGroupName]="i"
               class="mb-3 instruction-item" [class.draggable-item]="isDragEnabled" cdkDrag>
               <div class="row align-items-center">
                 <!-- Add a drag indicator column that only shows when drag is enabled -->
