@@ -12,6 +12,7 @@ import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 })
 export class CrudRecipeComponent implements OnInit {
   formGroup: FormGroup;
+  get instructions(): FormArray { return this.formGroup.get('instructions') as FormArray; }  //Enables me to call this.instructions
   id: number | null = null;
   isEditMode: boolean = false;
   recipe: RecipeDto | null = null;
@@ -30,9 +31,7 @@ export class CrudRecipeComponent implements OnInit {
     this.patchIfEditMode();
   }
 
-  get instructions(): FormArray {
-    return this.formGroup.get('instructions') as FormArray;
-  }
+
   private buildForm() {
     this.formGroup = this.fb.group({
       name: ['', [Validators.required, Validators.minLength(3)]],
@@ -41,6 +40,46 @@ export class CrudRecipeComponent implements OnInit {
     });
   }
 
+  private patchIfEditMode() {
+    this.activatedRoute.paramMap.subscribe(params => {
+      const idParam = params.get('id');
+      if (!idParam) return;
+      this.setEditMode(idParam);
+      this.fetchAndPatch();
+    });
+  }
+
+  cancel(): void {
+    this.router.navigate(["/recipes/list"]);
+  }
+
+  save(): void {
+    if (this.formGroup.invalid) {
+      alert("Some fields are not valid.");
+      return;
+    }
+    if (this.isEditMode) {
+      this.update();
+    } else {
+      this.create();
+    }
+  }
+
+  toggleDragDrop() {
+    this.isDragEnabled = !this.isDragEnabled;
+  }
+
+  drop(event: CdkDragDrop<string[]>) {
+
+    if (!this.isDragEnabled) return;
+    // Reorder the form array controls  
+    moveItemInArray(this.instructions.controls, event.previousIndex, event.currentIndex);
+
+    // Update the order field for each instruction
+    this.instructions.controls.forEach((control, index) => {
+      control.get('order').setValue(index + 1);
+    });
+  }
 
   addInstruction() {
     this.instructions.push(this.fb.group({
@@ -54,15 +93,7 @@ export class CrudRecipeComponent implements OnInit {
     this.instructions.removeAt(index);
   }
 
-  private patchIfEditMode() {
-    this.activatedRoute.paramMap.subscribe(params => {
-      const idParam = params.get('id');
-      if (!idParam) return;
-      this.setEditMode(idParam);
-      this.fetchAndPatch();
-    });
-  }
-
+  // #region Sub Functions
   private setEditMode(idParam: string) {
     this.id = Number(idParam);
     this.isEditMode = true;
@@ -85,30 +116,13 @@ export class CrudRecipeComponent implements OnInit {
     this.instructions.clear();
 
     // Patch instructions into the form array - including the ID
-    recipe.instructions.forEach(instr => {
+    recipe.instructions.forEach(instruction => {
       this.instructions.push(this.fb.group({
-        id: [instr.id], // Include the ID for existing instructions
-        text: [instr.text, Validators.required],
-        order: [instr.order]
+        id: [instruction.id],
+        text: [instruction.text, Validators.required],
+        order: [instruction.order]
       }));
     });
-  }
-
-
-  cancel(): void {
-    this.router.navigate(["/recipes/list"]);
-  }
-
-  save(): void {
-    if (this.formGroup.invalid) {
-      alert("Some fields are not valid.");
-      return;
-    }
-    if (this.isEditMode) {
-      this.update();
-    } else {
-      this.create();
-    }
   }
 
   private update() {
@@ -120,12 +134,6 @@ export class CrudRecipeComponent implements OnInit {
     });
   }
 
-  private syncRecipeWithFormValues() {
-    this.recipe.name = this.formGroup.value.name;
-    this.recipe.description = this.formGroup.value.description;
-    this.recipe.instructions = this.getFormInstructions();
-  }
-
   private create() {
     this.recipe = {} as RecipeDto;
 
@@ -135,6 +143,12 @@ export class CrudRecipeComponent implements OnInit {
       console.log('Recipe created successfully', recipe);
       this.router.navigate(["/recipes/list"]);
     });
+  }
+
+  private syncRecipeWithFormValues() {
+    this.recipe.name = this.formGroup.value.name;
+    this.recipe.description = this.formGroup.value.description;
+    this.recipe.instructions = this.getFormInstructions();
   }
 
   private getFormInstructions(): InstructionDto[] {
@@ -149,20 +163,6 @@ export class CrudRecipeComponent implements OnInit {
 
     return formInstructions;
   }
+  // #endregion
 
-  drop(event: CdkDragDrop<string[]>) {
-
-    if (!this.isDragEnabled) return;
-    // Reorder the form array controls  
-    moveItemInArray(this.instructions.controls, event.previousIndex, event.currentIndex);
-
-    // Update the order field for each instruction
-    this.instructions.controls.forEach((control, index) => {
-      control.get('order').setValue(index + 1);
-    });
-  }
-
-  toggleDragDrop() {
-    this.isDragEnabled = !this.isDragEnabled;
-  }
 }
