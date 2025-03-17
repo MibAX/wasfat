@@ -1,74 +1,104 @@
+<!-- Main Angular Reactive Form - connects to formGroup property in component -->
 <form [formGroup]="formGroup">
+
+  <!-- RECIPE DETAILS CARD -->
   <div class="card">
+    <!-- Card Header - Contains action buttons -->
     <div class="card-header">
       <div class="row">
+        <!-- Left side: Action buttons -->
         <div class="col-md-6 border">
+          <!-- Cancel button - returns to recipe list -->
           <button type="button" class="me-2" mat-stroked-button color="warn" (click)="cancel()">
             Cancel
           </button>
+          <!-- Save/Create button - context-aware text based on mode -->
           <button type="button" mat-stroked-button color="primary" (click)="save()">
             {{ isEditMode ? 'Save' : 'Create' }}
           </button>
         </div>
+        <!-- Right side: Reserved for future functionality -->
         <div class="col-md-6 border">
           <!-- right card header (placeholder) -->
         </div>
       </div>
     </div>
+
+    <!-- Card Body - Contains main recipe form fields -->
     <div class="card-body">
       <div class="row">
+        <!-- Left column: Recipe basic information -->
         <div class="col-md-6 border">
+          <!-- Name field - required with validation -->
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>Name</mat-label>
             <input matInput formControlName="name" placeholder="Enter recipe name">
           </mat-form-field>
+          <!-- Description field - optional -->
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>Description</mat-label>
             <textarea matInput formControlName="description" placeholder="Enter recipe description"></textarea>
           </mat-form-field>
         </div>
+        <!-- Right column: Reserved for future functionality -->
         <div class="col-md-6 border">
           <!-- right card body (placeholder) -->
         </div>
       </div>
+      <!-- Additional row for future content -->
+      <div class="row">
+        <!-- Additional row (placeholder) -->
+      </div>
     </div>
   </div>
 
+  <!-- INSTRUCTIONS CARD - Manages the dynamic instructions list -->
   <div class="card my-3">
+    <!-- Card Header - Contains instructions controls -->
     <div class="card-header">
       <div class="row">
+        <!-- Left column: Reordering toggle switch -->
         <div class="col-md-4 d-flex align-items-center border">
+          <!-- Nested column for toggle (could be simplified) -->
           <div class="col-md-4 d-flex align-items-center border">
+            <!-- Toggle switch that enables/disables drag-drop functionality -->
             <mat-slide-toggle [checked]="isDragEnabled" (change)="toggleDragDrop()" color="primary">
               Reorder
             </mat-slide-toggle>
           </div>
         </div>
+        <!-- Middle column: Section title -->
         <div class="col-md-4 lead d-flex align-items-center justify-content-center border">
           Instructions
         </div>
+        <!-- Right column: Reserved for future functionality -->
         <div class="col-md-4 border">
           <!-- Reserved for future use -->
         </div>
       </div>
     </div>
 
+    <!-- Card Body - Contains the dynamic instructions FormArray -->
     <div class="card-body">
       <div class="row">
+        <!-- FormArray Container - Connects to instructionsFormArray getter -->
         <ng-container formArrayName="instructions">
+          <!-- Drag-Drop Container - Manages reordering functionality -->
           <div cdkDropList [cdkDropListSortingDisabled]="!isDragEnabled" (cdkDropListDropped)="drop($event)"
             class="instruction-list">
+            <!-- Loop through all instructions in the FormArray -->
             <ng-container *ngFor="let instruction of instructionsFormArray.controls; let i = index">
+              <!-- Individual Instruction FormGroup - Each represents one instruction step -->
               <div [formGroupName]="i" class="mb-3 instruction-item" [class.draggable-item]="isDragEnabled" cdkDrag>
                 <div class="row align-items-center">
-                  <!-- Drag indicator column -->
+                  <!-- Drag Handle - Only visible when drag is enabled -->
                   <div class="col-md-1 border" *ngIf="isDragEnabled">
                     <div class="drag-indicator d-flex justify-content-center align-items-center">
                       <mat-icon>drag_indicator</mat-icon>
                     </div>
                   </div>
 
-                  <!-- Order field -->
+                  <!-- Instruction Order Number - Auto-calculated, read-only -->
                   <div class="col-md-2 border">
                     <mat-form-field class="w-100" appearance="outline">
                       <mat-label>Order</mat-label>
@@ -76,7 +106,7 @@
                     </mat-form-field>
                   </div>
 
-                  <!-- Text field with conditional width -->
+                  <!-- Instruction Text - Main content field with validation -->
                   <div [class]="isDragEnabled ? 'col-md-8 border' : 'col-md-9 border'">
                     <mat-form-field class="w-100" appearance="outline">
                       <mat-label>Text</mat-label>
@@ -84,7 +114,7 @@
                     </mat-form-field>
                   </div>
 
-                  <!-- Delete button -->
+                  <!-- Delete Button - Removes this instruction -->
                   <div class="col-md-1 border">
                     <button type="button" mat-icon-button color="warn" (click)="removeInstruction(i)" class="fa-button">
                       <i class="fas fa-trash-alt"></i>
@@ -95,11 +125,13 @@
             </ng-container>
           </div>
 
-          <!-- Add button row -->
+          <!-- Add Instruction Button Row -->
           <div class="row mt-4">
+            <!-- Spacing column to align Add button with Delete buttons -->
             <div class="col-md-10 border">
               <!-- Empty space to align with the Remove button (placeholder) -->
             </div>
+            <!-- Add Button Column -->
             <div class="col-md-2 border">
               <button type="button" mat-icon-button color="primary" (click)="addInstruction()">
                 <i class="fas fa-plus"></i>
@@ -111,4 +143,6 @@
     </div>
   </div>
 </form>
+
+<!-- Bottom spacing element -->
 <div class="pb-3"></div>
