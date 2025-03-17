@@ -121,7 +121,7 @@ export class CrudRecipeComponent implements OnInit {
     });
   }
 
-  private reorderInstructionsFormArrayControls(event: CdkDragDrop<string[], string[], any>) {
+  private reorderInstructionsFormArrayControls(event: CdkDragDrop<string[]>) {
     moveItemInArray(this.instructionsFormArray.controls, event.previousIndex, event.currentIndex);
   }
 
