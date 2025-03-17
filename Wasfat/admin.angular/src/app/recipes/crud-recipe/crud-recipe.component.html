@@ -2,7 +2,7 @@
   <div class="card">
     <div class="card-header">
       <div class="row">
-        <div class="col-md-6 ">
+        <div class="col-md-6 border">
           <button type="button" class="me-2" mat-stroked-button color="warn" (click)="cancel()">
             Cancel
           </button>
@@ -10,14 +10,14 @@
             {{ isEditMode ? 'Save' : 'Create' }}
           </button>
         </div>
-        <div class="col-md-6 ">
-          <!-- right card header -->
+        <div class="col-md-6 border">
+          <!-- right card header (placeholder) -->
         </div>
       </div>
     </div>
     <div class="card-body">
       <div class="row">
-        <div class="col-md-6 ">
+        <div class="col-md-6 border">
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>Name</mat-label>
             <input matInput formControlName="name" placeholder="Enter recipe name">
@@ -27,58 +27,65 @@
             <textarea matInput formControlName="description" placeholder="Enter recipe description"></textarea>
           </mat-form-field>
         </div>
-        <div class="col-md-6 ">
-          <!-- right card body -->
+        <div class="col-md-6 border">
+          <!-- right card body (placeholder) -->
         </div>
-      </div>
-      <div class="row">
       </div>
     </div>
   </div>
+
   <div class="card my-3">
     <div class="card-header">
       <div class="row">
-        <div class="col-md-4 d-flex align-items-center">
-          <div class="col-md-4 d-flex align-items-center">
+        <div class="col-md-4 d-flex align-items-center border">
+          <div class="col-md-4 d-flex align-items-center border">
             <mat-slide-toggle [checked]="isDragEnabled" (change)="toggleDragDrop()" color="primary">
               Reorder
             </mat-slide-toggle>
           </div>
         </div>
-        <div class="col-md-4 lead d-flex align-items-center justify-content-center">
+        <div class="col-md-4 lead d-flex align-items-center justify-content-center border">
           Instructions
+        </div>
+        <div class="col-md-4 border">
+          <!-- Reserved for future use -->
         </div>
       </div>
     </div>
+
     <div class="card-body">
       <div class="row">
-        <!-- instructions card body -->
         <ng-container formArrayName="instructions">
           <div cdkDropList [cdkDropListSortingDisabled]="!isDragEnabled" (cdkDropListDropped)="drop($event)"
             class="instruction-list">
             <ng-container *ngFor="let instruction of instructionsFormArray.controls; let i = index">
               <div [formGroupName]="i" class="mb-3 instruction-item" [class.draggable-item]="isDragEnabled" cdkDrag>
                 <div class="row align-items-center">
-                  <!-- Add a drag indicator column that only shows when drag is enabled -->
-                  <div class="col-md-1" *ngIf="isDragEnabled">
+                  <!-- Drag indicator column -->
+                  <div class="col-md-1 border" *ngIf="isDragEnabled">
                     <div class="drag-indicator d-flex justify-content-center align-items-center">
                       <mat-icon>drag_indicator</mat-icon>
                     </div>
                   </div>
-                  <!-- Adjust column widths based on whether drag is enabled -->
-                  <div class="col-md-2">
+
+                  <!-- Order field -->
+                  <div class="col-md-2 border">
                     <mat-form-field class="w-100" appearance="outline">
                       <mat-label>Order</mat-label>
                       <input matInput formControlName="order" type="number" readonly>
                     </mat-form-field>
                   </div>
-                  <div [class]="isDragEnabled ? 'col-md-8' : 'col-md-9'">
+
+                  <!-- Text field with conditional width -->
+                  <div [class]="isDragEnabled ? 'col-md-8 border' : 'col-md-9 border'">
                     <mat-form-field class="w-100" appearance="outline">
                       <mat-label>Text</mat-label>
                       <input matInput formControlName="text" required>
                     </mat-form-field>
                   </div>
-                  <div class="col-md-1">
+
+                  <!-- Delete button -->
+                  <div class="col-md-1 border">
                     <button type="button" mat-icon-button color="warn" (click)="removeInstruction(i)" class="fa-button">
                       <i class="fas fa-trash-alt"></i>
                     </button>
@@ -87,12 +94,13 @@
               </div>
             </ng-container>
           </div>
-          <!-- Add button placed after the last instruction -->
+
+          <!-- Add button row -->
           <div class="row mt-4">
-            <div class="col-md-10">
-              <!-- Empty space to align with the Remove button -->
+            <div class="col-md-10 border">
+              <!-- Empty space to align with the Remove button (placeholder) -->
             </div>
-            <div class="col-md-2">
+            <div class="col-md-2 border">
               <button type="button" mat-icon-button color="primary" (click)="addInstruction()">
                 <i class="fas fa-plus"></i>
               </button>
