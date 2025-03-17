@@ -1,5 +1,4 @@
 .instruction-list {
-  width: 100%;
 }
 
 .instruction-item {
@@ -8,11 +7,9 @@
   padding: 10px;
   background: white;
   margin-bottom: 10px;
-  cursor: move; // Add cursor: move to the entire item
 
   &:hover {
     background: #fafafa;
-    border-color: #e0e0e0;
   }
 }
 
@@ -20,22 +17,12 @@
 .draggable-item {
   cursor: move;
   border-left: 4px solid #3f51b5; // Material primary color indicator
-
-  &:hover {
-    background: #f0f7ff;
-    border-color: #c0d7ff;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  }
-
-  .drag-indicator {
-    height: 100%;
-    color: #3f51b5;
-    opacity: 0.7;
-  }
 }
 
 // Keep these classes as they are - they control the visual feedback during drag operations
 .cdk-drag-preview {
+  box-sizing: border-box;
+  border-radius: 4px;
   box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2), 0 8px 10px 1px rgba(0, 0, 0, 0.14),
     0 3px 14px 2px rgba(0, 0, 0, 0.12);
 }

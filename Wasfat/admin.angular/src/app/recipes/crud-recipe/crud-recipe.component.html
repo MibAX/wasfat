@@ -63,7 +63,7 @@
           <div cdkDropList [cdkDropListSortingDisabled]="!isDragEnabled" (cdkDropListDropped)="drop($event)"
             class="instruction-list">
             <ng-container *ngFor="let instruction of instructionsFormArray.controls; let i = index">
-              <div [formGroupName]="i" class="mb-3 instruction-item" [class.draggable-item]="isDragEnabled" cdkDrag>
+              <div [formGroupName]="i" class="instruction-item" [class.draggable-item]="isDragEnabled" cdkDrag>
                 <div class="row align-items-center">
                   <ng-container *ngIf="isDragEnabled">
                     <!-- Drag Handle - Only visible when reordering is enabled -->
