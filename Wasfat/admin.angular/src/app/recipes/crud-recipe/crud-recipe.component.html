@@ -2,7 +2,7 @@
   <div class="card">
     <div class="card-header">
       <div class="row">
-        <div class="col-md-6 border">
+        <div class="border col-md-6">
           <!-- Left side: Action buttons -->
           <button type="button" class="me-2" mat-stroked-button color="warn" (click)="cancel()">
             Cancel
@@ -11,14 +11,14 @@
             {{ isEditMode ? 'Save' : 'Create' }}
           </button>
         </div>
-        <div class="col-md-6 border">
+        <div class="border col-md-6">
           <!-- Right side: Reserved for future functionality -->
         </div>
       </div>
     </div>
     <div class="card-body">
       <div class="row">
-        <div class="col-md-6 border">
+        <div class="border col-md-6">
           <!-- Left body column: Recipe basic information -->
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>Name</mat-label>
@@ -30,7 +30,7 @@
           </mat-form-field>
         </div>
         <!-- Right column: Reserved for future functionality -->
-        <div class="col-md-6 border">
+        <div class="border col-md-6">
         </div>
       </div>
       <div class="row">
@@ -40,19 +40,19 @@
   <div class="card my-3">
     <div class="card-header">
       <div class="row">
-        <div class="col-md-4 d-flex align-items-center border">
+        <div class="border col-md-4">
           <!-- Left column: Reordering toggle switch -->
-          <div class="col-md-4 d-flex align-items-center border">
+          <div class="border col-md-4">
             <mat-slide-toggle [checked]="isDragEnabled" (change)="toggleDragDrop()" color="primary">
               Reorder
             </mat-slide-toggle>
           </div>
         </div>
-        <div class="col-md-4 lead d-flex align-items-center justify-content-center border">
+        <div class="border col-md-4 lead  text-center">
           <!-- Middle column: Section title -->
           Instructions
         </div>
-        <div class="col-md-4 border">
+        <div class="border col-md-4">
           <!-- Right column: Reserved for future functionality -->
         </div>
       </div>
@@ -67,25 +67,25 @@
                 <div class="row align-items-center">
                   <ng-container *ngIf="isDragEnabled">
                     <!-- Drag Handle - Only visible when reordering is enabled -->
-                    <div class="col-md-1 border text-center">
+                    <div class="border col-md-1 text-center">
                       <i class="fas fa-grip-vertical"></i>
                     </div>
                   </ng-container>
-                  <div class="col-md-2 border">
+                  <div class="border col-md-2">
                     <!-- Instruction Order Number - Auto-calculated, read-only -->
                     <mat-form-field class="w-100" appearance="outline">
                       <mat-label>Order</mat-label>
                       <input matInput formControlName="order" type="number" readonly>
                     </mat-form-field>
                   </div>
-                  <div [class]="isDragEnabled ? 'col-md-8 border' : 'col-md-9 border'">
+                  <div [class]="isDragEnabled ? 'border col-md-8' : 'border col-md-9'">
                     <!-- Instruction Text -->
                     <mat-form-field class="w-100" appearance="outline">
                       <mat-label>Text</mat-label>
                       <input matInput formControlName="text" required>
                     </mat-form-field>
                   </div>
-                  <div class="col-md-1 border">
+                  <div class="border col-md-1">
                     <!-- Delete Button -->
                     <button type="button" mat-icon-button color="warn" (click)="removeInstruction(i)" class="fa-button">
                       <i class="fas fa-trash-alt"></i>
@@ -95,10 +95,10 @@
               </div>
             </ng-container>
             <div class="row mt-4">
-              <div class="col-md-10 border">
+              <div class="border col-md-10">
                 <!-- Spacing column to align Add button with Delete buttons -->
               </div>
-              <div class="col-md-2 border">
+              <div class="border col-md-2">
                 <!-- Add Button Column -->
                 <button type="button" mat-icon-button color="primary" (click)="addInstruction()">
                   <i class="fas fa-plus"></i>
