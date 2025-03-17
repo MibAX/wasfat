@@ -68,15 +68,9 @@ export class CrudRecipeComponent implements OnInit {
   }
 
   drop(event: CdkDragDrop<string[]>) {
-
     if (!this.isDragEnabled) return;
-    // Reorder the form array controls  
-    moveItemInArray(this.instructionsFormArray.controls, event.previousIndex, event.currentIndex);
-
-    // Update the order field for each instruction
-    this.instructionsFormArray.controls.forEach((control, index) => {
-      control.get('order').setValue(index + 1);
-    });
+    this.reorderInstructionsFormArrayControls(event);
+    this.updateOrderFieldForEachInstructionControl();
   }
 
   addInstruction() {
@@ -126,6 +120,17 @@ export class CrudRecipeComponent implements OnInit {
       }));
     });
   }
+
+  private reorderInstructionsFormArrayControls(event: CdkDragDrop<string[], string[], any>) {
+    moveItemInArray(this.instructionsFormArray.controls, event.previousIndex, event.currentIndex);
+  }
+
+  private updateOrderFieldForEachInstructionControl() {
+    this.instructionsFormArray.controls.forEach((control, index) => {
+      control.get('order').setValue(index + 1);
+    });
+  }
+
 
   private update() {
     this.syncRecipeWithFormValues();
