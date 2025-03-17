@@ -65,38 +65,39 @@
     <div class="card-body">
       <div class="row">
         <!-- instructions card body -->
-        <div formArrayName="instructions">
+        <ng-container formArrayName="instructions">
           <div cdkDropList [cdkDropListSortingDisabled]="!isDragEnabled" (cdkDropListDropped)="drop($event)"
             class="instruction-list">
-            <div *ngFor="let instruction of instructionsFormArray.controls; let i = index" [formGroupName]="i"
-              class="mb-3 instruction-item" [class.draggable-item]="isDragEnabled" cdkDrag>
-              <div class="row align-items-center">
-                <!-- Add a drag indicator column that only shows when drag is enabled -->
-                <div class="col-md-1" *ngIf="isDragEnabled">
-                  <div class="drag-indicator d-flex justify-content-center align-items-center">
-                    <mat-icon>drag_indicator</mat-icon>
+            <ng-container *ngFor="let instruction of instructionsFormArray.controls; let i = index">
+              <div [formGroupName]="i" class="mb-3 instruction-item" [class.draggable-item]="isDragEnabled" cdkDrag>
+                <div class="row align-items-center">
+                  <!-- Add a drag indicator column that only shows when drag is enabled -->
+                  <div class="col-md-1" *ngIf="isDragEnabled">
+                    <div class="drag-indicator d-flex justify-content-center align-items-center">
+                      <mat-icon>drag_indicator</mat-icon>
+                    </div>
+                  </div>
+                  <!-- Adjust column widths based on whether drag is enabled -->
+                  <div class="col-md-2">
+                    <mat-form-field class="w-100" appearance="outline">
+                      <mat-label>Order</mat-label>
+                      <input matInput formControlName="order" type="number" readonly>
+                    </mat-form-field>
+                  </div>
+                  <div [class]="isDragEnabled ? 'col-md-8' : 'col-md-9'">
+                    <mat-form-field class="w-100" appearance="outline">
+                      <mat-label>Text</mat-label>
+                      <input matInput formControlName="text" required>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-md-1">
+                    <button type="button" mat-icon-button color="warn" (click)="removeInstruction(i)" class="fa-button">
+                      <i class="fas fa-trash-alt"></i>
+                    </button>
                   </div>
                 </div>
-                <!-- Adjust column widths based on whether drag is enabled -->
-                <div class="col-md-2">
-                  <mat-form-field class="w-100" appearance="outline">
-                    <mat-label>Order</mat-label>
-                    <input matInput formControlName="order" type="number" readonly>
-                  </mat-form-field>
-                </div>
-                <div [class]="isDragEnabled ? 'col-md-8' : 'col-md-9'">
-                  <mat-form-field class="w-100" appearance="outline">
-                    <mat-label>Text</mat-label>
-                    <input matInput formControlName="text" required>
-                  </mat-form-field>
-                </div>
-                <div class="col-md-1">
-                  <button type="button" mat-icon-button color="warn" (click)="removeInstruction(i)" class="fa-button">
-                    <i class="fas fa-trash-alt"></i>
-                  </button>
-                </div>
               </div>
-            </div>
+            </ng-container>
           </div>
 
           <!-- Add button placed after the last instruction -->
@@ -110,7 +111,7 @@
               </button>
             </div>
           </div>
-        </div>
+        </ng-container>
       </div>
     </div>
   </div>
