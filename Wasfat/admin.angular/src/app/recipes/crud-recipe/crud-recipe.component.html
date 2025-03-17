@@ -63,7 +63,8 @@
           <div cdkDropList [cdkDropListSortingDisabled]="!isDragEnabled" (cdkDropListDropped)="drop($event)"
             class="instruction-list">
             <ng-container *ngFor="let instruction of instructionsFormArray.controls; let i = index">
-              <div [formGroupName]="i" class="instruction-box" [class.draggable-item]="isDragEnabled" cdkDrag>
+              <div [formGroupName]="i" class="instruction-box" [ngClass]="{ 'draggable-item': isDragEnabled }" cdkDrag>
+
                 <div class="row align-items-center">
                   <ng-container *ngIf="isDragEnabled">
                     <!-- Drag Handle - Only visible when reordering is enabled -->
@@ -78,7 +79,7 @@
                       <input matInput formControlName="order" type="number" readonly>
                     </mat-form-field>
                   </div>
-                  <div [class]="isDragEnabled ? 'border col-md-8' : 'border col-md-9'">
+                  <div [ngClass]="{'col-md-9': !isDragEnabled, 'col-md-8': isDragEnabled}">
                     <!-- Instruction Text -->
                     <mat-form-field class="w-100" appearance="outline">
                       <mat-label>Text</mat-label>
