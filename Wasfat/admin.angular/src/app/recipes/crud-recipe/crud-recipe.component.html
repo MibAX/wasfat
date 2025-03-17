@@ -92,10 +92,8 @@
               <div [formGroupName]="i" class="mb-3 instruction-item" [class.draggable-item]="isDragEnabled" cdkDrag>
                 <div class="row align-items-center">
                   <!-- Drag Handle - Only visible when drag is enabled -->
-                  <div class="col-md-1 border" *ngIf="isDragEnabled">
-                    <div class="drag-indicator d-flex justify-content-center align-items-center">
-                      <mat-icon>drag_indicator</mat-icon>
-                    </div>
+                  <div class="col-md-1 border text-center" *ngIf="isDragEnabled">
+                    <i class="fas fa-grip-vertical"></i>
                   </div>
 
                   <!-- Instruction Order Number - Auto-calculated, read-only -->
@@ -121,23 +119,24 @@
                     </button>
                   </div>
                 </div>
+                <!-- Add Instruction Button Row -->
+                <div class="row mt-4">
+                  <!-- Spacing column to align Add button with Delete buttons -->
+                  <div class="col-md-10 border">
+                    <!-- Empty space to align with the Remove button (placeholder) -->
+                  </div>
+                  <!-- Add Button Column -->
+                  <div class="col-md-2 border">
+                    <button type="button" mat-icon-button color="primary" (click)="addInstruction()">
+                      <i class="fas fa-plus"></i>
+                    </button>
+                  </div>
+                </div>
               </div>
             </ng-container>
           </div>
 
-          <!-- Add Instruction Button Row -->
-          <div class="row mt-4">
-            <!-- Spacing column to align Add button with Delete buttons -->
-            <div class="col-md-10 border">
-              <!-- Empty space to align with the Remove button (placeholder) -->
-            </div>
-            <!-- Add Button Column -->
-            <div class="col-md-2 border">
-              <button type="button" mat-icon-button color="primary" (click)="addInstruction()">
-                <i class="fas fa-plus"></i>
-              </button>
-            </div>
-          </div>
+
         </ng-container>
       </div>
     </div>
