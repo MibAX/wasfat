@@ -55,12 +55,24 @@
           <h1>Create mode</h1>
         </ng-container>
 
+
+        <hr>
+
         <ng-container *ngFor="let fruit of fruits; let i = index">
           <div>
             Index is: {{ i }} and fruit name is: {{ fruit }}
           </div>
         </ng-container>
 
+        <hr>
+
+        <div class="bg-warning">
+          <h1>Warning background: always</h1>
+        </div>
+
+        <div [ngClass]="{'bg-warning': isEditMode}">
+          <h1>Warning background: in edit mode</h1>
+        </div>
 
 
       </div>
