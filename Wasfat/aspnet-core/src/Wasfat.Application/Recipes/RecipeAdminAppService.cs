@@ -7,6 +7,8 @@ using Volo.Abp;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
 using Volo.Abp.Domain.Repositories;
+using Microsoft.EntityFrameworkCore;
+
 
 namespace Wasfat.Recipes
 {
@@ -24,10 +26,14 @@ namespace Wasfat.Recipes
 
 
         public override async Task<RecipeDto> GetAsync(int id)
-        {
-            var recipe = await _recipesRepository.GetAsync(id);
+        {            
+            var query = (await _recipesRepository.GetQueryableAsync()).AsQueryable();
 
-            // custome logic
+            var recipe = await query
+                .Include(r => r.Instructions.OrderBy(i => i.Order))
+                .SingleAsync(r => r.Id == id);
+
+            // custom logic
             recipe.Name = recipe.Name.Trim();
 
             var recipeDto = ObjectMapper.Map<Recipe, RecipeDto>(recipe);
