@@ -11,6 +11,8 @@ import { RecipeAdminService, RecipeDto } from "@proxy/recipes";
 export class CrudRecipeComponent implements OnInit {
   formGroup: FormGroup;
   recipeId: number | null = null;
+  recipe: RecipeDto = {} as RecipeDto;
+
   isEditMode: boolean = false;
 
   fruits: string[] = ["Apple", "Banana", "Orange", "Mango", "Strawberry"];
@@ -70,6 +72,8 @@ export class CrudRecipeComponent implements OnInit {
 
   private fetchAndPatch() {
     this.recipeAdminSvc.get(this.recipeId).subscribe((recipe) => {
+      this.recipe = recipe;
+      console.log("instructions =", this.recipe.instructions);
       this.patch(recipe);
     });
   }

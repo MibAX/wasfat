@@ -74,6 +74,38 @@
           <h1>Warning background: in edit mode</h1>
         </div>
 
+        <hr>
+
+        <h1>Recipe Instructions List</h1>
+        <ng-container *ngFor="let instruction of recipe.instructions; let i = index">
+          <div>
+            Index is: {{ i }}, order is: {{ instruction.order }} and Text is: {{ instruction.text }}
+          </div>
+        </ng-container>
+
+        <hr>
+
+        <h1>Recipe Instructions Table</h1>
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th scope="col">index</th>
+              <th scope="col">Order</th>
+              <th scope="col">Text</th>
+            </tr>
+          </thead>
+          <tbody>
+            <ng-container *ngFor="let instruction of recipe.instructions; let i = index">
+              <tr>
+                <td>{{ i }}</td>
+                <td>{{ instruction.order }}</td>
+                <td>{{ instruction.text }}</td>
+              </tr>
+            </ng-container>
+          </tbody>
+        </table>
+
+
 
       </div>
     </div>
