@@ -7,7 +7,7 @@
           Cancel
         </button>
 
-        <button type="button" mat-stroked-button color="primary" (click)="saveRecipe()">
+        <button type="button" mat-stroked-button color="primary" (click)="save()">
           {{ isEditMode ? 'Update' : 'Create' }}
         </button>
 
@@ -19,7 +19,7 @@
   </div>
   <div class="card-body">
 
-    <form [formGroup]="recipeFormGroup">
+    <form [formGroup]="formGroup">
 
       <div class="row">
         <div class="col-md-6 ">
