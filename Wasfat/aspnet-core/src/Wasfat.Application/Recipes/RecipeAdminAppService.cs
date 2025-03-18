@@ -27,7 +27,7 @@ namespace Wasfat.Recipes
 
         public override async Task<RecipeDto> GetAsync(int id)
         {            
-            var query = (await _recipesRepository.GetQueryableAsync()).AsQueryable();
+            var query = await _recipesRepository.GetQueryableAsync();
 
             var recipe = await query
                 .Include(r => r.Instructions.OrderBy(i => i.Order))
