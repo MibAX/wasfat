@@ -13,6 +13,8 @@ export class CrudRecipeComponent implements OnInit {
   recipeId: number | null = null;
   isEditMode: boolean = false;
 
+  fruits: string[] = ["Apple", "Banana", "Orange", "Mango", "Strawberry"];
+
   constructor(
     private recipeAdminSvc: RecipeAdminService,
     private fb: FormBuilder,
@@ -22,6 +24,7 @@ export class CrudRecipeComponent implements OnInit {
 
   ngOnInit(): void {
     console.log("CrudRecipeComponent > ngOnInit");
+    console.log("fruits =", this.fruits);
     this.buildFrom();
     this.patchIfEditMode();
   }

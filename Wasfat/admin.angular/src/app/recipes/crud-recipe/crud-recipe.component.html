@@ -55,6 +55,14 @@
           <h1>Create mode</h1>
         </ng-container>
 
+        <ng-container *ngFor="let fruit of fruits; let i = index">
+          <div>
+            Index is: {{ i }} and fruit name is: {{ fruit }}
+          </div>
+        </ng-container>
+
+
+
       </div>
     </div>
   </div>
