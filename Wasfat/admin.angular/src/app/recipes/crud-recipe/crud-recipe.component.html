@@ -47,6 +47,14 @@
       <div class="col-md-12 border">
         <!-- Testing scripts goes here -->
 
+        <ng-container *ngIf="isEditMode">
+          <h1>Edit mode</h1>
+        </ng-container>
+
+        <ng-container *ngIf="!isEditMode">
+          <h1>Create mode</h1>
+        </ng-container>
+
       </div>
     </div>
   </div>
