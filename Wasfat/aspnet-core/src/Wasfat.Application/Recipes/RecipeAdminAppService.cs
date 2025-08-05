@@ -80,14 +80,30 @@ namespace Wasfat.Recipes
 
         public override async Task<RecipeDto> UpdateAsync(int id, RecipeDto input)
         {
-            var recipe = await _recipesRepository.GetAsync(id);
+            // Validate that the input DTO's ID matches the expected route ID (if provided).
+            if (input.Id != 0 && input.Id != id)
+            {
+                throw new UserFriendlyException("Mismatched Recipe ID.");
+            }
 
-            input.Id = id;
+            var query = await _recipesRepository.GetQueryableAsync();
+
+            var recipe = await query
+                               .Include(r => r.Instructions.OrderBy(i => i.Order))
+                               .SingleOrDefaultAsync(r => r.Id == id);
+
+            // Ensure the recipe exists before proceeding; throw if not found.
+            if (recipe == null)
+            {
+                throw new EntityNotFoundException(typeof(Recipe), id);
+            }
 
             // Only the available values from the input DTO will be applied to the recipe entity.
             // IMPORTANT: Any values not present in the DTO will remain unchanged in the recipe.
-            ObjectMapper.Map<RecipeDto, Recipe>(input, recipe);
+            ObjectMapper.Map(input, recipe);
 
+            // EF Core will track changes to the recipe entity and it's related instructions.
+            // All instructions will be updated, added, or removed based on the input DTO.
             await _recipesRepository.UpdateAsync(recipe, autoSave: true);
 
             var recipeDto = ObjectMapper.Map<Recipe, RecipeDto>(recipe);
