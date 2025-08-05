@@ -22,10 +22,13 @@ namespace Wasfat.Recipes
             _recipesRepository = recipesRepository;
         }
 
-
         public override async Task<RecipeDto> GetAsync(int id)
         {
-            var recipe = await _recipesRepository.GetAsync(id);
+            var query = await _recipesRepository.GetQueryableAsync();
+
+            var recipe = await query
+                               .Include(r => r.Instructions.OrderBy(i => i.Order))
+                               .SingleOrDefaultAsync(r => r.Id == id);
 
             // custome logic
             recipe.Name = recipe.Name.Trim();
@@ -34,7 +37,6 @@ namespace Wasfat.Recipes
 
             return recipeDto;
         }
-
 
         public override async Task<RecipeDto> CreateAsync(RecipeDto input)
         {
@@ -49,7 +51,6 @@ namespace Wasfat.Recipes
 
             return recipeDto;
         }
-
 
         public override async Task<RecipeDto> UpdateAsync(int id, RecipeDto input)
         {
@@ -68,7 +69,6 @@ namespace Wasfat.Recipes
             return recipeDto;
         }
 
-
         public override async Task DeleteAsync(int id)
         {
             var recipe = await _recipesRepository.GetAsync(id);
@@ -81,7 +81,6 @@ namespace Wasfat.Recipes
 
             await _recipesRepository.DeleteAsync(id);
         }
-
 
         public override async Task<PagedResultDto<RecipeDto>> GetListAsync(PagedAndSortedResultRequestDto input)
         {
@@ -125,9 +124,5 @@ namespace Wasfat.Recipes
 
             return recipeDtos;
         }
-
-
-
-
     }
 }
