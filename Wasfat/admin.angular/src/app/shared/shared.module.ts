@@ -3,13 +3,7 @@ import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgModule } from '@angular/core';
 import { ThemeSharedModule } from '@abp/ng.theme.shared';
 import { NgxValidateCoreModule } from '@ngx-validate/core';
-import { ReactiveFormsModule } from '@angular/forms';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatButtonModule } from '@angular/material/button';
-import { MatInputModule } from '@angular/material/input';
-
-
-
+import { MaterialModule } from './material.module';
 
 @NgModule({
   declarations: [],
@@ -18,20 +12,14 @@ import { MatInputModule } from '@angular/material/input';
     ThemeSharedModule,
     NgbDropdownModule,
     NgxValidateCoreModule,
-    ReactiveFormsModule,
-    MatFormFieldModule,
-    MatButtonModule,
-    MatInputModule
+    MaterialModule
   ],
   exports: [
     CoreModule,
     ThemeSharedModule,
     NgbDropdownModule,
     NgxValidateCoreModule,
-    ReactiveFormsModule,
-    MatFormFieldModule,
-    MatButtonModule,
-    MatInputModule
+    MaterialModule
   ],
   providers: []
 })
