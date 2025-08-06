@@ -7,8 +7,8 @@
           Cancel
         </button>
 
-        <button type="button" mat-stroked-button color="primary" (click)="saveRecipe()">
-          {{ isEditMode ? 'Update' : 'Create' }}
+        <button type="button" mat-stroked-button color="primary" (click)="save()">
+          {{ isEditMode ? 'Save' : 'Create' }}
         </button>
 
       </div>
@@ -19,7 +19,7 @@
   </div>
   <div class="card-body">
 
-    <form [formGroup]="recipeFormGroup">
+    <form [formGroup]="FormGroup">
 
       <div class="row">
         <div class="col-md-6 ">
