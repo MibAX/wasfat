@@ -1,2 +1,3 @@
+import * as Instructions from './instructions';
 import * as Recipes from './recipes';
-export { Recipes };
+export { Instructions, Recipes };
