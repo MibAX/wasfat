@@ -23,7 +23,11 @@ export class CrudRecipeComponent implements OnInit {
   ngOnInit(): void {
     console.log('CrudRecipeComponent > ngOnInit')
     this.buildFrom();
-    this.patchIfEditMode();
+    this.recipeId = this.getRouteId();
+    if(this.recipeId) {
+      this.isEditMode = true;
+      this.fetchAndPatch();
+    }
   }
 
   private buildFrom() {
@@ -36,13 +40,6 @@ export class CrudRecipeComponent implements OnInit {
   private getRouteId(): number | null {
     const idParam = this.activatedRoute.snapshot.paramMap.get('id');
     return idParam && !isNaN(Number(idParam)) ? Number(idParam) : null;
-  }
-
-  private patchIfEditMode() {
-    this.recipeId = this.getRouteId();
-    if (!this.recipeId) return;
-    this.isEditMode = true;
-    this.fetchAndPatch();
   }
 
   cancel(): void {
