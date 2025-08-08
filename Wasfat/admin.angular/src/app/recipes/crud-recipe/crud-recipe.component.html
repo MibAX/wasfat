@@ -18,13 +18,13 @@
         <textarea matInput formControlName="description" placeholder="Enter recipe description"></textarea>
       </mat-form-field>
 
-      <div class="card">
+      <div class="card" *ngIf="recipe?.instructions.length > 0">
         <div class="card-header text-center fw-bold">
           <h2 class="m-0">Details</h2>
         </div>
         <div class="card-body">
-          <p><strong class="me-2">Recipe:</strong> {{recipe?.name}}</p>
-          <p><strong class="me-2">Description:</strong> {{recipe?.description}}</p>
+          <p><strong class="me-2">Recipe:</strong> {{recipe.name}}</p>
+          <p><strong class="me-2">Description:</strong> {{recipe.description}}</p>
 
           <p class="fw-bold">Instructions:</p>
           <table class="table table-bordered table-striped table-sm mb-0">
@@ -35,7 +35,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let instruction of recipe?.instructions">
+              <tr *ngFor="let instruction of recipe.instructions">
                 <td>{{ instruction.text }}</td>
                 <td>{{ instruction.order }}</td>
               </tr>
