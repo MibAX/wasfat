@@ -33,10 +33,15 @@ export class CrudRecipeComponent implements OnInit {
     });
   }
 
-  private patchIfEditMode() {
+  private getRouteId(): number | null {
     const idParam = this.activatedRoute.snapshot.paramMap.get('id');
-    if (!idParam) return;
-    this.setEditMode(idParam);
+    return idParam && !isNaN(Number(idParam)) ? Number(idParam) : null;
+  }
+
+  private patchIfEditMode() {
+    this.recipeId = this.getRouteId();
+    if (!this.recipeId) return;
+    this.setEditMode();
     this.fetchAndPatch();
   }
 
@@ -59,8 +64,7 @@ export class CrudRecipeComponent implements OnInit {
 
   //#region Sub Functions
 
-  private setEditMode(idParam: string) {
-    this.recipeId = Number(idParam);
+  private setEditMode() {
     this.isEditMode = true;
   }
 
