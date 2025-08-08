@@ -25,7 +25,22 @@
         <div class="card-body">
           <p><strong class="me-2">Recipe:</strong> {{recipe?.name}}</p>
           <p><strong class="me-2">Description:</strong> {{recipe?.description}}</p>
-          <p><strong class="me-2">Instructions:</strong> {{recipe?.instructions}}</p>
+
+          <p class="fw-bold">Instructions:</p>
+          <table class="table table-bordered table-striped table-sm mb-0">
+            <thead>
+              <tr>
+                <th class="w-75">Text</th>
+                <th class="w-25">Order</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let instruction of recipe?.instructions">
+                <td>{{ instruction.text }}</td>
+                <td>{{ instruction.order }}</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </div>
     </form>
