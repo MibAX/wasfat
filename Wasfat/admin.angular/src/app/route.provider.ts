@@ -16,7 +16,7 @@ function configureRoutes(routesService: RoutesService) {
         layout: eLayoutType.application,
       },
       {
-        path: '/recipes/list',
+        path: '/recipes',
         name: '::Menu:Recipes',
         iconClass: 'fas fa-utensils',
         order: 2,

@@ -5,7 +5,7 @@ import { CrudRecipeComponent } from './crud-recipe/crud-recipe.component';
 
 const routes: Routes = [
   {
-    path: 'list',
+    path: '',
     component: RecipesListComponent,
   },
   {

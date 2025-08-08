@@ -43,7 +43,7 @@ export class CrudRecipeComponent implements OnInit {
   }
 
   cancel(): void {
-    this.router.navigate(["/recipes/list"]);
+    this.router.navigate(["/recipes"]);
   }
 
   save(): void {
@@ -82,14 +82,14 @@ export class CrudRecipeComponent implements OnInit {
   private update() {
     this.recipeAdminSvc.update(this.recipeId, this.FormGroup.value).subscribe((recipe) => {
       console.log('Recipe updated successfully', recipe);
-      this.router.navigate(["/recipes/list"]);
+      this.router.navigate(["/recipes"]);
     });
   }
 
   private create() {
     this.recipeAdminSvc.create(this.FormGroup.value).subscribe((recipe) => {
       console.log('Recipe created successfully', recipe);
-      this.router.navigate(["/recipes/list"]);
+      this.router.navigate(["/recipes"]);
     });
   }
 
