@@ -41,7 +41,7 @@ export class CrudRecipeComponent implements OnInit {
   private patchIfEditMode() {
     this.recipeId = this.getRouteId();
     if (!this.recipeId) return;
-    this.setEditMode();
+    this.isEditMode = true;
     this.fetchAndPatch();
   }
 
@@ -63,10 +63,6 @@ export class CrudRecipeComponent implements OnInit {
   }
 
   //#region Sub Functions
-
-  private setEditMode() {
-    this.isEditMode = true;
-  }
 
   private fetchAndPatch() {
     this.recipeAdminSvc.get(this.recipeId).subscribe(response => {
