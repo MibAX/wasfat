@@ -34,7 +34,8 @@ export class CrudRecipeComponent implements OnInit {
     this.form = this.fb.group({
       id: [0],
       name: ['', [Validators.required, Validators.minLength(3)]],
-      description: ['']
+      description: [''],
+      instructions: this.fb.array([])
     });
   }
 
@@ -72,7 +73,8 @@ export class CrudRecipeComponent implements OnInit {
     this.form.patchValue({
       id: recipe.id,
       name: recipe.name,
-      description: recipe.description
+      description: recipe.description,
+      instructions: recipe.instructions
     })
   }
 
