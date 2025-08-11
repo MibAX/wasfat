@@ -1,22 +1,49 @@
 <div class="card">
-  <div class="card-header">
-    <button mat-stroked-button color="warn" class="me-2" (click)="cancel()">Cancel</button>
-    <button mat-stroked-button color="primary" (click)="save()">
-      {{ isEditMode ? 'Save' : 'Create' }}
-    </button>
-  </div>
+    <div class="card-header">
+        <button mat-stroked-button color="warn" class="me-2" (click)="cancel()">Cancel</button>
+        <button mat-stroked-button color="primary" (click)="save()">
+            {{ isEditMode ? 'Save' : 'Create' }}
+        </button>
+    </div>
 
-  <div class="card-body">
-    <form [formGroup]="form">
-      <mat-form-field appearance="outline" class="w-100">
-        <mat-label>Name</mat-label>
-        <input matInput formControlName="name" placeholder="Enter recipe name" />
-      </mat-form-field>
+    <div class="card-body">
+        <form [formGroup]="form">
+            <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Name</mat-label>
+                <input matInput formControlName="name" placeholder="Enter recipe name" />
+            </mat-form-field>
 
-      <mat-form-field appearance="outline" class="w-100">
-        <mat-label>Description</mat-label>
-        <textarea matInput formControlName="description" placeholder="Enter recipe description"></textarea>
-      </mat-form-field>
-    </form>
-  </div>
+            <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Description</mat-label>
+                <textarea matInput formControlName="description" placeholder="Enter recipe description"></textarea>
+            </mat-form-field>
+
+            <div class="card">
+                <div class="card-header">
+                    <p class="fs-5 fw-bold text-center my-0">Instructions</p>
+                </div>
+                <div class="card-body">
+                    <ng-container formArrayName="instructions">
+                        <div *ngFor="let instruction of instructionsArray.controls; let i = index" [formGroupName]="i"
+                            class="border rounded mb-3 p-3">
+                            <div class="row">
+                                <div class="col-2">
+                                    <mat-form-field appearance="outline" class="w-100">
+                                        <mat-label>Order</mat-label>
+                                        <input matInput formControlName="order" type="number">
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-10">
+                                    <mat-form-field appearance="outline" class="w-100">
+                                        <mat-label>Instruction</mat-label>
+                                        <input matInput formControlName="text" placeholder="Enter instruction">
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                        </div>
+                    </ng-container>
+                </div>
+            </div>
+        </form>
+    </div>
 </div>
