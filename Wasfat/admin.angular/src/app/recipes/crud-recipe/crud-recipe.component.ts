@@ -76,8 +76,21 @@ export class CrudRecipeComponent implements OnInit {
       id: recipe.id,
       name: recipe.name,
       description: recipe.description,
-      instructions: recipe.instructions
     })
+
+    this.instructionsArray.clear();
+    if (recipe.instructions?.length) {
+      recipe.instructions.forEach((instruction) => {
+        this.instructionsArray.push(
+          this.fb.group({
+            id: [instruction.id],
+            text: [instruction.text, [Validators.required, Validators.minLength(8)]],
+            order: [instruction.order, Validators.required],
+            recipeId: [instruction.recipeId]
+          })
+        )
+      })
+    }
   }
 
   private update() {
