@@ -98,6 +98,10 @@ export class CrudRecipeComponent implements OnInit {
     this.instructionsArray.push(this.buildInstructionGroup());
   }
 
+    removeInstruction(index: number): void {
+    this.instructionsArray.removeAt(index);
+  }
+
   private update() {
     this.recipeAdminSvc.update(this.recipeId, this.form.value).subscribe((recipe) => {
       console.log('Recipe updated successfully', recipe);
