@@ -85,26 +85,19 @@ export class CrudRecipeComponent implements OnInit {
     }
   }
 
-  private buildInstructionGroup(instruction: InstructionDto): FormGroup {
+  private buildInstructionGroup(instruction?: InstructionDto): FormGroup {
     return this.fb.group({
-      id: [instruction.id],
-      text: [instruction.text, [Validators.required, Validators.minLength(8)]],
-      order: [instruction.order, Validators.required],
-      recipeId: [instruction.recipeId]
+      id: [instruction?.id ?? 0],
+      text: [instruction?.text ?? '', [Validators.required, Validators.minLength(8)]],
+      order: [instruction?.order ?? this.instructionsArray.length + 1, Validators.required],
+      recipeId: [instruction?.recipeId ?? this.recipeId ?? 0]
     })
   }
 
   addInstruction(): void {
-    this.instructionsArray.push(
-      this.fb.group({
-        id: [0],
-        text: ['', [Validators.required, Validators.minLength(8)]],
-        order: [this.instructionsArray.length + 1, Validators.required],
-        recipeId: [this.recipeId ?? 0]
-      })
-    );
+    this.instructionsArray.push(this.buildInstructionGroup());
   }
-  
+
   private update() {
     this.recipeAdminSvc.update(this.recipeId, this.form.value).subscribe((recipe) => {
       console.log('Recipe updated successfully', recipe);
