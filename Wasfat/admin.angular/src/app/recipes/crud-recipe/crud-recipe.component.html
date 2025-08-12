@@ -24,7 +24,7 @@
                 </div>
                 <div class="card-body">
                     <ng-container formArrayName="instructions">
-                        <div cdkDropList>
+                        <div cdkDropList (cdkDropListDropped)="drop($event)">
                             <div *ngFor="let instruction of instructionsArray.controls; let i = index" [formGroupName]="i"
                                 class="border rounded mb-3 p-3" cdkDrag>
                                 <div class="row">
