@@ -33,7 +33,8 @@
                     <ng-container formArrayName="instructions">
                         <div cdkDropList (cdkDropListDropped)="drop($event)">
                             <div *ngFor="let instruction of instructionsArray.controls; let i = index"
-                                [formGroupName]="i" class="border rounded mb-3 p-3 instruction-item" cdkDrag
+                                [formGroupName]="i" class="border rounded mb-3 p-3"
+                                [ngClass]="{'instruction-item' : isDragEnabled}" cdkDrag
                                 [cdkDragDisabled]="!isDragEnabled" cdkDragLockAxis="y" cdkDragBoundary=".card-body">
                                 <div class="row">
                                     <div class="col-2">
