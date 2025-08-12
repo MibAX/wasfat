@@ -104,6 +104,9 @@ export class CrudRecipeComponent implements OnInit {
   removeInstruction(index: number): void {
     this.instructionsArray.removeAt(index);
     this.updateInstructionsOrder();
+    if(this.instructionsArray.length < 1) {
+      this.isDragEnabled = false;
+    }
   }
 
   private updateInstructionsOrder(): void {
