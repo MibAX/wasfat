@@ -26,7 +26,7 @@
                     <ng-container formArrayName="instructions">
                         <div cdkDropList (cdkDropListDropped)="drop($event)">
                             <div *ngFor="let instruction of instructionsArray.controls; let i = index" [formGroupName]="i"
-                                class="border rounded mb-3 p-3" cdkDrag>
+                                class="border rounded mb-3 p-3" cdkDrag cdkDragLockAxis="y">
                                 <div class="row">
                                     <div class="col-2">
                                         <mat-form-field appearance="outline" class="w-100">
