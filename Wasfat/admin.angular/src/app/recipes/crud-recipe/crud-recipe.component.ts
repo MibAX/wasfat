@@ -1,3 +1,4 @@
+import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -109,6 +110,11 @@ export class CrudRecipeComponent implements OnInit {
     });
   }
 
+  drop(event: CdkDragDrop<unknown>): void {
+    moveItemInArray(this.instructionsArray.controls, event.previousIndex, event.currentIndex);
+    this.updateInstructionsOrder();
+  }
+  
   private update() {
     this.recipeAdminSvc.update(this.recipeId, this.form.value).subscribe((recipe) => {
       console.log('Recipe updated successfully', recipe);
