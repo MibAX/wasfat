@@ -1,6 +1,7 @@
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
+import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { ActivatedRoute, Router } from '@angular/router';
 import { InstructionDto } from '@proxy/instructions';
 import { RecipeAdminService, RecipeDto } from '@proxy/recipes';
@@ -14,6 +15,7 @@ export class CrudRecipeComponent implements OnInit {
   form: FormGroup;
   recipeId: number | null = null;
   isEditMode: boolean = false;
+  isDragEnabled: boolean = false;
 
   get instructionsArray(): FormArray { return this.form.get('instructions') as FormArray };
 
@@ -108,6 +110,10 @@ export class CrudRecipeComponent implements OnInit {
     this.instructionsArray.controls.forEach((instr, index) => {
       instr.patchValue({ order: index + 1 });
     });
+  }
+
+  toggleDragDrop(event: MatSlideToggleChange): void {
+    this.isDragEnabled = event.checked;
   }
 
   drop(event: CdkDragDrop<unknown>): void {
