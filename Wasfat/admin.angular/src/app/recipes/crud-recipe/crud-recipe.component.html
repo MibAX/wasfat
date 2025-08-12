@@ -20,7 +20,11 @@
 
             <div class="card">
                 <div class="card-header">
-                    <p class="fs-5 fw-bold text-center my-0">Instructions</p>
+                    <div class="row">
+                        <mat-slide-toggle class="col-4" color="primary">Recipe Instructions</mat-slide-toggle>
+                        <p class="col-4 fs-5 fw-bold text-center my-0">Instructions</p>
+                        <div class="col-4"></div>
+                    </div>
                 </div>
                 <div class="card-body">
                     <ng-container formArrayName="instructions">
