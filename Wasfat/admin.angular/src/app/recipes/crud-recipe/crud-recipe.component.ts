@@ -98,8 +98,15 @@ export class CrudRecipeComponent implements OnInit {
     this.instructionsArray.push(this.buildInstructionGroup());
   }
 
-    removeInstruction(index: number): void {
+  removeInstruction(index: number): void {
     this.instructionsArray.removeAt(index);
+    this.updateInstructionsOrder();
+  }
+
+  private updateInstructionsOrder(): void {
+    this.instructionsArray.controls.forEach((instr, index) => {
+      instr.patchValue({ order: index + 1 });
+    });
   }
 
   private update() {
