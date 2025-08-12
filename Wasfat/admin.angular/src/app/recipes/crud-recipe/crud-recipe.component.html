@@ -32,8 +32,9 @@
                 <div class="card-body">
                     <ng-container formArrayName="instructions">
                         <div cdkDropList (cdkDropListDropped)="drop($event)">
-                            <div *ngFor="let instruction of instructionsArray.controls; let i = index" [formGroupName]="i" 
-                            class="border rounded mb-3 p-3" cdkDrag [cdkDragDisabled]="!isDragEnabled" cdkDragLockAxis="y" cdkDragBoundary=".card-body">
+                            <div *ngFor="let instruction of instructionsArray.controls; let i = index"
+                                [formGroupName]="i" class="border rounded mb-3 p-3 instruction-item" cdkDrag
+                                [cdkDragDisabled]="!isDragEnabled" cdkDragLockAxis="y" cdkDragBoundary=".card-body">
                                 <div class="row">
                                     <div class="col-2">
                                         <mat-form-field appearance="outline" class="w-100">
