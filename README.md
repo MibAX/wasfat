@@ -2180,3 +2180,98 @@ In this chapter, we extended the CRUD functionality for recipe management by imp
 
 
 This completes the extension of the CRUD functionality for recipe editing.
+
+---
+## 11 - Implementing One-to-Many Relationships
+
+This chapter will guide you through building a one-to-many relationship between `Recipe` and `Instruction`, covering everything from entity creation to frontend integration.
+
+
+
+### 11.01 What You Will Learn in This Chapter
+
+
+
+### 11.02 Terminology
+
+
+
+### 11.03 Adding the Instruction Entity
+
+
+
+### 11.04 Establishing One-to-Many Relationship
+
+
+
+### 11.05 Adding the Instruction Entity to the DbContext
+
+
+
+### 11.06 Mapping the Instruction Entity to a Database Table
+
+
+
+### 11.07 Adding a Migration
+
+
+
+### 11.08 Applying the Migration
+
+
+
+### 11.09 Creating the Instruction (DTO)
+
+
+
+### 11.10 Modifying RecipeDto to Include InstructionDtos
+
+
+
+### 11.11 Setting Up the Mapper Profile
+
+
+
+### 11.12 Importing Sample Data
+
+
+
+### 11.13 Generating Proxy in the Frontend
+
+
+
+### 11.14 Simplifying Route ID Access Using Snapshot
+
+
+
+### 11.15 Inspecting the Returned Recipe Object via Network Tab
+
+
+
+### 11.16 Installing EntityFrameworkCore
+
+
+
+### 11.17 Getting Recipe `Instructions` via `Include`
+
+
+
+### 11.18 Displaying Recipe Instructions using *ngFor
+
+
+
+### 11.19 Hiding Empty Instructions Card using *ngIf
+
+
+
+### 11.20 Adding Instructions `FormArray`
+
+
+
+### 11.21 Getting the Instructions `FormArray` via a `Getter`
+
+
+
+### 11.22 Why Getter (Check the Table)
+
+
