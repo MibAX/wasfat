@@ -59,8 +59,18 @@ export class CrudRecipeComponent implements OnInit {
       alert("some Fields are not valid.")
       return;
     }
+
+    const recipe: RecipeDto = this.mapFormToRecipe();
+    if (this.isEditMode) {
+      this.update(recipe);
+    } else {
+      this.create(recipe);
+    }
+  }
+
+  private mapFormToRecipe(): RecipeDto {
     const formValue = this.form.value;
-    const recipe: RecipeDto = {
+    return {
       id: formValue.id,
       name: formValue.name,
       description: formValue.description,
@@ -71,12 +81,6 @@ export class CrudRecipeComponent implements OnInit {
         recipeId: instr.recipeId
       }))
     };
-    
-    if (this.isEditMode) {
-      this.update(recipe);
-    } else {
-      this.create(recipe);
-    }
   }
 
   //#region Sub Functions
