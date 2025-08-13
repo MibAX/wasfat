@@ -54,12 +54,24 @@ export class CrudRecipeComponent implements OnInit {
     this.router.navigate(["/recipes"]);
   }
 
-  save(): void {
+  submit(): void {
     if (this.form.invalid) {
       alert("some Fields are not valid.")
       return;
     }
-
+    const formValue = this.form.value;
+    const recipe: RecipeDto = {
+      id: formValue.id,
+      name: formValue.name,
+      description: formValue.description,
+      instructions: formValue.instructions.map((instr: InstructionDto, index: number) => ({
+        id: instr.id,
+        order: index + 1,
+        text: instr.text,
+        recipeId: instr.recipeId
+      }))
+    };
+    
     if (this.isEditMode) {
       this.update();
     } else {
