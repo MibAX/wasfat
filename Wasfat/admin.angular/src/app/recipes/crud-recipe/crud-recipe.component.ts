@@ -73,9 +73,9 @@ export class CrudRecipeComponent implements OnInit {
     };
     
     if (this.isEditMode) {
-      this.update();
+      this.update(recipe);
     } else {
-      this.create();
+      this.create(recipe);
     }
   }
 
@@ -136,15 +136,15 @@ export class CrudRecipeComponent implements OnInit {
     this.updateInstructionsOrder();
   }
   
-  private update() {
-    this.recipeAdminSvc.update(this.recipeId, this.form.value).subscribe((recipe) => {
+  private update(recipe: RecipeDto) {
+    this.recipeAdminSvc.update(this.recipeId, recipe).subscribe((recipe) => {
       console.log('Recipe updated successfully', recipe);
       this.router.navigate(["/recipes"]);
     });
   }
 
-  private create() {
-    this.recipeAdminSvc.create(this.form.value).subscribe((recipe) => {
+  private create(recipe: RecipeDto) {
+    this.recipeAdminSvc.create(recipe).subscribe((recipe) => {
       console.log('Recipe created successfully', recipe);
       this.router.navigate(["/recipes"]);
     });
