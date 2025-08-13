@@ -28,15 +28,17 @@ export class CrudRecipeComponent implements OnInit {
 
   ngOnInit(): void {
     console.log('CrudRecipeComponent > ngOnInit')
-    this.buildFrom();
+    this.buildForm();
     this.recipeId = this.getRouteId();
     if(this.recipeId) {
       this.isEditMode = true;
-      this.fetchAndPatch();
+      this.loadRecipe();
     }
   }
 
-  private buildFrom() {
+  //#region Component bootstrapping & data load
+
+  private buildForm(): void {
     this.form = this.fb.group({
       id: [0],
       name: ['', [Validators.required, Validators.minLength(3)]],
@@ -50,48 +52,13 @@ export class CrudRecipeComponent implements OnInit {
     return idParam && !isNaN(Number(idParam)) ? Number(idParam) : null;
   }
 
-  cancel(): void {
-    this.router.navigate(["/recipes"]);
-  }
-
-  submit(): void {
-    if (this.form.invalid) {
-      alert("some Fields are not valid.")
-      return;
-    }
-
-    const recipe: RecipeDto = this.mapFormToRecipe();
-    if (this.isEditMode) {
-      this.update(recipe);
-    } else {
-      this.create(recipe);
-    }
-  }
-
-  private mapFormToRecipe(): RecipeDto {
-    const formValue = this.form.value;
-    return {
-      id: formValue.id,
-      name: formValue.name,
-      description: formValue.description,
-      instructions: formValue.instructions.map((instr: InstructionDto, index: number) => ({
-        id: instr.id,
-        order: index + 1,
-        text: instr.text,
-        recipeId: instr.recipeId
-      }))
-    };
-  }
-
-  //#region Sub Functions
-
-  private fetchAndPatch() {
+  private loadRecipe(): void {
     this.recipeAdminSvc.get(this.recipeId).subscribe(response => {
       this.patchForm(response);
     })
   }
 
-  private patchForm(recipe: RecipeDto) {
+  private patchForm(recipe: RecipeDto): void {
     this.form.patchValue({
       id: recipe.id,
       name: recipe.name,
@@ -103,6 +70,10 @@ export class CrudRecipeComponent implements OnInit {
       recipe.instructions.forEach(instruction => this.instructionsArray.push(this.buildInstructionGroup(instruction)))
     }
   }
+
+  //#endregion
+
+  //#region Instruction form controls
 
   private buildInstructionGroup(instruction?: InstructionDto): FormGroup {
     return this.fb.group({
@@ -120,7 +91,7 @@ export class CrudRecipeComponent implements OnInit {
   removeInstruction(index: number): void {
     this.instructionsArray.removeAt(index);
     this.updateInstructionsOrder();
-    if(this.instructionsArray.length < 1) {
+    if(this.instructionsArray.length < 2) {
       this.isDragEnabled = false;
     }
   }
@@ -131,6 +102,10 @@ export class CrudRecipeComponent implements OnInit {
     });
   }
 
+  //#endregion
+
+  //#region Drag & drop ordering
+
   toggleDragDrop(event: MatSlideToggleChange): void {
     this.isDragEnabled = event.checked;
   }
@@ -140,14 +115,50 @@ export class CrudRecipeComponent implements OnInit {
     this.updateInstructionsOrder();
   }
   
-  private update(recipe: RecipeDto) {
+  //#endregion
+
+  //#region Submit & persistence (DTO mapping + API calls)
+
+  cancel(): void {
+    this.router.navigate(["/recipes"]);
+  }
+
+  submit(): void {
+    if (this.form.invalid) {
+      this.form.markAllAsTouched(); return;
+    }
+
+    const recipe = this.mapFormToRecipe();
+    if (this.isEditMode) {
+      this.update(recipe);
+    } else {
+      this.create(recipe);
+    }
+  }
+
+  private mapFormToRecipe(): RecipeDto {
+    const formValue = this.form.value;
+    return {
+      id: formValue.id,
+      name: formValue.name,
+      description: formValue.description,
+      instructions: formValue.instructions.map((instr: InstructionDto) => ({
+        id: instr.id,
+        order: instr.order,
+        text: instr.text,
+        recipeId: instr.recipeId
+      }))
+    };
+  }
+
+  private update(recipe: RecipeDto): void {
     this.recipeAdminSvc.update(this.recipeId, recipe).subscribe((recipe) => {
       console.log('Recipe updated successfully', recipe);
       this.router.navigate(["/recipes"]);
     });
   }
 
-  private create(recipe: RecipeDto) {
+  private create(recipe: RecipeDto): void {
     this.recipeAdminSvc.create(recipe).subscribe((recipe) => {
       console.log('Recipe created successfully', recipe);
       this.router.navigate(["/recipes"]);

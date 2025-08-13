@@ -22,7 +22,7 @@
                 <div class="card-header">
                     <div class="row">
                         <mat-slide-toggle class="col-4" color="primary" [checked]="isDragEnabled"
-                            [disabled]="instructionsArray.length < 1" (change)="toggleDragDrop($event)">
+                            [disabled]="instructionsArray.length < 2" (change)="toggleDragDrop($event)">
                             Recipe Instructions
                         </mat-slide-toggle>
                         <p class="col-4 fs-5 fw-bold text-center my-0">Instructions</p>
@@ -59,11 +59,11 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="text-end">
-                                <button type="button" mat-stroked-button color="primary" (click)="addInstruction()">
-                                    <mat-icon>add</mat-icon> Add Instruction
-                                </button>
-                            </div>
+                        </div>
+                        <div class="text-end">
+                            <button type="button" mat-stroked-button color="primary" (click)="addInstruction()">
+                                <mat-icon>add</mat-icon> Add Instruction
+                            </button>
                         </div>
                     </ng-container>
                 </div>
