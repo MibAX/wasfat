@@ -97,5 +97,10 @@ public class WasfatDbContext :
 
         });
 
+        builder.Entity<Instruction>(b =>
+        {
+            b.ToTable(WasfatConsts.DbTablePrefix + "Instructions", WasfatConsts.DbSchema);
+            b.ConfigureByConvention();
+        });
     }
 }
