@@ -2166,7 +2166,169 @@ In this lecture, we update the recipe routes to be more user-friendly. Instead o
 > Be sure to update all references in your application from `/recipes/crud` and `/recipes/crud/:id` to `/recipes/create` and `/recipes/edit/:id` respectively. This includes any navigation links or redirects in your code.
 
 
-### 10.20 Summary
+### 10.20 Refactoring CRUD Recipe for Code Readability
+
+To improve code readability and organization, we recommend installing the following VS Code extension:
+
+🔹 **Extension: Create / Delete #region quickly**  
+[Download from Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=suadev.csharp-region-manager)  
+
+**Location:**  
+`src`/`app`/`recipes`/`crud-recipe`/`crud-recipe.component.ts`
+
+**👍 Refactored code:**
+
+```typescript
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import { RecipeAdminService, RecipeDto } from '@proxy/recipes';
+
+@Component({
+  selector: 'app-crud-recipe',
+  templateUrl: './crud-recipe.component.html',
+  styleUrls: ['./crud-recipe.component.scss']
+})
+export class CrudRecipeComponent implements OnInit {
+  formGroup: FormGroup;
+  recipeId: number | null = null;
+  isEditMode: boolean = false;
+
+  constructor(
+    private recipeAdminSvc: RecipeAdminService,
+    private fb: FormBuilder,
+    private router: Router,
+    private activatedRoute: ActivatedRoute) {
+
+  }
+
+  ngOnInit(): void {
+    console.log('CrudRecipeComponent > ngOnInit');
+    this.buildFrom();
+    this.patchIfEditMode();
+  }
+
+  private buildFrom() {
+    this.formGroup = this.fb.group({
+      name: ['', [Validators.required, Validators.minLength(3)]],
+      description: ['']
+    });
+  }
+
+  private patchIfEditMode() {
+    this.activatedRoute.paramMap.subscribe(params => {
+      const idParam = params.get('id');
+      if (!idParam) return;
+      this.setEditMOde(idParam);
+      this.fetchAndPatch();
+    });
+  }
+
+  cancel(): void {
+    this.router.navigate(["/recipes/list"]);
+  }
+
+  save(): void {
+    if (this.formGroup.invalid) {
+      alert("some fields are invalid");
+      return;
+    }
+    if (this.isEditMode) {
+      this.update();
+    } else {
+      this.create();
+    }
+  }
+
+  //#region Sub Functions 
+
+  private setEditMOde(idParam: string) {
+    this.recipeId = Number(idParam);
+    this.isEditMode = true;
+  }
+
+  private fetchAndPatch() {
+    this.recipeAdminSvc.get(this.recipeId).subscribe(recipe => {
+      this.patch(recipe);
+    });
+  }
+
+  private patch(response: RecipeDto) {
+    this.formGroup.patchValue({
+      name: response.name,
+      description: response.description
+    });
+  }
+
+  private update() {
+    this.recipeAdminSvc.update(this.recipeId, this.formGroup.value).subscribe(response => {
+      console.log('Recipe updated successfully', response);
+      this.router.navigate(["/recipes/list"]);
+    });
+  }
+
+  private create() {
+    this.recipeAdminSvc.create(this.formGroup.value).subscribe((response) => {
+      console.log('Recipe created successfully', response);
+      this.router.navigate(["/recipes/list"]);
+    });
+  }
+
+  //#endregion
+}
+```
+
+```html
+<div class="card">
+  <div class="card-header">
+    <div class="row">
+      <div class="col-md-6 ">
+
+        <button type="button" class="me-2" mat-stroked-button color="warn" (click)="cancel()">
+          Cancel
+        </button>
+
+        <button type="button" mat-stroked-button color="primary" (click)="save()">
+          {{ isEditMode ? 'Save' : 'Create' }}
+        </button>
+
+      </div>
+      <div class="col-md-6 ">
+        <!-- right card header -->
+      </div>
+    </div>
+  </div>
+  <div class="card-body">
+
+    <form [formGroup]="FormGroup">
+
+      <div class="row">
+        <div class="col-md-6 ">
+
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Name</mat-label>
+            <input matInput formControlName="name" placeholder="Enter recipe name">
+          </mat-form-field>
+
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Description</mat-label>
+            <textarea matInput formControlName="description" placeholder="Enter recipe description"></textarea>
+          </mat-form-field>
+
+        </div>
+        <div class="col-md-6 ">
+          <!-- right card body -->
+        </div>
+      </div>
+
+
+    </form>
+
+  </div>
+</div>
+```
+
+### 10.21 Summary
 
 In this chapter, we extended the CRUD functionality for recipe management by implementing editing capabilities. We accomplished the following:
 
@@ -2182,6 +2344,7 @@ In this chapter, we extended the CRUD functionality for recipe management by imp
 This completes the extension of the CRUD functionality for recipe editing.
 
 ---
+
 ## 11 - Implementing One-to-Many Relationships
 
 This chapter will guide you through building a one-to-many relationship between `Recipe` and `Instruction`,
