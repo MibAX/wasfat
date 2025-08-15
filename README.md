@@ -2184,94 +2184,76 @@ This completes the extension of the CRUD functionality for recipe editing.
 ---
 ## 11 - Implementing One-to-Many Relationships
 
-This chapter will guide you through building a one-to-many relationship between `Recipe` and `Instruction`, covering everything from entity creation to frontend integration.
+This chapter will guide you through building a one-to-many relationship between `Recipe` and `Instruction`,
+covering everything from entity creation to frontend integration.
 
+11.01 What You Will Learn in This Chapter
 
+11.02 Terminology
 
-### 11.01 What You Will Learn in This Chapter
+11.03 Adding the Instruction Entity
 
+11.04 Establishing One-to-Many Relationship
 
+11.05 Adding the Instruction Entity to the DbContext
 
-### 11.02 Terminology
+11.06 Mapping the Instruction Entity to a Database Table
 
+11.07 Adding a Migration
 
+11.08 Applying the Migration
 
-### 11.03 Adding the Instruction Entity
+11.09 Creating the Instruction (DTO)
 
+11.10 Modifying RecipeDto to Include InstructionDtos
 
+11.11 Setting Up the Mapper Profile
 
-### 11.04 Establishing One-to-Many Relationship
+11.12 Importing Sample Data
 
+11.13 Generating Proxy in the Frontend
 
+11.14 Simplifying Route ID Access Using Snapshot
 
-### 11.05 Adding the Instruction Entity to the DbContext
+11.15 Inspecting the Returned Recipe Object via Network Tab
 
+11.16 Installing EF-core in application layer
 
+11.17 Getting Recipe `Instructions` via `Include`
 
-### 11.06 Mapping the Instruction Entity to a Database Table
+11.18 Displaying Recipe Instructions using *ngFor
 
+11.19 Hiding Empty Instructions Card using *ngIf
 
+11.20 Adding Instructions `FormArray`
 
-### 11.07 Adding a Migration
+11.21 Getting the Instructions `FormArray` via a `Getter`
+    explain here : Why Getter (Check the Table)
 
+11.22 
 
+11.23 Reactive Forms Directives Explained
 
-### 11.08 Applying the Migration
+11.24 Adding HTML for Instructions Inputs
 
+11.25 Patching `FormArray` Values (The Right Way)
 
+11.26 Refactoring Instruction Patching into buildInstructionGroup()
 
-### 11.09 Creating the Instruction (DTO)
+11.27 Creating addInstruction() Method
 
+11.28 Modifying buildInstructionGroup() to Support Add & Patch
 
+11.29 Creating removeInstruction() Method
 
-### 11.10 Modifying RecipeDto to Include InstructionDtos
+11.30 Preventing Order Duplication & setting “Order” Readonly
 
+11.31 Adding Drag & Drop for Reordering Instructions
 
+11.32 Controlling Drag & Drop with a Slide Toggle
 
-### 11.11 Setting Up the Mapper Profile
+11.33 Refining instructions layout, drag styles, and conditional row styling
 
+11.34 Mapping form data to RecipeDto for API requests
 
-
-### 11.12 Importing Sample Data
-
-
-
-### 11.13 Generating Proxy in the Frontend
-
-
-
-### 11.14 Simplifying Route ID Access Using Snapshot
-
-
-
-### 11.15 Inspecting the Returned Recipe Object via Network Tab
-
-
-
-### 11.16 Installing EntityFrameworkCore
-
-
-
-### 11.17 Getting Recipe `Instructions` via `Include`
-
-
-
-### 11.18 Displaying Recipe Instructions using *ngFor
-
-
-
-### 11.19 Hiding Empty Instructions Card using *ngIf
-
-
-
-### 11.20 Adding Instructions `FormArray`
-
-
-
-### 11.21 Getting the Instructions `FormArray` via a `Getter`
-
-
-
-### 11.22 Why Getter (Check the Table)
-
-
+11.35 Summary
