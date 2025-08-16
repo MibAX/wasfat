@@ -34,14 +34,12 @@ export class CrudRecipeComponent implements OnInit {
   }
 
   private patchIfEditMode() {
-    this.activatedRoute.paramMap.subscribe(params => {
-      const idParam = params.get('id');
-      if (!idParam) return;
-      this.setEditMode(idParam);
-      this.fetchAndPatch();
-    });
-  }
-
+    const idParam = this.activatedRoute.snapshot.paramMap.get('id');
+    if (!idParam) return;
+    this.setEditMode(idParam);
+    this.fetchAndPatch();
+  };
+  
   cancel(): void {
     this.router.navigate(["/recipes/list"]);
   }
