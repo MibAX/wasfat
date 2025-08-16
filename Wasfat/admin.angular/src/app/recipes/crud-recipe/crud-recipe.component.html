@@ -33,14 +33,19 @@
                                         <input matInput formControlName="order" type="number">
                                     </mat-form-field>
                                 </div>
-                                <div class="col-10">
+                                <div class="col-9">
                                     <mat-form-field appearance="outline" class="w-100">
                                         <mat-label>Instruction</mat-label>
                                         <input matInput formControlName="text" placeholder="Enter instruction">
                                     </mat-form-field>
                                 </div>
+                                <div class="col-1">
+                                    <button type="button" mat-icon-button color="warn" (click)="removeInstruction(i)">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </button>
+                                </div>
                             </div>
-                        </div>
+                        </div>    
                         <div class="text-end">
                             <button type="button" mat-icon-button color="primary" (click)="addInstruction()">
                                 <i class="fas fa-plus"></i>
