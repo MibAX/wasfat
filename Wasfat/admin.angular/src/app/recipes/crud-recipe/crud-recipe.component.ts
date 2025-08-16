@@ -56,11 +56,26 @@ export class CrudRecipeComponent implements OnInit {
       alert("some Fields are not valid.")
       return;
     }
+
+    const recipe: RecipeDto = this.mapFormToRecipe()
     if (this.isEditMode) {
-      this.update();
+      this.update(recipe);
     } else {
-      this.create();
+      this.create(recipe);
     }
+  }
+
+  private mapFormToRecipe(): RecipeDto {
+    const formValue = this.FormGroup.value;
+    return {
+      name: formValue.name,
+      description: formValue.description,
+      instructions: formValue.instructions.map((instr: InstructionDto) => ({
+        id: instr.id,
+        order: instr.order,
+        text: instr.text,
+      }))
+    };
   }
 
   //#region Sub Functions 
@@ -123,20 +138,19 @@ export class CrudRecipeComponent implements OnInit {
     this.updateInstructionsOrder();
   }
 
-  private update() {
-    this.recipeAdminSvc.update(this.recipeId, this.FormGroup.value).subscribe((recipe) => {
+  private update(recipe: RecipeDto) {
+    this.recipeAdminSvc.update(this.recipeId, recipe).subscribe((recipe) => {
       console.log('Recipe updated successfully', recipe);
       this.router.navigate(["/recipes/list"]);
     });
   }
 
-  private create() {
-    this.recipeAdminSvc.create(this.FormGroup.value).subscribe((recipe) => {
+  private create(recipe: RecipeDto) {
+    this.recipeAdminSvc.create(recipe).subscribe((recipe) => {
       console.log('Recipe created successfully', recipe);
       this.router.navigate(["/recipes/list"]);
     });
   }
 
   //#endregion
-
 }
