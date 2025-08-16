@@ -42,7 +42,7 @@ export class CrudRecipeComponent implements OnInit {
     this.setEditMode(idParam);
     this.fetchAndPatch();
   };
-  
+
   cancel(): void {
     this.router.navigate(["/recipes/list"]);
   }
@@ -76,8 +76,20 @@ export class CrudRecipeComponent implements OnInit {
     this.FormGroup.patchValue({
       name: recipe.name,
       description: recipe.description,
-      instructions: recipe.instructions
-    });
+    })
+
+    this.instructionsArray.clear();
+    if (recipe.instructions?.length) {
+      recipe.instructions.forEach((instruction) => {
+        this.instructionsArray.push(
+          this.fb.group({
+            id: [instruction.id],
+            text: [instruction.text, Validators.required],
+            order: [instruction.order, Validators.required],
+          })
+        )
+      })
+    }
   }
 
   private update() {
