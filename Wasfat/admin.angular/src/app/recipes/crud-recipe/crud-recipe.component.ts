@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RecipeAdminService, RecipeDto } from '@proxy/recipes';
 
@@ -12,6 +12,8 @@ export class CrudRecipeComponent implements OnInit {
   FormGroup: FormGroup;
   recipeId: number | null = null;
   isEditMode: boolean = false;
+
+  get instructionsArray(): FormArray { return this.FormGroup.get('instructions') as FormArray };
 
   constructor(
     private recipeAdminSvc: RecipeAdminService,
