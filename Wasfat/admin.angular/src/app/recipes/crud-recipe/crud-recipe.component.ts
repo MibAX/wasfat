@@ -12,7 +12,6 @@ export class CrudRecipeComponent implements OnInit {
   FormGroup: FormGroup;
   recipeId: number | null = null;
   isEditMode: boolean = false;
-  recipe?: RecipeDto;
 
   constructor(
     private recipeAdminSvc: RecipeAdminService,
@@ -30,7 +29,8 @@ export class CrudRecipeComponent implements OnInit {
   private buildFrom() {
     this.FormGroup = this.fb.group({
       name: ['', [Validators.required, Validators.minLength(3)]],
-      description: ['']
+      description: [''],
+      instructions: this.fb.array([])
     });
   }
 
@@ -66,7 +66,6 @@ export class CrudRecipeComponent implements OnInit {
 
   private fetchAndPatch() {
     this.recipeAdminSvc.get(this.recipeId).subscribe(response => {
-      this.recipe = response;
       this.patchForm(response);
     });
   }
@@ -74,7 +73,8 @@ export class CrudRecipeComponent implements OnInit {
   private patchForm(recipe: RecipeDto) {
     this.FormGroup.patchValue({
       name: recipe.name,
-      description: recipe.description
+      description: recipe.description,
+      instructions: recipe.instructions
     });
   }
 
