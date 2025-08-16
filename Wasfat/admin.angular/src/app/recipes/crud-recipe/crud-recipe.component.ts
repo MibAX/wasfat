@@ -12,12 +12,12 @@ import { RecipeAdminService, RecipeDto } from '@proxy/recipes';
   styleUrls: ['./crud-recipe.component.scss']
 })
 export class CrudRecipeComponent implements OnInit {
-  FormGroup: FormGroup;
+  form: FormGroup;
   recipeId: number | null = null;
   isEditMode: boolean = false;
   isDragEnabled: boolean = false;
 
-  get instructionsArray(): FormArray { return this.FormGroup.get('instructions') as FormArray };
+  get instructionsArray(): FormArray { return this.form.get('instructions') as FormArray };
 
   constructor(
     private recipeAdminSvc: RecipeAdminService,
@@ -28,12 +28,12 @@ export class CrudRecipeComponent implements OnInit {
 
   ngOnInit(): void {
     console.log('CrudRecipeComponent > ngOnInit')
-    this.buildFrom();
+    this.buildForm();
     this.patchIfEditMode();
   }
 
-  private buildFrom() {
-    this.FormGroup = this.fb.group({
+  private buildForm() {
+    this.form = this.fb.group({
       name: ['', [Validators.required, Validators.minLength(3)]],
       description: [''],
       instructions: this.fb.array([])
@@ -47,39 +47,6 @@ export class CrudRecipeComponent implements OnInit {
     this.fetchAndPatch();
   };
 
-  cancel(): void {
-    this.router.navigate(["/recipes/list"]);
-  }
-
-  save(): void {
-    if (this.FormGroup.invalid) {
-      alert("some Fields are not valid.")
-      return;
-    }
-
-    const recipe: RecipeDto = this.mapFormToRecipe()
-    if (this.isEditMode) {
-      this.update(recipe);
-    } else {
-      this.create(recipe);
-    }
-  }
-
-  private mapFormToRecipe(): RecipeDto {
-    const formValue = this.FormGroup.value;
-    return {
-      name: formValue.name,
-      description: formValue.description,
-      instructions: formValue.instructions.map((instr: InstructionDto) => ({
-        id: instr.id,
-        order: instr.order,
-        text: instr.text,
-      }))
-    };
-  }
-
-  //#region Sub Functions 
-
   private setEditMode(idParam: string) {
     this.recipeId = Number(idParam);
     this.isEditMode = true;
@@ -92,7 +59,7 @@ export class CrudRecipeComponent implements OnInit {
   }
 
   private patchForm(recipe: RecipeDto) {
-    this.FormGroup.patchValue({
+    this.form.patchValue({
       name: recipe.name,
       description: recipe.description,
     })
@@ -118,7 +85,7 @@ export class CrudRecipeComponent implements OnInit {
   removeInstruction(index: number): void {
     this.instructionsArray.removeAt(index);
     this.updateInstructionsOrder();
-    if(this.instructionsArray.length <2) {
+    if (this.instructionsArray.length < 2) {
       this.isDragEnabled = false;
     }
   }
@@ -138,6 +105,37 @@ export class CrudRecipeComponent implements OnInit {
     this.updateInstructionsOrder();
   }
 
+  cancel(): void {
+    this.router.navigate(["/recipes/list"]);
+  }
+
+  save(): void {
+    if (this.form.invalid) {
+      alert("some Fields are not valid.")
+      return;
+    }
+
+    const recipe: RecipeDto = this.mapFormToRecipe()
+    if (this.isEditMode) {
+      this.update(recipe);
+    } else {
+      this.create(recipe);
+    }
+  }
+
+  private mapFormToRecipe(): RecipeDto {
+    const formValue = this.form.value;
+    return {
+      name: formValue.name,
+      description: formValue.description,
+      instructions: formValue.instructions.map((instr: InstructionDto) => ({
+        id: instr.id,
+        order: instr.order,
+        text: instr.text,
+      }))
+    };
+  }
+
   private update(recipe: RecipeDto) {
     this.recipeAdminSvc.update(this.recipeId, recipe).subscribe((recipe) => {
       console.log('Recipe updated successfully', recipe);
@@ -151,6 +149,4 @@ export class CrudRecipeComponent implements OnInit {
       this.router.navigate(["/recipes/list"]);
     });
   }
-
-  //#endregion
 }

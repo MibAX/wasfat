@@ -7,7 +7,7 @@
     </div>
 
     <div class="card-body">
-        <form [formGroup]="FormGroup">
+        <form [formGroup]="form">
             <mat-form-field appearance="outline" class="w-100 mb-3">
                 <mat-label>Name</mat-label>
                 <input matInput formControlName="name" placeholder="Enter recipe name" />
@@ -62,7 +62,8 @@
                             <div class="row px-3">
                                 <div class="offset-11 col-1">
                                     <div class="d-flex h-100 w-100 justify-content-center align-items-center">
-                                        <button type="button" mat-icon-button color="primary" (click)="addInstruction()">
+                                        <button type="button" mat-icon-button color="primary"
+                                            (click)="addInstruction()">
                                             <i class="fas fa-plus"></i>
                                         </button>
                                     </div>
