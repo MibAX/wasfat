@@ -85,22 +85,16 @@ export class CrudRecipeComponent implements OnInit {
     }
   }
 
-  private buildInstructionGroup(instruction: InstructionDto): FormGroup {
+  private buildInstructionGroup(instruction?: InstructionDto): FormGroup {
     return this.fb.group({
-      id: [instruction.id],
-      text: [instruction.text, Validators.required],
-      order: [instruction.order, Validators.required],
+      id: [instruction?.id ?? 0],
+      text: [instruction?.text ?? '', Validators.required],
+      order: [instruction?.order ?? this.instructionsArray.length + 1, Validators.required],
     })
   }
 
   addInstruction(): void {
-    this.instructionsArray.push(
-      this.fb.group({
-        id: [0],
-        text: ['', Validators.required],
-        order: [this.instructionsArray.length + 1, Validators.required],
-      })
-    );
+    this.instructionsArray.push(this.buildInstructionGroup());
   }
 
   private update() {
