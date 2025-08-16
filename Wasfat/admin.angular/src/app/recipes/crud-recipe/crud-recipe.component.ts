@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { InstructionDto } from '@proxy/instructions';
 import { RecipeAdminService, RecipeDto } from '@proxy/recipes';
 
 @Component({
@@ -80,16 +81,16 @@ export class CrudRecipeComponent implements OnInit {
 
     this.instructionsArray.clear();
     if (recipe.instructions?.length) {
-      recipe.instructions.forEach((instruction) => {
-        this.instructionsArray.push(
-          this.fb.group({
-            id: [instruction.id],
-            text: [instruction.text, Validators.required],
-            order: [instruction.order, Validators.required],
-          })
-        )
-      })
+      recipe.instructions.forEach(instruction => this.instructionsArray.push(this.buildInstructionGroup(instruction)))
     }
+  }
+
+  private buildInstructionGroup(instruction: InstructionDto): FormGroup {
+    return this.fb.group({
+      id: [instruction.id],
+      text: [instruction.text, Validators.required],
+      order: [instruction.order, Validators.required],
+    })
   }
 
   private update() {
