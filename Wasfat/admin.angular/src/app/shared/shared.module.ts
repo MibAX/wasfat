@@ -8,6 +8,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { DragDropModule } from '@angular/cdk/drag-drop'
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 @NgModule({
   declarations: [],
@@ -20,7 +21,8 @@ import { DragDropModule } from '@angular/cdk/drag-drop'
     MatFormFieldModule,
     MatButtonModule,
     MatInputModule,
-    DragDropModule
+    DragDropModule,
+    MatSlideToggleModule
   ],
   exports: [
     CoreModule,
@@ -31,7 +33,8 @@ import { DragDropModule } from '@angular/cdk/drag-drop'
     MatFormFieldModule,
     MatButtonModule,
     MatInputModule,
-    DragDropModule
+    DragDropModule,
+    MatSlideToggleModule
   ],
   providers: []
 })

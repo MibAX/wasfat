@@ -1,6 +1,7 @@
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
+import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { ActivatedRoute, Router } from '@angular/router';
 import { InstructionDto } from '@proxy/instructions';
 import { RecipeAdminService, RecipeDto } from '@proxy/recipes';
@@ -14,6 +15,7 @@ export class CrudRecipeComponent implements OnInit {
   FormGroup: FormGroup;
   recipeId: number | null = null;
   isEditMode: boolean = false;
+  isDragEnabled: boolean = false;
 
   get instructionsArray(): FormArray { return this.FormGroup.get('instructions') as FormArray };
 
@@ -101,6 +103,9 @@ export class CrudRecipeComponent implements OnInit {
   removeInstruction(index: number): void {
     this.instructionsArray.removeAt(index);
     this.updateInstructionsOrder();
+    if(this.instructionsArray.length <2) {
+      this.isDragEnabled = false;
+    }
   }
 
   private updateInstructionsOrder(): void {
@@ -109,11 +114,15 @@ export class CrudRecipeComponent implements OnInit {
     });
   }
 
+  toggleDragDrop(event: MatSlideToggleChange): void {
+    this.isDragEnabled = event.checked;
+  }
+
   drop(event: CdkDragDrop<unknown>): void {
     moveItemInArray(this.instructionsArray.controls, event.previousIndex, event.currentIndex);
     this.updateInstructionsOrder();
   }
-  
+
   private update() {
     this.recipeAdminSvc.update(this.recipeId, this.FormGroup.value).subscribe((recipe) => {
       console.log('Recipe updated successfully', recipe);
