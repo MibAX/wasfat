@@ -8,12 +8,12 @@
 
     <div class="card-body">
         <form [formGroup]="FormGroup">
-            <mat-form-field appearance="outline" class="w-100">
+            <mat-form-field appearance="outline" class="w-100 mb-3">
                 <mat-label>Name</mat-label>
                 <input matInput formControlName="name" placeholder="Enter recipe name" />
             </mat-form-field>
 
-            <mat-form-field appearance="outline" class="w-100">
+            <mat-form-field appearance="outline" class="w-100 mb-3">
                 <mat-label>Description</mat-label>
                 <textarea matInput formControlName="description" placeholder="Enter recipe description"></textarea>
             </mat-form-field>
@@ -33,7 +33,8 @@
                     <ng-container formArrayName="instructions">
                         <div cdkDropList (cdkDropListDropped)="drop($event)">
                             <div *ngFor="let instruction of instructionsArray.controls; let i = index"
-                                [formGroupName]="i" class="border rounded mb-3 p-3" cdkDrag
+                                [formGroupName]="i" class="border rounded mb-3 p-3"
+                                [ngClass]="{'instruction-item' : isDragEnabled}" cdkDrag
                                 [cdkDragDisabled]="!isDragEnabled" cdkDragLockAxis="y" cdkDragBoundary=".card-body">
                                 <div class="row">
                                     <div class="col-2">
@@ -49,17 +50,23 @@
                                         </mat-form-field>
                                     </div>
                                     <div class="col-1">
-                                        <button type="button" mat-icon-button color="warn"
-                                            (click)="removeInstruction(i)">
-                                            <i class="fas fa-trash-alt"></i>
-                                        </button>
+                                        <div class="d-flex h-100 w-100 justify-content-center align-items-center">
+                                            <button type="button" mat-icon-button color="warn"
+                                                (click)="removeInstruction(i)">
+                                                <i class="fas fa-trash-alt"></i>
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="text-end">
-                                <button type="button" mat-icon-button color="primary" (click)="addInstruction()">
-                                    <i class="fas fa-plus"></i>
-                                </button>
+                            <div class="row px-3">
+                                <div class="offset-11 col-1">
+                                    <div class="d-flex h-100 w-100 justify-content-center align-items-center">
+                                        <button type="button" mat-icon-button color="primary" (click)="addInstruction()">
+                                            <i class="fas fa-plus"></i>
+                                        </button>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </ng-container>
