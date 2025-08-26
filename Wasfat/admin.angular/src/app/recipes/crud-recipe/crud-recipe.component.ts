@@ -12,6 +12,7 @@ export class CrudRecipeComponent implements OnInit {
   FormGroup: FormGroup;
   recipeId: number | null = null;
   isEditMode: boolean = false;
+  recipe?: RecipeDto;
 
   constructor(
     private recipeAdminSvc: RecipeAdminService,
@@ -34,13 +35,12 @@ export class CrudRecipeComponent implements OnInit {
   }
 
   private patchIfEditMode() {
-    this.activatedRoute.paramMap.subscribe(params => {
-      const idParam = params.get('id');
+    const idParam = this.activatedRoute.snapshot.paramMap.get('id');
       if (!idParam) return;
       this.setEditMode(idParam);
       this.fetchAndPatch();
-    });
-  }
+    };
+  
 
   cancel(): void {
     this.router.navigate(["/recipes/list"]);
@@ -67,6 +67,7 @@ export class CrudRecipeComponent implements OnInit {
 
   private fetchAndPatch() {
     this.recipeAdminSvc.get(this.recipeId).subscribe(response => {
+      this.recipe = response;
       this.patchForm(response);
     });
   }

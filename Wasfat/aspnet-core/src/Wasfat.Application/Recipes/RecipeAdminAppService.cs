@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -25,8 +26,11 @@ namespace Wasfat.Recipes
 
         public override async Task<RecipeDto> GetAsync(int id)
         {
-            var recipe = await _recipesRepository.GetAsync(id);
+            var query = await _recipesRepository.GetQueryableAsync();
 
+            var recipe = await query
+                                .Include(r => r.Instructions.OrderBy(i => i.Order))
+                                .SingleOrDefaultAsync(r => r.Id == id);
             // custome logic
             recipe.Name = recipe.Name.Trim();
 
