@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RecipeAdminService, RecipeDto } from '@proxy/recipes';
 
@@ -9,10 +9,13 @@ import { RecipeAdminService, RecipeDto } from '@proxy/recipes';
   styleUrls: ['./crud-recipe.component.scss']
 })
 export class CrudRecipeComponent implements OnInit {
-  FormGroup: FormGroup;
+  FormGroup!: FormGroup;
   recipeId: number | null = null;
   isEditMode: boolean = false;
-  recipe?: RecipeDto;
+
+  get instructionsArray(): FormArray { return this.FormGroup.get('instructions') as FormArray };
+  
+  instructionsArray_2: FormArray = this.FormGroup.get('instructions') as FormArray;
 
   constructor(
     private recipeAdminSvc: RecipeAdminService,
@@ -30,7 +33,8 @@ export class CrudRecipeComponent implements OnInit {
   private buildFrom() {
     this.FormGroup = this.fb.group({
       name: ['', [Validators.required, Validators.minLength(3)]],
-      description: ['']
+      description: [''],
+      instructions: this.fb.array([])
     });
   }
 
@@ -41,7 +45,6 @@ export class CrudRecipeComponent implements OnInit {
       this.fetchAndPatch();
     };
   
-
   cancel(): void {
     this.router.navigate(["/recipes/list"]);
   }
@@ -67,7 +70,6 @@ export class CrudRecipeComponent implements OnInit {
 
   private fetchAndPatch() {
     this.recipeAdminSvc.get(this.recipeId).subscribe(response => {
-      this.recipe = response;
       this.patchForm(response);
     });
   }
@@ -75,7 +77,8 @@ export class CrudRecipeComponent implements OnInit {
   private patchForm(recipe: RecipeDto) {
     this.FormGroup.patchValue({
       name: recipe.name,
-      description: recipe.description
+      description: recipe.description,
+      instructions: recipe.instructions
     });
   }
 
