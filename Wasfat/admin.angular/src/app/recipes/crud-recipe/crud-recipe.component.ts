@@ -1,6 +1,8 @@
+import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { InstructionDto } from '@proxy/instructions';
 import { RecipeAdminService, RecipeDto } from '@proxy/recipes';
 
 @Component({
@@ -14,8 +16,6 @@ export class CrudRecipeComponent implements OnInit {
   isEditMode: boolean = false;
 
   get instructionsArray(): FormArray { return this.FormGroup.get('instructions') as FormArray };
-  
-  instructionsArray_2: FormArray = this.FormGroup.get('instructions') as FormArray;
 
   constructor(
     private recipeAdminSvc: RecipeAdminService,
@@ -40,11 +40,11 @@ export class CrudRecipeComponent implements OnInit {
 
   private patchIfEditMode() {
     const idParam = this.activatedRoute.snapshot.paramMap.get('id');
-      if (!idParam) return;
-      this.setEditMode(idParam);
-      this.fetchAndPatch();
-    };
-  
+    if (!idParam) return;
+    this.setEditMode(idParam);
+    this.fetchAndPatch();
+  };
+
   cancel(): void {
     this.router.navigate(["/recipes/list"]);
   }
@@ -78,8 +78,37 @@ export class CrudRecipeComponent implements OnInit {
     this.FormGroup.patchValue({
       name: recipe.name,
       description: recipe.description,
-      instructions: recipe.instructions
     });
+
+    recipe.instructions.forEach(instruction => this.instructionsArray.push(this.buildInstructionGroup(instruction)))
+  }
+
+  private buildInstructionGroup(instruction?: InstructionDto): FormGroup {
+    return this.fb.group({
+      id: [instruction?.id ?? 0],
+      text: [instruction?.text ?? '', Validators.required],
+      order: [instruction?.order ?? this.instructionsArray.length + 1, Validators.required],
+    })
+  }
+
+  addInstruction(): void {
+    this.instructionsArray.push(this.buildInstructionGroup());
+  }
+
+  removeInstruction(index: number): void {
+    this.instructionsArray.removeAt(index);
+    this.updateInstructionsOrder();
+  }
+
+  private updateInstructionsOrder(): void {
+    this.instructionsArray.controls.forEach((instr, index) => {
+      instr.patchValue({ order: index + 1 });
+    });
+  }
+
+  drop(event: CdkDragDrop<unknown>): void {
+    moveItemInArray(this.instructionsArray.controls, event.previousIndex, event.currentIndex);
+    this.updateInstructionsOrder();
   }
 
   private update() {
