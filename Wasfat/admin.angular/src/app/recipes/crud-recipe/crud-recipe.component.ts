@@ -1,6 +1,7 @@
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
+import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { ActivatedRoute, Router } from '@angular/router';
 import { InstructionDto } from '@proxy/instructions';
 import { RecipeAdminService, RecipeDto } from '@proxy/recipes';
@@ -11,11 +12,12 @@ import { RecipeAdminService, RecipeDto } from '@proxy/recipes';
   styleUrls: ['./crud-recipe.component.scss']
 })
 export class CrudRecipeComponent implements OnInit {
-  FormGroup!: FormGroup;
+  formGroup: FormGroup;
   recipeId: number | null = null;
   isEditMode: boolean = false;
+  isDragEnabled: boolean = false;
 
-  get instructionsArray(): FormArray { return this.FormGroup.get('instructions') as FormArray };
+  get instructionsArray(): FormArray { return this.formGroup.get('instructions') as FormArray };
 
   constructor(
     private recipeAdminSvc: RecipeAdminService,
@@ -26,12 +28,12 @@ export class CrudRecipeComponent implements OnInit {
 
   ngOnInit(): void {
     console.log('CrudRecipeComponent > ngOnInit')
-    this.buildFrom();
+    this.buildForm();
     this.patchIfEditMode();
   }
 
-  private buildFrom() {
-    this.FormGroup = this.fb.group({
+  private buildForm() {
+    this.formGroup = this.fb.group({
       name: ['', [Validators.required, Validators.minLength(3)]],
       description: [''],
       instructions: this.fb.array([])
@@ -43,25 +45,7 @@ export class CrudRecipeComponent implements OnInit {
     if (!idParam) return;
     this.setEditMode(idParam);
     this.fetchAndPatch();
-  };
-
-  cancel(): void {
-    this.router.navigate(["/recipes/list"]);
   }
-
-  save(): void {
-    if (this.FormGroup.invalid) {
-      alert("some Fields are not valid.")
-      return;
-    }
-    if (this.isEditMode) {
-      this.update();
-    } else {
-      this.create();
-    }
-  }
-
-  //#region Sub Functions 
 
   private setEditMode(idParam: string) {
     this.recipeId = Number(idParam);
@@ -75,7 +59,7 @@ export class CrudRecipeComponent implements OnInit {
   }
 
   private patchForm(recipe: RecipeDto) {
-    this.FormGroup.patchValue({
+    this.formGroup.patchValue({
       name: recipe.name,
       description: recipe.description,
     });
@@ -98,6 +82,9 @@ export class CrudRecipeComponent implements OnInit {
   removeInstruction(index: number): void {
     this.instructionsArray.removeAt(index);
     this.updateInstructionsOrder();
+    if (this.instructionsArray.length < 2) {
+      this.isDragEnabled = false;
+    }
   }
 
   private updateInstructionsOrder(): void {
@@ -106,25 +93,57 @@ export class CrudRecipeComponent implements OnInit {
     });
   }
 
+  toggleDragDrop(event: MatSlideToggleChange): void {
+    this.isDragEnabled = event.checked;
+  }
+
   drop(event: CdkDragDrop<unknown>): void {
     moveItemInArray(this.instructionsArray.controls, event.previousIndex, event.currentIndex);
     this.updateInstructionsOrder();
   }
 
-  private update() {
-    this.recipeAdminSvc.update(this.recipeId, this.FormGroup.value).subscribe((recipe) => {
+  cancel(): void {
+    this.router.navigate(["/recipes/list"]);
+  }
+
+  save(): void {
+    if (this.formGroup.invalid) {
+      alert("some Fields are not valid.")
+      return;
+    }
+
+    const recipe: RecipeDto = this.mapFormToRecipe();
+    if (this.isEditMode) {
+      this.update(recipe);
+    } else {
+      this.create(recipe);
+    }
+  }
+
+  private mapFormToRecipe(): RecipeDto {
+    const formValue = this.formGroup.value;
+    return {
+      name: formValue.name,
+      description: formValue.description,
+      instructions: formValue.instructions.map((instruction: InstructionDto) => ({
+        id: instruction.id,
+        text: instruction.text,
+        order: instruction.order
+      }))
+    }
+  }
+
+  private update(recipe: RecipeDto) {
+    this.recipeAdminSvc.update(this.recipeId, recipe).subscribe((recipe) => {
       console.log('Recipe updated successfully', recipe);
       this.router.navigate(["/recipes/list"]);
     });
   }
 
-  private create() {
-    this.recipeAdminSvc.create(this.FormGroup.value).subscribe((recipe) => {
+  private create(recipe: RecipeDto) {
+    this.recipeAdminSvc.create(recipe).subscribe((recipe) => {
       console.log('Recipe created successfully', recipe);
       this.router.navigate(["/recipes/list"]);
     });
   }
-
-  //#endregion
-
 }

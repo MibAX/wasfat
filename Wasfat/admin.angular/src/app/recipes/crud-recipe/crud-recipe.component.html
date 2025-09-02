@@ -6,27 +6,41 @@
         </button>
     </div>
     <div class="card-body">
-        <form [formGroup]="FormGroup">
-            <mat-form-field class="w-100" appearance="outline">
+        <form [formGroup]="formGroup">
+            <mat-form-field class="w-100 mb-3" appearance="outline">
                 <mat-label>Name</mat-label>
                 <input matInput formControlName="name" placeholder="Enter recipe name">
             </mat-form-field>
 
-            <mat-form-field class="w-100" appearance="outline">
+            <mat-form-field class="w-100 mb-3" appearance="outline">
                 <mat-label>Description</mat-label>
                 <textarea matInput formControlName="description" placeholder="Enter recipe description"></textarea>
             </mat-form-field>
 
             <div class="card">
                 <div class="card-header">
-                    <p class="fs-5 fw-bold text-center my-0">Instructions</p>
+                    <div class="row">
+                        <div class="col-4">
+                            <mat-slide-toggle [checked]="isDragEnabled" color="primary"
+                                (change)="toggleDragDrop($event)" [disabled]="instructionsArray.length < 2">Enable
+                                Ordering</mat-slide-toggle>
+                        </div>
+
+                        <div class="col-4">
+                            <p class="fs-5 fw-bold text-center my-0">Instructions</p>
+                        </div>
+
+                        <div class="col-4"></div>
+                    </div>
                 </div>
                 <div class="card-body">
                     <ng-container formArrayName="instructions">
                         <div cdkDropList (cdkDropListDropped)="drop($event)">
                             <div *ngFor="let instruction of instructionsArray.controls; let i = index"
-                                [formGroupName]="i" class="border rounded mb-3 p-3" cdkDrag cdkDragLockAxis="y"
-                                cdkDragBoundary=".card-body">
+                                [formGroupName]="i" class="border rounded mb-3 p-3"
+                                [ngClass]="{ 'instruction-item': isDragEnabled }" cdkDrag
+                                [cdkDragDisabled]="!isDragEnabled" cdkDragLockAxis="y" cdkDragBoundary=".card-body">
+
                                 <div class="row">
                                     <div class="col-2">
                                         <mat-form-field appearance="outline" class="w-100">
@@ -34,30 +48,38 @@
                                             <input matInput formControlName="order" type="number" readonly>
                                         </mat-form-field>
                                     </div>
+
                                     <div class="col-9">
                                         <mat-form-field appearance="outline" class="w-100">
                                             <mat-label>Instruction</mat-label>
                                             <input matInput formControlName="text" placeholder="Enter instruction">
                                         </mat-form-field>
                                     </div>
+
                                     <div class="col-1">
-                                        <button type="button" mat-icon-button color="warn"
-                                            (click)="removeInstruction(i)">
-                                            <i class="fas fa-trash-alt"></i>
-                                        </button>
+                                        <div class="d-flex justify-content-center align-items-center h-100 w-100">
+                                            <button type="button" mat-icon-button color="warn"
+                                                (click)="removeInstruction(i)">
+                                                <i class="fas fa-trash-alt"></i>
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="text-end">
-                            <button type="button" mat-icon-button color="primary" (click)="addInstruction()">
-                                <i class="fas fa-plus"></i>
-                            </button>
+
+                        <div class="row px-3">
+                            <div class="offset-11 col-1">
+                                <div class="d-flex justify-content-center align-items-center h-100 w-100">
+                                    <button type="button" mat-icon-button color="primary" (click)="addInstruction()">
+                                        <i class="fas fa-plus"></i>
+                                    </button>
+                                </div>
+                            </div>
                         </div>
                     </ng-container>
                 </div>
             </div>
-
         </form>
     </div>
 </div>
