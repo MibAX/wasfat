@@ -15,6 +15,6 @@ namespace Wasfat.Recipes
 
         Task<List<RecipeDto>> GetRecentAsync(int count = 3);
 
-        Task<List<RecipeDto>> GetAllRecipesAsync();
+        Task<List<RecipeDto>> GetAllRecipesAsync(GetAllRecipesInputDto categoryId);
     }
 }

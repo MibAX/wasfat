@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Dynamic.Core;
 using System.Text;
 using System.Threading.Tasks;
 using Volo.Abp;
@@ -126,17 +127,26 @@ namespace Wasfat.Recipes
             return recentRecipeDtos;
         }
 
-        public async Task<List<RecipeDto>> GetAllRecipesAsync()
+        //public async Task<List<RecipeDto>> GetAllRecipesAsync()
+        //{
+        //    var recipes = await _recipesRepository.GetListAsync();
+
+        //    var recipeDtos = ObjectMapper.Map<List<Recipe>, List<RecipeDto>>(recipes);
+
+        //    return recipeDtos;
+        //}
+
+        public async Task<List<RecipeDto>> GetAllRecipesAsync(GetAllRecipesInputDto input)
         {
-            var recipes = await _recipesRepository.GetListAsync();
+            var query = await _recipesRepository.GetQueryableAsync();
+
+            var recipes = await query
+                                .WhereIf(input.CategoryId.HasValue, r => r.Categories.Any(c => c.Id == input.CategoryId))
+                                .ToListAsync();
 
             var recipeDtos = ObjectMapper.Map<List<Recipe>, List<RecipeDto>>(recipes);
 
             return recipeDtos;
         }
-
-
-
-
     }
 }

@@ -9,6 +9,9 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { DragDropModule } from '@angular/cdk/drag-drop'
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatSelectModule } from '@angular/material/select';
 
 @NgModule({
   declarations: [],
@@ -22,7 +25,10 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
     MatButtonModule,
     MatInputModule,
     DragDropModule,
-    MatSlideToggleModule
+    MatSlideToggleModule,
+    MatTooltipModule,
+    MatChipsModule,
+    MatSelectModule
   ],
   exports: [
     CoreModule,
@@ -34,7 +40,10 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
     MatButtonModule,
     MatInputModule,
     DragDropModule,
-    MatSlideToggleModule
+    MatSlideToggleModule,
+    MatTooltipModule,
+    MatChipsModule,
+    MatSelectModule
   ],
   providers: []
 })
