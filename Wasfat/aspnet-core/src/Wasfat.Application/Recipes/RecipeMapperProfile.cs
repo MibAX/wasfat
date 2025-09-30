@@ -11,7 +11,9 @@ namespace Wasfat.Recipes
     {
         public RecipeMapperProfile()
         {
-            CreateMap<Recipe, RecipeDto>().ReverseMap();
+            CreateMap<Recipe, RecipeDto>().ForMember(dest => dest.CategoryIds, 
+                                                     opt => opt.MapFrom(src => src.Categories.Select(c => c.Id)));
+            CreateMap<RecipeDto, Recipe>();
         }
     }
 }

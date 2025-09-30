@@ -6,7 +6,8 @@ namespace Wasfat.Categories
     {
         public CategoryMapperProfile()
         {
-            CreateMap<Category, CategoryDto>().ReverseMap();
+            CreateMap<Category, CategoryDto>();
+            CreateMap<CrudCategoryDto, Category>();
         }
     }
 }

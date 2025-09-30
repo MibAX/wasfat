@@ -1,0 +1,18 @@
+<div class="pt-3">
+    <div mat-dialog-content class="px-5">
+        <form [formGroup]="form">
+            <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Name</mat-label>
+                <input matInput formControlName="name">
+            </mat-form-field>
+        </form>
+    </div>
+</div>
+<div class="px-5 pt-2 pb-3">
+    <div mat-dialog-actions align="end" class="p-0">
+        <button type="button" mat-stroked-button color="accent" mat-dialog-close>Cancel</button>
+
+        <button type="submit" mat-stroked-button color="primary" [mat-dialog-close]="true" [disabled]="!form.valid"
+            (click)="save()">Save</button>
+    </div>
+</div>

@@ -11,6 +11,6 @@ namespace Wasfat.Recipes
         public string Description { get; set; }
 
         public List<Instruction> Instructions { get; set; } = new List<Instruction>(); // Navigation property to the Instruction entity
-        public List<Category> Categories{ get; set; } = new List<Category>(); // Navigation property to the Category entity
+        public List<Category> Categories { get; set; } = new List<Category>(); // Navigation property to the Category entity
     }
 }

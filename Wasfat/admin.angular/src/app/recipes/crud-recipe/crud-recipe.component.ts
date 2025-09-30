@@ -1,8 +1,10 @@
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, FormArray, Validators, FormControl } from '@angular/forms';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { ActivatedRoute, Router } from '@angular/router';
+import { CategoryAdminService } from '@proxy/categories';
+import { LookupDto } from '@proxy/common';
 import { InstructionDto } from '@proxy/instructions';
 import { RecipeAdminService, RecipeDto } from '@proxy/recipes';
 
@@ -16,11 +18,14 @@ export class CrudRecipeComponent implements OnInit {
   recipeId: number | null = null;
   isEditMode: boolean = false;
   isDragEnabled: boolean = false;
-
+  
+  categoryLookup!: LookupDto<number>[];
   get instructionsArray(): FormArray { return this.form.get('instructions') as FormArray };
+  get categoryIds(): FormControl { return this.form.get('categoryIds') as FormControl };
 
   constructor(
     private recipeAdminSvc: RecipeAdminService,
+    private categoryAdminSvc: CategoryAdminService,
     private fb: FormBuilder,
     private router: Router,
     private activatedRoute: ActivatedRoute) {
@@ -30,13 +35,16 @@ export class CrudRecipeComponent implements OnInit {
     console.log('CrudRecipeComponent > ngOnInit')
     this.buildForm();
     this.patchIfEditMode();
+
+    this.categoryAdminSvc.getLookup().subscribe((response) => { this.categoryLookup = response.items });
   }
 
   private buildForm() {
     this.form = this.fb.group({
       name: ['', [Validators.required, Validators.minLength(3)]],
       description: [''],
-      instructions: this.fb.array([])
+      instructions: this.fb.array([]),
+      categoryIds: [[]]
     });
   }
 
@@ -45,7 +53,7 @@ export class CrudRecipeComponent implements OnInit {
     if (!idParam) return;
     this.setEditMode(idParam);
     this.fetchAndPatch();
-  };
+  }
 
   private setEditMode(idParam: string) {
     this.recipeId = Number(idParam);
@@ -62,6 +70,7 @@ export class CrudRecipeComponent implements OnInit {
     this.form.patchValue({
       name: recipe.name,
       description: recipe.description,
+      categoryIds: recipe.categoryIds
     })
 
     this.instructionsArray.clear();
@@ -105,6 +114,15 @@ export class CrudRecipeComponent implements OnInit {
     this.updateInstructionsOrder();
   }
 
+  remove(id: number) {
+    const current = this.categoryIds.value ?? [];
+    this.categoryIds.setValue(current.filter(x => x !== id));
+  }
+
+  getLabel(id: number) {
+    return this.categoryLookup.find(x => x.id === id)?.displayName ?? '';
+  }
+
   cancel(): void {
     this.router.navigate(["/recipes/list"]);
   }
@@ -132,7 +150,8 @@ export class CrudRecipeComponent implements OnInit {
         id: instr.id,
         order: instr.order,
         text: instr.text,
-      }))
+      })),
+      categoryIds: formValue.categoryIds
     };
   }
 

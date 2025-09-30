@@ -1,7 +1,8 @@
-import type { CategoryDto } from './models';
+import type { CategoryDto, CrudCategoryDto } from './models';
 import { RestService, Rest } from '@abp/ng.core';
-import type { PagedAndSortedResultRequestDto, PagedResultDto } from '@abp/ng.core';
+import type { ListResultDto, PagedAndSortedResultRequestDto, PagedResultDto } from '@abp/ng.core';
 import { Injectable } from '@angular/core';
+import type { LookupDto } from '../common/models';
 
 @Injectable({
   providedIn: 'root',
@@ -10,7 +11,7 @@ export class CategoryAdminService {
   apiName = 'Default';
   
 
-  create = (input: CategoryDto, config?: Partial<Rest.Config>) =>
+  create = (input: CrudCategoryDto, config?: Partial<Rest.Config>) =>
     this.restService.request<any, CategoryDto>({
       method: 'POST',
       url: '/api/app/category-admin',
@@ -52,7 +53,15 @@ export class CategoryAdminService {
     { apiName: this.apiName,...config });
   
 
-  update = (id: number, input: CategoryDto, config?: Partial<Rest.Config>) =>
+  getLookup = (config?: Partial<Rest.Config>) =>
+    this.restService.request<any, ListResultDto<LookupDto<number>>>({
+      method: 'GET',
+      url: '/api/app/category-admin/lookup',
+    },
+    { apiName: this.apiName,...config });
+  
+
+  update = (id: number, input: CrudCategoryDto, config?: Partial<Rest.Config>) =>
     this.restService.request<any, CategoryDto>({
       method: 'PUT',
       url: `/api/app/category-admin/${id}`,

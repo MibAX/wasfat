@@ -18,6 +18,28 @@
                 <textarea matInput formControlName="description" placeholder="Enter recipe description"></textarea>
             </mat-form-field>
 
+            <mat-form-field appearance="outline" class="w-100 mb-3">
+                <mat-label>Categories</mat-label>
+                <mat-select multiple formControlName="categoryIds">
+                    <mat-select-trigger>
+                        <div class="chip-container">
+                            <mat-chip-set class="horizontal-scroll">
+                                <mat-chip *ngFor="let id of categoryIds.value" [removable]="true"
+                                    (removed)="remove(id)" highlighted color="primary">
+                                    <span>{{ getLabel(id) }}</span>
+                                    <button matChipRemove>
+                                        <mat-icon>cancel</mat-icon>
+                                    </button>
+                                </mat-chip>
+                            </mat-chip-set>
+                        </div>
+                    </mat-select-trigger>
+                    <mat-option *ngFor="let item of categoryLookup" [value]="item.id">
+                        {{ item.displayName }}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+
             <div class="card">
                 <div class="card-header">
                     <div class="row">
