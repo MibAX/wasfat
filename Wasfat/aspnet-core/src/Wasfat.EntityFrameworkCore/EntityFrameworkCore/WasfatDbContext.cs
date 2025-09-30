@@ -13,6 +13,7 @@ using Volo.Abp.PermissionManagement.EntityFrameworkCore;
 using Volo.Abp.SettingManagement.EntityFrameworkCore;
 using Volo.Abp.TenantManagement;
 using Volo.Abp.TenantManagement.EntityFrameworkCore;
+using Wasfat.Categories;
 using Wasfat.Instructions;
 using Wasfat.Recipes;
 
@@ -57,6 +58,7 @@ public class WasfatDbContext :
     // Wasfat
     public DbSet<Recipe> Recipes { get; set; }
     public DbSet<Instruction> Instructions { get; set; }
+    public DbSet<Category> Categories { get; set; }
 
     #endregion
 
