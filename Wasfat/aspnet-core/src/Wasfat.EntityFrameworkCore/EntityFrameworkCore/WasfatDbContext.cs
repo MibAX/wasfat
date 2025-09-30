@@ -104,5 +104,15 @@ public class WasfatDbContext :
             b.ToTable(WasfatConsts.DbTablePrefix + "Instructions", WasfatConsts.DbSchema);
             b.ConfigureByConvention();
         });
+
+        builder.Entity<Category>(b =>
+        {
+            b.ToTable(WasfatConsts.DbTablePrefix + "Categories", WasfatConsts.DbSchema);
+            b.ConfigureByConvention();
+
+            b.HasMany(r => r.Recipes)
+             .WithMany(c => c.Categories)
+             .UsingEntity(j => j.ToTable(WasfatConsts.DbTablePrefix + "RecipeCategories", WasfatConsts.DbSchema));
+        });
     }
 }
