@@ -21,6 +21,13 @@ function configureRoutes(routesService: RoutesService) {
         iconClass: 'fas fa-utensils',
         order: 2,
         layout: eLayoutType.application,
+      },
+      {
+        path: '/categories/list',
+        name: '::Menu:Categories',
+        iconClass: 'fas fa-layer-group',
+        order: 3,
+        layout: eLayoutType.application,
       }
     ]);
   };
