@@ -1,4 +1,6 @@
-﻿using Volo.Abp.Application.Dtos;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
 using Volo.Abp.Domain.Repositories;
 
@@ -6,12 +8,23 @@ namespace Wasfat.Categories
 {
     public class CategoryAdminAppService : CrudAppService<Category, CategoryDto, int, PagedAndSortedResultRequestDto>, ICategoryAppService
     {
+        private readonly IRepository<Category, int> _categoryRepository;
+
         public CategoryAdminAppService(
             IRepository<Category, int> categoryRepository
             ) 
         : base(categoryRepository)
         {
+            _categoryRepository = categoryRepository;
+        }
 
+        public async Task<List<CategoryDto>> GetAllCategoriesAsync()
+        {
+            var categories = await _categoryRepository.GetListAsync();
+
+            var categoryDtos = ObjectMapper.Map<List<Category>, List<CategoryDto>>(categories);
+
+            return categoryDtos;
         }
     }
 }
