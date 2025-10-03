@@ -135,8 +135,15 @@ namespace Wasfat.Recipes
             return recipeDtos;
         }
 
+        public async Task<List<RecipeDto>> GetFilteredAsync(int categoryId)
+        {
+            var query = await _recipesRepository.GetQueryableAsync();
 
+            var recipes = await query.Where(r => r.Categories.Any(c => c.Id == categoryId)).ToListAsync();
 
+            var recipeDtos = ObjectMapper.Map<List<Recipe>, List<RecipeDto>>(recipes);
 
+            return recipeDtos;
+        }
     }
 }
