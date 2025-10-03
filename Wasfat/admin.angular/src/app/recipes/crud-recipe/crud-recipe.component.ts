@@ -70,6 +70,7 @@ export class CrudRecipeComponent implements OnInit {
     this.form.patchValue({
       name: recipe.name,
       description: recipe.description,
+      categoryIds: recipe.categoryIds
     })
 
     this.instructionsArray.clear();
