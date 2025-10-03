@@ -19,6 +19,8 @@ export class CrudRecipeComponent implements OnInit {
 
   get instructionsArray(): FormArray { return this.form.get('instructions') as FormArray };
 
+  categoryLookups = [{id: 1, displayName: 'Breakfast'}, {id:2, displayName: 'Dinner'}]; // Temporary Data
+
   constructor(
     private recipeAdminSvc: RecipeAdminService,
     private fb: FormBuilder,

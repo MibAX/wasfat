@@ -10,6 +10,7 @@ import { MatInputModule } from '@angular/material/input';
 import { DragDropModule } from '@angular/cdk/drag-drop'
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatDialogModule } from '@angular/material/dialog'
+import { MatSelectModule } from '@angular/material/select'
 
 @NgModule({
   declarations: [],
@@ -24,7 +25,8 @@ import { MatDialogModule } from '@angular/material/dialog'
     MatInputModule,
     DragDropModule,
     MatSlideToggleModule,
-    MatDialogModule
+    MatDialogModule,
+    MatSelectModule
   ],
   exports: [
     CoreModule,
@@ -37,7 +39,8 @@ import { MatDialogModule } from '@angular/material/dialog'
     MatInputModule,
     DragDropModule,
     MatSlideToggleModule,
-    MatDialogModule
+    MatDialogModule,
+    MatSelectModule
   ],
   providers: []
 })

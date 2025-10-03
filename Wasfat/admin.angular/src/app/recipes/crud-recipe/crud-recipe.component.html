@@ -18,6 +18,13 @@
                 <textarea matInput formControlName="description" placeholder="Enter recipe description"></textarea>
             </mat-form-field>
 
+            <mat-form-field appearance="outline" class="w-100 mb-3">
+                <mat-label>Categories</mat-label>
+                <mat-select formControlName="categoryIds" multiple>
+                    <mat-option *ngFor="let category of categoryLookups" [value]="category.id">{{category.displayName}}</mat-option>
+                </mat-select>
+            </mat-form-field>
+
             <div class="card">
                 <div class="card-header">
                     <div class="row">
