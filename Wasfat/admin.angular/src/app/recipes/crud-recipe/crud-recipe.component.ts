@@ -3,6 +3,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { ActivatedRoute, Router } from '@angular/router';
+import { CategoryAdminService } from '@proxy/categories';
+import { LookupDto } from '@proxy/common';
 import { InstructionDto } from '@proxy/instructions';
 import { RecipeAdminService, RecipeDto } from '@proxy/recipes';
 
@@ -19,10 +21,11 @@ export class CrudRecipeComponent implements OnInit {
 
   get instructionsArray(): FormArray { return this.form.get('instructions') as FormArray };
 
-  categoryLookups = [{id: 1, displayName: 'Breakfast'}, {id:2, displayName: 'Dinner'}]; // Temporary Data
+  categoryLookups: LookupDto[];
 
   constructor(
     private recipeAdminSvc: RecipeAdminService,
+    private categoryAdminSvc: CategoryAdminService,
     private fb: FormBuilder,
     private router: Router,
     private activatedRoute: ActivatedRoute) {
@@ -32,6 +35,8 @@ export class CrudRecipeComponent implements OnInit {
     console.log('CrudRecipeComponent > ngOnInit')
     this.buildForm();
     this.patchIfEditMode();
+
+    this.getCategoryLookups();
   }
 
   private buildForm() {
@@ -71,6 +76,10 @@ export class CrudRecipeComponent implements OnInit {
     if (recipe.instructions?.length) {
       recipe.instructions.forEach(instruction => this.instructionsArray.push(this.buildInstructionGroup(instruction)))
     }
+  }
+
+  private getCategoryLookups() {
+    this.categoryAdminSvc.getLookups().subscribe(data => this.categoryLookups = data)
   }
 
   private buildInstructionGroup(instruction?: InstructionDto): FormGroup {
