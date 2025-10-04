@@ -119,10 +119,14 @@ export class CrudRecipeComponent implements OnInit {
     this.updateInstructionsOrder();
   }
 
+  removeCategory(categoryId: number): void {
+    this.categoryIds.setValue((this.categoryIds.value ?? []).filter(cId => cId !== categoryId));
+  }
+
   getCategoryLabel(categoryId: number): string {
     return this.categoryLookups.find(c => c.id === categoryId).displayName;
   }
-  
+
   cancel(): void {
     this.router.navigate(["/recipes/list"]);
   }

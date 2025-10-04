@@ -12,6 +12,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatDialogModule } from '@angular/material/dialog'
 import { MatSelectModule } from '@angular/material/select'
 import { MatChipsModule } from '@angular/material/chips'
+import { MatIconModule } from '@angular/material/icon'
 
 @NgModule({
   declarations: [],
@@ -28,7 +29,8 @@ import { MatChipsModule } from '@angular/material/chips'
     MatSlideToggleModule,
     MatDialogModule,
     MatSelectModule,
-    MatChipsModule
+    MatChipsModule,
+    MatIconModule
   ],
   exports: [
     CoreModule,
@@ -43,7 +45,8 @@ import { MatChipsModule } from '@angular/material/chips'
     MatSlideToggleModule,
     MatDialogModule,
     MatSelectModule,
-    MatChipsModule
+    MatChipsModule,
+    MatIconModule
   ],
   providers: []
 })

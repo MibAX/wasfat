@@ -23,12 +23,17 @@
                 <mat-select formControlName="categoryIds" multiple>
                     <mat-select-trigger>
                         <mat-chip-set>
-                            <mat-chip *ngFor="let categoryId of categoryIds.value" highlighted color="primary">
+                            <mat-chip *ngFor="let categoryId of categoryIds.value" highlighted color="primary"
+                                [removable]="true" (removed)="removeCategory(categoryId)">
                                 <span>{{ getCategoryLabel(categoryId) }}</span>
+                                <button matChipRemove>
+                                    <mat-icon>cancel</mat-icon>
+                                </button>
                             </mat-chip>
                         </mat-chip-set>
                     </mat-select-trigger>
-                    <mat-option *ngFor="let category of categoryLookups" [value]="category.id">{{category.displayName}}</mat-option>
+                    <mat-option *ngFor="let category of categoryLookups"
+                        [value]="category.id">{{category.displayName}}</mat-option>
                 </mat-select>
             </mat-form-field>
 
