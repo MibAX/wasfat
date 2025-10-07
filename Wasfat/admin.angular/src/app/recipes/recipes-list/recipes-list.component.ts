@@ -51,6 +51,10 @@ export class RecipesListComponent implements OnInit {
     this.getAllRecipes();
   }
 
+  hasQueryParams(): boolean {
+    return this.activatedRoute.snapshot.queryParamMap.keys.length > 0;
+  }
+
   newRecipe(): void {
     this.router.navigate(["/recipes/create"]);
   }
