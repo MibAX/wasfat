@@ -6,7 +6,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { CategoryAdminService } from '@proxy/categories';
 import { LookupDto } from '@proxy/common';
 import { InstructionDto } from '@proxy/instructions';
-import { RecipeAdminService, RecipeDto } from '@proxy/recipes';
+import { CrudRecipeDto, RecipeAdminService, RecipeDto } from '@proxy/recipes';
 
 @Component({
   selector: 'app-crud-recipe',
@@ -71,7 +71,7 @@ export class CrudRecipeComponent implements OnInit {
     this.form.patchValue({
       name: recipe.name,
       description: recipe.description,
-      categoryIds: recipe.categoryIds
+      categoryIds: recipe.categories.map(c => c.id)
     })
 
     this.instructionsArray.clear();
@@ -137,7 +137,7 @@ export class CrudRecipeComponent implements OnInit {
       return;
     }
 
-    const recipe: RecipeDto = this.mapFormToRecipe()
+    const recipe: CrudRecipeDto = this.mapFormToRecipe()
     if (this.isEditMode) {
       this.update(recipe);
     } else {
@@ -145,7 +145,7 @@ export class CrudRecipeComponent implements OnInit {
     }
   }
 
-  private mapFormToRecipe(): RecipeDto {
+  private mapFormToRecipe(): CrudRecipeDto {
     const formValue = this.form.value;
     return {
       name: formValue.name,
@@ -155,18 +155,18 @@ export class CrudRecipeComponent implements OnInit {
         order: instr.order,
         text: instr.text,
       })),
-      categoryIds: formValue.categoryIds
+      categoryIds: formValue.categoryIds,
     };
   }
 
-  private update(recipe: RecipeDto) {
+  private update(recipe: CrudRecipeDto) {
     this.recipeAdminSvc.update(this.recipeId, recipe).subscribe((recipe) => {
       console.log('Recipe updated successfully', recipe);
       this.router.navigate(["/recipes/list"]);
     });
   }
 
-  private create(recipe: RecipeDto) {
+  private create(recipe: CrudRecipeDto) {
     this.recipeAdminSvc.create(recipe).subscribe((recipe) => {
       console.log('Recipe created successfully', recipe);
       this.router.navigate(["/recipes/list"]);
