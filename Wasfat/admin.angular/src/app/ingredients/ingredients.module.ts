@@ -3,10 +3,13 @@ import { CommonModule } from '@angular/common';
 
 import { IngredientsRoutingModule } from './ingredients-routing.module';
 import { SharedModule } from '../shared/shared.module';
+import { IngredientsListComponent } from './ingredients-list/ingredients-list.component';
 
 
 @NgModule({
-  declarations: [],
+  declarations: [
+    IngredientsListComponent
+  ],
   imports: [
     CommonModule,
     IngredientsRoutingModule,
