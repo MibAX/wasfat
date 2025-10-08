@@ -35,6 +35,14 @@ export class IngredientAdminService {
     { apiName: this.apiName,...config });
   
 
+  getAllIngredients = (config?: Partial<Rest.Config>) =>
+    this.restService.request<any, IngredientDto[]>({
+      method: 'GET',
+      url: '/api/app/ingredient-admin/ingredients',
+    },
+    { apiName: this.apiName,...config });
+  
+
   getList = (input: PagedAndSortedResultRequestDto, config?: Partial<Rest.Config>) =>
     this.restService.request<any, PagedResultDto<IngredientDto>>({
       method: 'GET',
