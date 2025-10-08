@@ -12,7 +12,7 @@ using Wasfat.Categories;
 
 namespace Wasfat.Recipes
 {
-    public class RecipeAdminAppService : CrudAppService<Recipe, RecipeDto, int, PagedAndSortedResultRequestDto>, IRecipeAppService
+    public class RecipeAdminAppService : CrudAppService<Recipe, RecipeDto, int, PagedAndSortedResultRequestDto, CrudRecipeDto>, IRecipeAppService
     {
         private readonly IRepository<Recipe, int> _recipesRepository;
         private readonly IRepository<Category, int> _categoriesRepository;
@@ -46,9 +46,9 @@ namespace Wasfat.Recipes
         }
 
 
-        public override async Task<RecipeDto> CreateAsync(RecipeDto input)
+        public override async Task<RecipeDto> CreateAsync(CrudRecipeDto input)
         {
-            var recipe = ObjectMapper.Map<RecipeDto, Recipe>(input);
+            var recipe = ObjectMapper.Map<CrudRecipeDto, Recipe>(input);
 
             // custom logic
             recipe.Name = recipe.Name.Trim();
@@ -61,7 +61,7 @@ namespace Wasfat.Recipes
         }
 
 
-        public override async Task<RecipeDto> UpdateAsync(int id, RecipeDto input)
+        public override async Task<RecipeDto> UpdateAsync(int id, CrudRecipeDto input)
         {
             var query = await _recipesRepository.GetQueryableAsync();
 
@@ -74,7 +74,7 @@ namespace Wasfat.Recipes
 
             // Only the available values from the input DTO will be applied to the recipe entity.
             // IMPORTANT: Any values not present in the DTO will remain unchanged in the recipe.
-            ObjectMapper.Map<RecipeDto, Recipe>(input, recipe);
+            ObjectMapper.Map<CrudRecipeDto, Recipe>(input, recipe);
 
             await AddCategoriesToRecipe(input.CategoryIds, recipe);
 

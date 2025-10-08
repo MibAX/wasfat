@@ -10,7 +10,8 @@ namespace Wasfat.Recipes
     public interface IRecipeAppService : ICrudAppService<
              RecipeDto,
              int,
-             PagedAndSortedResultRequestDto>
+             PagedAndSortedResultRequestDto,
+             CrudRecipeDto>
     {
 
         Task<List<RecipeDto>> GetRecentAsync(int count = 3);

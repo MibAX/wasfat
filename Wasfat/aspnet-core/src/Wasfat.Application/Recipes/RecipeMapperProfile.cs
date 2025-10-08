@@ -7,9 +7,10 @@ namespace Wasfat.Recipes
     {
         public RecipeMapperProfile()
         {
-            CreateMap<RecipeDto, Recipe>();
-            CreateMap<Recipe, RecipeDto>().ForMember(dest => dest.CategoryIds,
-                                                     opt => opt.MapFrom(src => src.Categories.Select(c => c.Id).ToList()));
+            CreateMap<Recipe, RecipeDto>();
+            CreateMap<CrudRecipeDto, Recipe>();
+            CreateMap<Recipe, CrudRecipeDto>().ForMember(dest => dest.CategoryIds,
+                                                         opt => opt.MapFrom(src => src.Categories.Select(c => c.Id).ToList()));
         }
     }
 }
