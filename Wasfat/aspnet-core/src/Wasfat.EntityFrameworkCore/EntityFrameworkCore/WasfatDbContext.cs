@@ -118,5 +118,29 @@ public class WasfatDbContext :
              .WithMany(c => c.Categories)
              .UsingEntity(j => j.ToTable(WasfatConsts.DbTablePrefix + "RecipeCategories", WasfatConsts.DbSchema));
         });
+
+        builder.Entity<Ingredient>(b =>
+        {
+            b.ToTable(WasfatConsts.DbTablePrefix + "Ingredients", WasfatConsts.DbSchema);
+            b.ConfigureByConvention();
+        });
+
+        builder.Entity<RecipeIngredient>(b =>
+        {
+            b.ToTable(WasfatConsts.DbTablePrefix + "RecipeIngredients", WasfatConsts.DbSchema);
+            b.ConfigureByConvention();
+
+            b.HasKey(ri => new { ri.RecipeId, ri.IngredientId });
+
+            b.HasOne(ri => ri.Recipe)
+             .WithMany(r => r.RecipeIngredients)
+             .HasForeignKey(ri => ri.RecipeId);
+
+            b.HasOne(ri => ri.Ingredient)
+             .WithMany()
+             .HasForeignKey(ri => ri.IngredientId);
+
+            b.Property(ri => ri.Quantity).HasPrecision(10, 2);
+        });
     }
 }
