@@ -2,6 +2,7 @@
 using Volo.Abp.Domain.Entities;
 using Wasfat.Categories;
 using Wasfat.Instructions;
+using Wasfat.RecipeIngredients;
 
 namespace Wasfat.Recipes
 {
@@ -12,5 +13,6 @@ namespace Wasfat.Recipes
 
         public List<Instruction> Instructions { get; set; } = new List<Instruction>(); // Navigation property to the Instruction entity
         public List<Category> Categories { get; set; } = new List<Category>(); // Navigation property to the Category entity
+        public List<RecipeIngredient> RecipeIngredients { get; set; } = new List<RecipeIngredient>(); // Navigation property to the RecipeIngredient entity
     }
 }
