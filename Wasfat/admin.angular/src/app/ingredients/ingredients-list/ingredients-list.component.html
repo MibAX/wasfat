@@ -19,15 +19,6 @@
             <ngx-datatable [rows]="ingredients" default>
                 <ngx-datatable-column [name]="'Number'" prop="id"></ngx-datatable-column>
                 <ngx-datatable-column [name]="'Ingredient Name'" prop="name"></ngx-datatable-column>
-
-                <ngx-datatable-column name="Associated Recipes">
-                    <ng-template let-row="row" ngx-datatable-cell-template>
-                        <a [routerLink]="['/recipes/list']" class="d-flex align-self-center text-decoration-none">
-                            <i class="fas fa-list-ul fs-5 text-primary"></i>
-                        </a>
-                    </ng-template>
-                </ngx-datatable-column>
-                
                 <ngx-datatable-column [name]="'Edit'">
                     <ng-template let-row="row" ngx-datatable-cell-template>
                         <button mat-stroked-button color="primary">
