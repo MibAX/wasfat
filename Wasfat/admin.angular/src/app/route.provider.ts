@@ -28,6 +28,13 @@ function configureRoutes(routesService: RoutesService) {
         iconClass: 'fas fa-layer-group',
         order: 3,
         layout: eLayoutType.application,
+      },
+      {
+        path: '/ingredients/list',
+        name: '::Menu:Ingredients',
+        iconClass: 'fas fa-lemon',
+        order: 4,
+        layout: eLayoutType.application,
       }
     ]);
   };
