@@ -1,4 +1,4 @@
-import type { RecipeDto } from './models';
+import type { CrudRecipeDto, RecipeDto } from './models';
 import { RestService, Rest } from '@abp/ng.core';
 import type { PagedAndSortedResultRequestDto, PagedResultDto } from '@abp/ng.core';
 import { Injectable } from '@angular/core';
@@ -10,7 +10,7 @@ export class RecipeAdminService {
   apiName = 'Default';
   
 
-  create = (input: RecipeDto, config?: Partial<Rest.Config>) =>
+  create = (input: CrudRecipeDto, config?: Partial<Rest.Config>) =>
     this.restService.request<any, RecipeDto>({
       method: 'POST',
       url: '/api/app/recipe-admin',
@@ -69,7 +69,7 @@ export class RecipeAdminService {
     { apiName: this.apiName,...config });
   
 
-  update = (id: number, input: RecipeDto, config?: Partial<Rest.Config>) =>
+  update = (id: number, input: CrudRecipeDto, config?: Partial<Rest.Config>) =>
     this.restService.request<any, RecipeDto>({
       method: 'PUT',
       url: `/api/app/recipe-admin/${id}`,
