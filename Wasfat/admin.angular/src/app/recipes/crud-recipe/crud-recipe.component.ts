@@ -1,12 +1,17 @@
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
+import { HttpParams } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormArray, Validators, FormControl } from '@angular/forms';
+import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CategoryAdminService } from '@proxy/categories';
 import { LookupDto } from '@proxy/common';
+import { IngredientAdminService } from '@proxy/ingredients';
 import { InstructionDto } from '@proxy/instructions';
+import { CrudRecipeIngredientDto, MeasurementUnit } from '@proxy/recipe-ingredients';
 import { CrudRecipeDto, RecipeAdminService, RecipeDto } from '@proxy/recipes';
+import { debounceTime, distinctUntilChanged, Observable, switchMap } from 'rxjs';
 
 @Component({
   selector: 'app-crud-recipe',
@@ -19,14 +24,24 @@ export class CrudRecipeComponent implements OnInit {
   isEditMode: boolean = false;
   isDragEnabled: boolean = false;
 
-  get instructionsArray(): FormArray { return this.form.get('instructions') as FormArray };
-
   categoryLookups: LookupDto[];
+  ingredientLookups: LookupDto[];
+
+  ingredientAutocompleteControl = new FormControl<string>('', { nonNullable: true });
+  suggestedIngredients$!: Observable<LookupDto[]>;
+  
+  measurementUnits = Object.keys(MeasurementUnit).filter(n => isNaN(Number(n))); 
+
+  get instructionsArray(): FormArray { return this.form.get('instructions') as FormArray };
+  
   get categoryIds(): FormControl { return this.form.get('categoryIds') as FormControl }
+  
+  get recipeIngredientsArray(): FormArray { return this.form.get('recipeIngredients') as FormArray };
 
   constructor(
     private recipeAdminSvc: RecipeAdminService,
     private categoryAdminSvc: CategoryAdminService,
+    private ingredientAdminSvc: IngredientAdminService,
     private fb: FormBuilder,
     private router: Router,
     private activatedRoute: ActivatedRoute) {
@@ -38,6 +53,9 @@ export class CrudRecipeComponent implements OnInit {
     this.patchIfEditMode();
 
     this.getCategoryLookups();
+    this.initAutoCompleteStream();
+    this.ingredientAdminSvc.getLookups().subscribe(response => this.ingredientLookups = response)
+    console.log(Object.keys(MeasurementUnit))
   }
 
   private buildForm() {
@@ -45,7 +63,8 @@ export class CrudRecipeComponent implements OnInit {
       name: ['', [Validators.required, Validators.minLength(3)]],
       description: [''],
       instructions: this.fb.array([]),
-      categoryIds: [[]]
+      categoryIds: [[]],
+      recipeIngredients: this.fb.array([])
     });
   }
 
@@ -54,7 +73,7 @@ export class CrudRecipeComponent implements OnInit {
     if (!idParam) return;
     this.setEditMode(idParam);
     this.fetchAndPatch();
-  };
+  }
 
   private setEditMode(idParam: string) {
     this.recipeId = Number(idParam);
@@ -77,6 +96,11 @@ export class CrudRecipeComponent implements OnInit {
     this.instructionsArray.clear();
     if (recipe.instructions?.length) {
       recipe.instructions.forEach(instruction => this.instructionsArray.push(this.buildInstructionGroup(instruction)))
+    }
+
+    this.recipeIngredientsArray.clear();
+    if (recipe.recipeIngredients?.length) {
+      recipe.recipeIngredients.forEach(recipeIngredient => this.recipeIngredientsArray.push(this.buildRecipeIngredientGroup(recipeIngredient)))
     }
   }
 
@@ -125,6 +149,39 @@ export class CrudRecipeComponent implements OnInit {
 
   getCategoryLabel(categoryId: number): string {
     return this.categoryLookups.find(c => c.id === categoryId).displayName;
+  }
+
+  private buildRecipeIngredientGroup(recipeIngredient?: CrudRecipeIngredientDto, ingredientId?: number): FormGroup {
+    return this.fb.group({
+      recipeId: [recipeIngredient?.recipeId ?? 0, Validators.required],
+      ingredientId: [recipeIngredient?.ingredientId ?? ingredientId, Validators.required],
+      quantity: [recipeIngredient?.quantity ?? 0],
+      unit: [recipeIngredient?.unit ?? MeasurementUnit.Gram]
+    })
+  }
+
+  addRecipeIngredient(event: MatAutocompleteSelectedEvent): void {
+    this.recipeIngredientsArray.push(this.buildRecipeIngredientGroup(null, event.option.value))
+    this.ingredientAutocompleteControl.setValue('');
+  }
+
+  private initAutoCompleteStream(): void {
+    this.suggestedIngredients$ = this.ingredientAutocompleteControl.valueChanges.pipe(
+      debounceTime(300),
+      distinctUntilChanged(),
+      switchMap(searchKey => {
+      const selectedIngredientsIds = this.recipeIngredientsArray.controls.map((ctrl: FormGroup) => ctrl.get('ingredientId')?.value);
+      return this.ingredientAdminSvc.getAutoComplete(searchKey, selectedIngredientsIds);;
+    })
+    );
+  }
+
+  getIngredientLabel(ingredientId: number): string {
+    return this.ingredientLookups.find(c => c.id === ingredientId)?.displayName;
+  }
+
+  removeRecipeIngredient(index: number) {
+    this.recipeIngredientsArray.removeAt(index);
   }
 
   cancel(): void {

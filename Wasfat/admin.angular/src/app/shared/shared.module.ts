@@ -13,9 +13,13 @@ import { MatDialogModule } from '@angular/material/dialog'
 import { MatSelectModule } from '@angular/material/select'
 import { MatChipsModule } from '@angular/material/chips'
 import { MatIconModule } from '@angular/material/icon'
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { EnumToArrayPipe } from './enum-to-array.pipe'
 
 @NgModule({
-  declarations: [],
+  declarations: [
+    EnumToArrayPipe
+  ],
   imports: [
     CoreModule,
     ThemeSharedModule,
@@ -30,7 +34,8 @@ import { MatIconModule } from '@angular/material/icon'
     MatDialogModule,
     MatSelectModule,
     MatChipsModule,
-    MatIconModule
+    MatIconModule,
+    MatAutocompleteModule
   ],
   exports: [
     CoreModule,
@@ -46,7 +51,9 @@ import { MatIconModule } from '@angular/material/icon'
     MatDialogModule,
     MatSelectModule,
     MatChipsModule,
-    MatIconModule
+    MatIconModule,
+    MatAutocompleteModule,
+    EnumToArrayPipe
   ],
   providers: []
 })

@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
+using Wasfat.Common;
 
 namespace Wasfat.Ingredients
 {
@@ -11,5 +12,7 @@ namespace Wasfat.Ingredients
         PagedAndSortedResultRequestDto>
     {
         Task<List<IngredientDto>> GetAllIngredientsAsync();
+        Task<List<LookupDto>> GetAutoCompleteAsync(string searchKey, int[] selectedIds);
+        Task<List<LookupDto>> GetLookupsAsync();
     }
 }

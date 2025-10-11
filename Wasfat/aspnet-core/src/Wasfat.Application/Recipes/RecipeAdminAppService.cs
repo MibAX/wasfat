@@ -9,6 +9,7 @@ using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
 using Volo.Abp.Domain.Repositories;
 using Wasfat.Categories;
+using Wasfat.RecipeIngredients;
 
 namespace Wasfat.Recipes
 {
@@ -35,6 +36,7 @@ namespace Wasfat.Recipes
             var recipe = await query
                                .Include(r => r.Instructions.OrderBy(i => i.Order))
                                .Include(r => r.Categories)
+                               .Include(r => r.RecipeIngredients)
                                .SingleOrDefaultAsync(r => r.Id == id);
 
             // custome logic
@@ -53,11 +55,26 @@ namespace Wasfat.Recipes
             // custom logic
             recipe.Name = recipe.Name.Trim();
 
+            await AddCategoriesToRecipe(input.CategoryIds, recipe);
+
             await _recipesRepository.InsertAsync(recipe, autoSave: true);
 
             var recipeDto = ObjectMapper.Map<Recipe, RecipeDto>(recipe);
 
             return recipeDto;
+
+            #region Local Functions
+
+            async Task AddCategoriesToRecipe(List<int> categoryIds, Recipe recipe)
+            {
+                recipe.Categories.Clear();
+
+                var existingCategories = await _categoriesRepository.GetListAsync(c => categoryIds.Contains(c.Id));
+
+                recipe.Categories.AddRange(existingCategories);
+            }
+
+            #endregion
         }
 
 
@@ -68,6 +85,7 @@ namespace Wasfat.Recipes
             var recipe = await query
                                .Include(r => r.Instructions.OrderBy(i => i.Order))
                                .Include(r => r.Categories)
+                               .Include(r => r.RecipeIngredients)
                                .SingleOrDefaultAsync(r => r.Id == id);
 
             input.Id = id;           

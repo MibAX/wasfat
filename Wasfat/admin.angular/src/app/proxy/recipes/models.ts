@@ -1,6 +1,6 @@
 import type { EntityDto } from '@abp/ng.core';
 import type { InstructionDto } from '../instructions/models';
-import type { CrudRecipeIngredientDto, RecipeIngredientDto } from '../recipe-ingredients/models';
+import type { CrudRecipeIngredientDto } from '../recipe-ingredients/models';
 import type { CategoryDto } from '../categories/models';
 
 export interface CrudRecipeDto extends EntityDto<number> {
@@ -16,5 +16,5 @@ export interface RecipeDto extends EntityDto<number> {
   description?: string;
   instructions: InstructionDto[];
   categories: CategoryDto[];
-  recipeIngredients: RecipeIngredientDto[];
+  recipeIngredients: CrudRecipeIngredientDto[];
 }
