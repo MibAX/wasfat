@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Volo.Abp.Application.Dtos;
+using Wasfat.Categories;
 using Wasfat.Instructions;
 
 namespace Wasfat.Recipes
@@ -11,5 +12,6 @@ namespace Wasfat.Recipes
         public string Description { get; set; }
 
         public List<InstructionDto> Instructions { get; set; } = new List<InstructionDto>();
+        public List<CategoryDto> Categories { get; set; } = new List<CategoryDto>();
     }
 }
