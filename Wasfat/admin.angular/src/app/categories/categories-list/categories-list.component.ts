@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CategoryDto } from '@proxy/categories';
 
 @Component({
@@ -6,10 +6,14 @@ import { CategoryDto } from '@proxy/categories';
   templateUrl: './categories-list.component.html',
   styleUrls: ['./categories-list.component.scss']
 })
-export class CategoriesListComponent {
+export class CategoriesListComponent implements OnInit {
   categories: CategoryDto[] = [];
 
   constructor() {
     console.log('CategoriesListComponent > constructor')
+  }
+
+  ngOnInit(): void {
+    console.log('CategoriesListComponent > ngOnInit!')
   }
 }
