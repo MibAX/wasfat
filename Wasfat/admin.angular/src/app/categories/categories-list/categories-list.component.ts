@@ -8,4 +8,8 @@ import { CategoryDto } from '@proxy/categories';
 })
 export class CategoriesListComponent {
   categories: CategoryDto[] = [];
+
+  constructor() {
+    console.log('CategoriesListComponent > constructor')
+  }
 }
