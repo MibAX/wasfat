@@ -132,7 +132,8 @@ export class CrudRecipeComponent implements OnInit {
         id: instr.id,
         order: instr.order,
         text: instr.text,
-      }))
+      })),
+      categories: []
     };
   }
 
