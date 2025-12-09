@@ -9,11 +9,13 @@ import { CategoryAdminService, CategoryDto } from '@proxy/categories';
 export class CategoriesListComponent implements OnInit {
   categories: CategoryDto[] = [];
 
-  constructor(private categoriesAdminSvc: CategoryAdminService) {
+  constructor(private categoryAdminSvc: CategoryAdminService) {
     console.log('CategoriesListComponent > constructor')
   }
 
   ngOnInit(): void {
     console.log('CategoriesListComponent > ngOnInit!')
+
+    this.categoryAdminSvc.getAllCategories().subscribe(data => this.categories = data);
   }
 }
