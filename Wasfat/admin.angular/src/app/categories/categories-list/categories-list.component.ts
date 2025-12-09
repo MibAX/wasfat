@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { CategoryDto } from '@proxy/categories';
+import { CategoryAdminService, CategoryDto } from '@proxy/categories';
 
 @Component({
   selector: 'app-categories-list',
@@ -9,7 +9,7 @@ import { CategoryDto } from '@proxy/categories';
 export class CategoriesListComponent implements OnInit {
   categories: CategoryDto[] = [];
 
-  constructor() {
+  constructor(private categoriesAdminSvc: CategoryAdminService) {
     console.log('CategoriesListComponent > constructor')
   }
 
