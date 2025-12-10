@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { CategoryAdminService, CategoryDto } from '@proxy/categories';
+import { CrudCategoryComponent } from '../crud-category/crud-category.component';
 
 @Component({
   selector: 'app-categories-list',
@@ -9,13 +11,29 @@ import { CategoryAdminService, CategoryDto } from '@proxy/categories';
 export class CategoriesListComponent implements OnInit {
   categories: CategoryDto[] = [];
 
-  constructor(private categoryAdminSvc: CategoryAdminService) {
+  constructor(
+    private categoryAdminSvc: CategoryAdminService,
+    private dialog: MatDialog
+  ) {
     console.log('CategoriesListComponent > constructor')
   }
 
   ngOnInit(): void {
     console.log('CategoriesListComponent > ngOnInit!')
 
+    this.getAllCategories();
+  }
+
+  private getAllCategories(): void {
     this.categoryAdminSvc.getAllCategories().subscribe(data => this.categories = data);
+  }
+
+  openDialog(): void {
+    const dialogRef = this.dialog.open(CrudCategoryComponent, {
+      width: '20rem',
+      disableClose: false
+    })
+
+    dialogRef.afterClosed().subscribe(() => this.getAllCategories())
   }
 }
