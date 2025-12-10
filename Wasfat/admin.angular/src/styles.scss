@@ -71,3 +71,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .ngx-datatable .datatable-body .datatable-body-row>div {
   align-items: center;
 }
+
+*:has( > span.icon-link) {
+  display: flex;
+}
