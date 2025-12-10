@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { CategoryAdminService } from '@proxy/categories';
 
@@ -7,7 +7,7 @@ import { CategoryAdminService } from '@proxy/categories';
   templateUrl: './crud-category.component.html',
   styleUrls: ['./crud-category.component.scss']
 })
-export class CrudCategoryComponent {
+export class CrudCategoryComponent implements OnInit {
   categoryFormGroup: FormGroup;
 
   constructor(
@@ -15,5 +15,9 @@ export class CrudCategoryComponent {
     private fb: FormBuilder
   ) {
     console.log('CrudCategoryComponent > constructor')
+  }
+
+  ngOnInit(): void {
+    console.log('CrudCategoryComponent > ngOnInit!')
   }
 }
