@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CategoryAdminService } from '@proxy/categories';
 
 @Component({
@@ -19,5 +19,13 @@ export class CrudCategoryComponent implements OnInit {
 
   ngOnInit(): void {
     console.log('CrudCategoryComponent > ngOnInit!')
+
+    this.buildForm()
+  }
+
+  private buildForm(): void {
+    this.categoryFormGroup = this.fb.group({
+      name: ['', Validators.required]
+    })
   }
 }
