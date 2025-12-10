@@ -23,7 +23,6 @@ namespace Wasfat.Recipes
             _recipesRepository = recipesRepository;
         }
 
-
         public override async Task<RecipeDto> GetAsync(int id)
         {
             var query = await _recipesRepository.GetQueryableAsync();
@@ -40,7 +39,6 @@ namespace Wasfat.Recipes
             return recipeDto;
         }
 
-
         public override async Task<RecipeDto> CreateAsync(RecipeDto input)
         {
             var recipe = ObjectMapper.Map<RecipeDto, Recipe>(input);
@@ -54,7 +52,6 @@ namespace Wasfat.Recipes
 
             return recipeDto;
         }
-
 
         public override async Task<RecipeDto> UpdateAsync(int id, RecipeDto input)
         {
@@ -77,7 +74,6 @@ namespace Wasfat.Recipes
             return recipeDto;
         }
 
-
         public override async Task DeleteAsync(int id)
         {
             var recipe = await _recipesRepository.GetAsync(id);
@@ -90,7 +86,6 @@ namespace Wasfat.Recipes
 
             await _recipesRepository.DeleteAsync(id);
         }
-
 
         public override async Task<PagedResultDto<RecipeDto>> GetListAsync(PagedAndSortedResultRequestDto input)
         {
@@ -135,8 +130,15 @@ namespace Wasfat.Recipes
             return recipeDtos;
         }
 
+        public async Task<List<RecipeDto>> GetFilteredAsync(int categoryId)
+        {
+            var query = await _recipesRepository.GetQueryableAsync();
 
+            var recipes = await query.Where(r => r.Categories.Any(c => c.Id == categoryId)).ToListAsync();
 
+            var recipeDtos = ObjectMapper.Map<List<Recipe>, List<RecipeDto>>(recipes);
 
+            return recipeDtos;
+        }
     }
 }
