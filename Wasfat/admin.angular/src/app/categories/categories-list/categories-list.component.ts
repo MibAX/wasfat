@@ -28,10 +28,11 @@ export class CategoriesListComponent implements OnInit {
     this.categoryAdminSvc.getAllCategories().subscribe(data => this.categories = data);
   }
 
-  openDialog(): void {
+  openDialog(categoryId?: number): void {
     const dialogRef = this.dialog.open(CrudCategoryComponent, {
       width: '20rem',
-      disableClose: true
+      disableClose: true,
+      data: { categoryId: categoryId }
     })
 
     dialogRef.afterClosed().subscribe(() => this.getAllCategories())
