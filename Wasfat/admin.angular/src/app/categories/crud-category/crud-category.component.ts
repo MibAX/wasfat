@@ -9,7 +9,9 @@ import { CategoryAdminService, CategoryDto } from '@proxy/categories';
 })
 export class CrudCategoryComponent implements OnInit {
   categoryFormGroup: FormGroup;
-
+  categoryId: number | null = null;
+  isEditMode: boolean = false;
+  
   constructor(
     private categoryAdminSvc: CategoryAdminService,
     private fb: FormBuilder
