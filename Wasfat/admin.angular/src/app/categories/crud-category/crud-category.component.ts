@@ -39,6 +39,8 @@ export class CrudCategoryComponent implements OnInit {
       name: this.categoryFormGroup.value.name
     }
 
-    // Creating the category in the backend
+    this.categoryAdminSvc.create(category).subscribe((category) => {
+      console.log('Category created successfully', category);
+    });
   }
 }
