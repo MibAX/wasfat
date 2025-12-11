@@ -31,7 +31,9 @@ export class CrudCategoryComponent implements OnInit {
       this.isEditMode = true
 
       this.categoryAdminSvc.get(this.categoryId).subscribe((response) => {
-        // Patching form values
+        this.categoryFormGroup.patchValue({
+          name: response.name
+        })
       })
     }
   }
