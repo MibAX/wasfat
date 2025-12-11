@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { CategoryAdminService, CategoryDto } from '@proxy/categories';
 
 @Component({
@@ -11,12 +12,14 @@ export class CrudCategoryComponent implements OnInit {
   categoryFormGroup: FormGroup;
   categoryId: number | null = null;
   isEditMode: boolean = false;
-  
+
   constructor(
     private categoryAdminSvc: CategoryAdminService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    @Inject(MAT_DIALOG_DATA) data: any
   ) {
     console.log('CrudCategoryComponent > constructor')
+    this.categoryId = data.categoryId
   }
 
   ngOnInit(): void {
