@@ -51,7 +51,8 @@ export class CrudCategoryComponent implements OnInit {
     }
 
     const category: CategoryDto = {
-      name: this.categoryFormGroup.value.name
+      name: this.categoryFormGroup.value.name,
+      recipes: []
     }
 
     this.categoryAdminSvc.create(category).subscribe((category) => {
