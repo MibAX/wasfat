@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { CategoryAdminService } from '@proxy/categories';
+import { CategoryAdminService, CategoryDto } from '@proxy/categories';
 
 @Component({
   selector: 'app-crud-category',
@@ -35,7 +35,9 @@ export class CrudCategoryComponent implements OnInit {
       return;
     }
 
-    // Mapping form values to category variable
+    const category: CategoryDto = {
+      name: this.categoryFormGroup.value.name
+    }
 
     // Creating the category in the backend
   }
