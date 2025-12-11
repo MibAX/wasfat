@@ -30,8 +30,9 @@ export class CrudCategoryComponent implements OnInit {
     if(this.categoryId) {
       this.isEditMode = true
 
-      // Loading the category from the backend
+      this.categoryAdminSvc.get(this.categoryId).subscribe((response) => {
         // Patching form values
+      })
     }
   }
 
