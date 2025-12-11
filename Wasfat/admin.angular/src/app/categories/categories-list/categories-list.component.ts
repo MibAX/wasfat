@@ -31,7 +31,7 @@ export class CategoriesListComponent implements OnInit {
   openDialog(): void {
     const dialogRef = this.dialog.open(CrudCategoryComponent, {
       width: '20rem',
-      disableClose: false
+      disableClose: true
     })
 
     dialogRef.afterClosed().subscribe(() => this.getAllCategories())
