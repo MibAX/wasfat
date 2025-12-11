@@ -26,6 +26,13 @@ export class CrudCategoryComponent implements OnInit {
     console.log('CrudCategoryComponent > ngOnInit!')
 
     this.buildForm()
+    
+    if(this.categoryId) {
+      this.isEditMode = true
+
+      // Loading the category from the backend
+        // Patching form values
+    }
   }
 
   private buildForm(): void {
