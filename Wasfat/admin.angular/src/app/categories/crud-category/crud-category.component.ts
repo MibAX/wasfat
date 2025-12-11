@@ -28,4 +28,15 @@ export class CrudCategoryComponent implements OnInit {
       name: ['', Validators.required]
     })
   }
+
+  save(): void {
+    if (this.categoryFormGroup.invalid) {
+      alert("Some fields are not valid.")
+      return;
+    }
+
+    // Mapping form values to category variable
+
+    // Creating the category in the backend
+  }
 }
