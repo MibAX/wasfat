@@ -26,8 +26,8 @@ export class CrudCategoryComponent implements OnInit {
     console.log('CrudCategoryComponent > ngOnInit!')
 
     this.buildForm()
-    
-    if(this.categoryId) {
+
+    if (this.categoryId) {
       this.isEditMode = true
 
       this.categoryAdminSvc.get(this.categoryId).subscribe((response) => {
@@ -54,9 +54,16 @@ export class CrudCategoryComponent implements OnInit {
       name: this.categoryFormGroup.value.name,
       recipes: []
     }
-
-    this.categoryAdminSvc.create(category).subscribe((category) => {
-      console.log('Category created successfully', category);
-    });
+    
+    if (this.isEditMode) {
+      this.categoryAdminSvc.update(this.categoryId, category).subscribe((category) => {
+        console.log(`Category updated successfully`, category);
+      })
+    }
+    else {
+      this.categoryAdminSvc.create(category).subscribe((category) => {
+        console.log('Category created successfully', category);
+      });
+    }
   }
 }
