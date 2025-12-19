@@ -13,5 +13,6 @@ namespace Wasfat.Recipes
 
         public List<InstructionDto> Instructions { get; set; } = new List<InstructionDto>();
         public List<CategoryDto> Categories { get; set; } = new List<CategoryDto>();
+        public List<int> CategoryIds { get; set; } = new List<int>();
     }
 }
