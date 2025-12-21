@@ -2,6 +2,7 @@ import type { CategoryDto } from './models';
 import { RestService, Rest } from '@abp/ng.core';
 import type { PagedAndSortedResultRequestDto, PagedResultDto } from '@abp/ng.core';
 import { Injectable } from '@angular/core';
+import type { LookupDto } from '../common/models';
 
 @Injectable({
   providedIn: 'root',
@@ -48,6 +49,14 @@ export class CategoryAdminService {
       method: 'GET',
       url: '/api/app/category-admin',
       params: { sorting: input.sorting, skipCount: input.skipCount, maxResultCount: input.maxResultCount },
+    },
+    { apiName: this.apiName,...config });
+  
+
+  getLookups = (config?: Partial<Rest.Config>) =>
+    this.restService.request<any, LookupDto[]>({
+      method: 'GET',
+      url: '/api/app/category-admin/lookups',
     },
     { apiName: this.apiName,...config });
   

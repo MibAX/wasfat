@@ -7,4 +7,5 @@ export interface RecipeDto extends EntityDto<number> {
   description?: string;
   instructions: InstructionDto[];
   categories: CategoryDto[];
+  categoryIds: number[];
 }
