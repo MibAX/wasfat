@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
 using Volo.Abp.Domain.Repositories;
+using Wasfat.Common;
 
 namespace Wasfat.Categories
 {
@@ -25,6 +26,15 @@ namespace Wasfat.Categories
             var categoryDtos = ObjectMapper.Map<List<Category>, List<CategoryDto>>(categories);
 
             return categoryDtos;
+        }
+
+        public async Task<List<LookupDto>> GetLookupsAsync()
+        {
+            var categories = await _categoryRepository.GetListAsync();
+
+            var categoryLookupDtos = ObjectMapper.Map<List<Category>, List<LookupDto>>(categories);
+
+            return categoryLookupDtos;
         }
     }
 }
