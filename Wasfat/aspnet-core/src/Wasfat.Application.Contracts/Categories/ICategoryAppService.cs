@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
+using Wasfat.Common;
 
 namespace Wasfat.Categories
 {
@@ -11,5 +12,6 @@ namespace Wasfat.Categories
              PagedAndSortedResultRequestDto>
     {
         Task<List<CategoryDto>> GetAllCategoriesAsync();
+        Task<List<LookupDto>> GetLookupsAsync();
     }
 }
