@@ -29,6 +29,7 @@ namespace Wasfat.Recipes
 
             var recipe = await query
                                .Include(r => r.Instructions.OrderBy(i => i.Order))
+                               .Include(r => r.Categories)
                                .SingleOrDefaultAsync(r => r.Id == id);
 
             // custome logic
