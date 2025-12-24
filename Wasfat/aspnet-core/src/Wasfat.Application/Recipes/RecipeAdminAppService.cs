@@ -51,15 +51,24 @@ namespace Wasfat.Recipes
             // custom logic
             recipe.Name = recipe.Name.Trim();
 
-            var existingCategories = await _categoriesRepository.GetListAsync(c => input.CategoryIds.Contains(c.Id));
-
-            recipe.Categories.AddRange(existingCategories);
+            await AddCategoriesToRecipe(input.CategoryIds, recipe);
 
             await _recipesRepository.InsertAsync(recipe, autoSave: true);
 
             var recipeDto = ObjectMapper.Map<Recipe, RecipeDto>(recipe);
 
             return recipeDto;
+
+            #region Local Functions
+
+            async Task AddCategoriesToRecipe(List<int> categoryIds, Recipe recipe)
+            {
+                var existingCategories = await _categoriesRepository.GetListAsync(c => categoryIds.Contains(c.Id));
+
+                recipe.Categories.AddRange(existingCategories);
+            }
+
+            #endregion
         }
 
         public override async Task<RecipeDto> UpdateAsync(int id, RecipeDto input)
@@ -77,17 +86,26 @@ namespace Wasfat.Recipes
             // IMPORTANT: Any values not present in the DTO will remain unchanged in the recipe.
             ObjectMapper.Map<RecipeDto, Recipe>(input, recipe);
 
-            recipe.Categories.Clear();
-
-            var existingCategories = await _categoriesRepository.GetListAsync(c => input.CategoryIds.Contains(c.Id));
-
-            recipe.Categories.AddRange(existingCategories);
+            await AddCategoriesToRecipe(input.CategoryIds, recipe);
 
             await _recipesRepository.UpdateAsync(recipe, autoSave: true);
 
             var recipeDto = ObjectMapper.Map<Recipe, RecipeDto>(recipe);
 
             return recipeDto;
+
+            #region Local Functions
+
+            async Task AddCategoriesToRecipe(List<int> categoryIds, Recipe recipe)
+            {
+                recipe.Categories.Clear();
+
+                var existingCategories = await _categoriesRepository.GetListAsync(c => categoryIds.Contains(c.Id));
+
+                recipe.Categories.AddRange(existingCategories);
+            } 
+
+            #endregion
         }
 
         public override async Task DeleteAsync(int id)
