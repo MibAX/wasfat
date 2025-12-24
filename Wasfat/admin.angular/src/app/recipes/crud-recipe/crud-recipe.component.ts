@@ -1,6 +1,6 @@
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, FormArray, Validators, FormControl } from '@angular/forms';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CategoryAdminService } from '@proxy/categories';
@@ -18,10 +18,10 @@ export class CrudRecipeComponent implements OnInit {
   recipeId: number | null = null;
   isEditMode: boolean = false;
   isDragEnabled: boolean = false;
+  categoryLookups: LookupDto[];
 
   get instructionsArray(): FormArray { return this.form.get('instructions') as FormArray };
-
-  categoryLookups: LookupDto[];
+  get categoryIds(): FormControl { return this.form.get('categoryIds') as FormControl };
   
   constructor(
     private recipeAdminSvc: RecipeAdminService,
@@ -115,6 +115,10 @@ export class CrudRecipeComponent implements OnInit {
 
   private getCategoryLookups(): void {
     this.categoryAdminSvc.getLookups().subscribe(result => this.categoryLookups = result)
+  }
+  
+  getCategoryLabel(categoryId: number): string {
+    return this.categoryLookups.find(c => c.id === categoryId).displayName;
   }
   
   cancel(): void {

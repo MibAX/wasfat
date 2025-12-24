@@ -21,11 +21,18 @@
             <mat-form-field appearance="outline" class="w-100 mb-3">
                 <mat-label>Categories</mat-label>
                 <mat-select formControlName="categoryIds" multiple>
+                    <mat-select-trigger>
+                        <mat-chip-set>
+                            <mat-chip *ngFor="let categoryId of categoryIds.value" highlighted color="primary">
+                                <span>{{ getCategoryLabel(categoryId) }}</span>
+                            </mat-chip>
+                        </mat-chip-set>
+                    </mat-select-trigger>
                     <mat-option *ngFor="let category of categoryLookups"
                         [value]="category.id">{{category.displayName}}</mat-option>
                 </mat-select>
             </mat-form-field>
-            
+
             <div class="card">
                 <div class="card-header">
                     <div class="row">
