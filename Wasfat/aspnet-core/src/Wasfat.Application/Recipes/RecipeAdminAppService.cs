@@ -8,19 +8,23 @@ using Volo.Abp;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
 using Volo.Abp.Domain.Repositories;
+using Wasfat.Categories;
 
 namespace Wasfat.Recipes
 {
     public class RecipeAdminAppService : CrudAppService<Recipe, RecipeDto, int, PagedAndSortedResultRequestDto>, IRecipeAppService
     {
         private readonly IRepository<Recipe, int> _recipesRepository;
+        private readonly IRepository<Category, int> _categoriesRepository;
 
         public RecipeAdminAppService(
-            IRepository<Recipe, int> recipesRepository
+            IRepository<Recipe, int> recipesRepository,
+            IRepository<Category, int> categoriesRepository
             )
         : base(recipesRepository)
         {
             _recipesRepository = recipesRepository;
+            _categoriesRepository = categoriesRepository;
         }
 
         public override async Task<RecipeDto> GetAsync(int id)
@@ -47,6 +51,10 @@ namespace Wasfat.Recipes
             // custom logic
             recipe.Name = recipe.Name.Trim();
 
+            var existingCategories = await _categoriesRepository.GetListAsync(c => input.CategoryIds.Contains(c.Id));
+
+            recipe.Categories.AddRange(existingCategories);
+
             await _recipesRepository.InsertAsync(recipe, autoSave: true);
 
             var recipeDto = ObjectMapper.Map<Recipe, RecipeDto>(recipe);
@@ -60,6 +68,7 @@ namespace Wasfat.Recipes
 
             var recipe = await query
                                .Include(r => r.Instructions.OrderBy(i => i.Order))
+                               .Include(r => r.Categories)
                                .SingleOrDefaultAsync(r => r.Id == id);
 
             input.Id = id;           
@@ -67,6 +76,12 @@ namespace Wasfat.Recipes
             // Only the available values from the input DTO will be applied to the recipe entity.
             // IMPORTANT: Any values not present in the DTO will remain unchanged in the recipe.
             ObjectMapper.Map<RecipeDto, Recipe>(input, recipe);
+
+            recipe.Categories.Clear();
+
+            var existingCategories = await _categoriesRepository.GetListAsync(c => input.CategoryIds.Contains(c.Id));
+
+            recipe.Categories.AddRange(existingCategories);
 
             await _recipesRepository.UpdateAsync(recipe, autoSave: true);
 
