@@ -120,6 +120,13 @@ export class CrudRecipeComponent implements OnInit {
   getCategoryLabel(categoryId: number): string {
     return this.categoryLookups.find(c => c.id === categoryId).displayName;
   }
+
+  removeCategory(categoryId: number): void {
+    const currentIds = this.categoryIds.value ?? [];
+    const updatedIds = currentIds.filter(id => id !== categoryId);
+
+    this.categoryIds.patchValue(updatedIds);
+  }
   
   cancel(): void {
     this.router.navigate(["/recipes/list"]);
