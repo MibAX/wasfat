@@ -20,7 +20,7 @@
 
             <mat-form-field appearance="outline" class="w-100 mb-3">
                 <mat-label>Categories</mat-label>
-                <mat-select multiple>
+                <mat-select formControlName="categoryIds" multiple>
                     <mat-option *ngFor="let category of categoryLookups"
                         [value]="category.id">{{category.displayName}}</mat-option>
                 </mat-select>
