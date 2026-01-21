@@ -8,4 +8,8 @@ import { IngredientDto } from '@proxy/ingredients';
 })
 export class IngredientsListComponent {
   ingredients: IngredientDto[] = [];
+
+  constructor() {
+    console.log('IngredientsListComponent > constructor')
+  }
 }
