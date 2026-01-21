@@ -1,4 +1,6 @@
-﻿using Volo.Abp.Application.Dtos;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
 
 namespace Wasfat.Ingredients
@@ -8,5 +10,6 @@ namespace Wasfat.Ingredients
         int,
         PagedAndSortedResultRequestDto>
     {
+        Task<List<IngredientDto>> GetAllIngredientsAsync();
     }
 }
