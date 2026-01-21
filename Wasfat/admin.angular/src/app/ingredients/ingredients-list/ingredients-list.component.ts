@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { IngredientDto } from '@proxy/ingredients';
+import { IngredientAdminService, IngredientDto } from '@proxy/ingredients';
 
 @Component({
   selector: 'app-ingredients-list',
@@ -9,7 +9,7 @@ import { IngredientDto } from '@proxy/ingredients';
 export class IngredientsListComponent implements OnInit {
   ingredients: IngredientDto[] = [];
 
-  constructor() {
+  constructor(private ingredientAdminSvc: IngredientAdminService) {
     console.log('IngredientsListComponent > constructor')
   }
   
