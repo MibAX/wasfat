@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { IngredientDto } from '@proxy/ingredients';
 
 @Component({
@@ -6,10 +6,14 @@ import { IngredientDto } from '@proxy/ingredients';
   templateUrl: './ingredients-list.component.html',
   styleUrls: ['./ingredients-list.component.scss']
 })
-export class IngredientsListComponent {
+export class IngredientsListComponent implements OnInit {
   ingredients: IngredientDto[] = [];
 
   constructor() {
     console.log('IngredientsListComponent > constructor')
+  }
+  
+  ngOnInit(): void {
+    console.log('IngredientsListComponent > ngOnInit!')
   }
 }
