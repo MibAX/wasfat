@@ -7,6 +7,7 @@
     "Menu:Recipes": "Recipes",
     "Menu:RecipesList": "Recipes List",
     "Menu:CrudRecipe": "CRUD Recipes",
-    "Menu:Categories": "Categories"
+    "Menu:Categories": "Categories",
+    "Menu:Ingredients": "Ingredients"
   }
 }
