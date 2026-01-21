@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { IngredientDto } from '@proxy/ingredients';
 
 @Component({
   selector: 'app-ingredients-list',
@@ -6,5 +7,5 @@ import { Component } from '@angular/core';
   styleUrls: ['./ingredients-list.component.scss']
 })
 export class IngredientsListComponent {
-
+  ingredients: IngredientDto[] = [];
 }
