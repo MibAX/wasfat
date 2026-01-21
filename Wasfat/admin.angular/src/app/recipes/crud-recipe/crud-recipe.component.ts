@@ -157,7 +157,8 @@ export class CrudRecipeComponent implements OnInit {
         text: instr.text,
       })),
       categories: [],
-      categoryIds: formValue.categoryIds
+      categoryIds: formValue.categoryIds,
+      recipeIngredients: []
     };
   }
 
