@@ -15,5 +15,7 @@ export class IngredientsListComponent implements OnInit {
   
   ngOnInit(): void {
     console.log('IngredientsListComponent > ngOnInit!')
+
+    this.ingredientAdminSvc.getAllIngredients().subscribe(data => this.ingredients = data);
   }
 }
