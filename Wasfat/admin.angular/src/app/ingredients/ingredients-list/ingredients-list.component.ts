@@ -31,7 +31,7 @@ export class IngredientsListComponent implements OnInit {
   openDialog(): void {
     const dialogRef = this.dialog.open(CrudIngredientComponent, {
       width: '20rem',
-      disableClose: false
+      disableClose: true
     })
 
     dialogRef.afterClosed().subscribe(() => this.getAllIngredients())
