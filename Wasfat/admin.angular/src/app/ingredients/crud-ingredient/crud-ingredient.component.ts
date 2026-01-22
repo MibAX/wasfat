@@ -27,4 +27,15 @@ export class CrudIngredientComponent {
       name: ['', Validators.required]
     })
   }
+
+  save(): void {
+    if (this.ingredientFormGroup.invalid) {
+      alert("Some fields are not valid.")
+      return;
+    }
+
+    // Mapping form values to ingredient variable
+
+    // Creating the ingredient in the backend
+  }
 }
