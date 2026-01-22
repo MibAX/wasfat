@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { IngredientAdminService, IngredientDto } from '@proxy/ingredients';
 
 @Component({
@@ -14,9 +15,11 @@ export class CrudIngredientComponent {
   
   constructor(
     private ingredientAdminSvc: IngredientAdminService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    @Inject (MAT_DIALOG_DATA) data: any
   ) {
     console.log('CrudIngredientComponent > constructor')
+    this.ingredientId = data.ingredientId
   }
 
   ngOnInit(): void {
