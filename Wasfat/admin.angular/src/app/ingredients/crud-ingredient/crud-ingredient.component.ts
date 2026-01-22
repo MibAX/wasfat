@@ -12,11 +12,11 @@ export class CrudIngredientComponent {
   ingredientFormGroup: FormGroup;
   ingredientId: number | null = null;
   isEditMode: boolean = false;
-  
+
   constructor(
     private ingredientAdminSvc: IngredientAdminService,
     private fb: FormBuilder,
-    @Inject (MAT_DIALOG_DATA) data: any
+    @Inject(MAT_DIALOG_DATA) data: any
   ) {
     console.log('CrudIngredientComponent > constructor')
     this.ingredientId = data.ingredientId
@@ -26,11 +26,13 @@ export class CrudIngredientComponent {
     console.log('CrudIngredientComponent > ngOnInit!')
     this.buildForm();
 
-    if(this.ingredientId) {
+    if (this.ingredientId) {
       this.isEditMode = true
 
       this.ingredientAdminSvc.get(this.ingredientId).subscribe((response) => {
-        // Patching form values
+        this.ingredientFormGroup.patchValue({
+          name: response.name
+        })
       })
     }
   }
