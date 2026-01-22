@@ -9,7 +9,9 @@ import { IngredientAdminService, IngredientDto } from '@proxy/ingredients';
 })
 export class CrudIngredientComponent {
   ingredientFormGroup: FormGroup;
-
+  ingredientId: number | null = null;
+  isEditMode: boolean = false;
+  
   constructor(
     private ingredientAdminSvc: IngredientAdminService,
     private fb: FormBuilder
