@@ -29,8 +29,9 @@ export class CrudIngredientComponent {
     if(this.ingredientId) {
       this.isEditMode = true
 
-      // Loading the ingredient from the backend
+      this.ingredientAdminSvc.get(this.ingredientId).subscribe((response) => {
         // Patching form values
+      })
     }
   }
 
