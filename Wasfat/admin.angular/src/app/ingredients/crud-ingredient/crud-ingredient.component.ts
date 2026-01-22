@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { IngredientAdminService } from '@proxy/ingredients';
+import { IngredientAdminService, IngredientDto } from '@proxy/ingredients';
 
 @Component({
   selector: 'app-crud-ingredient',
@@ -34,7 +34,10 @@ export class CrudIngredientComponent {
       return;
     }
 
-    // Mapping form values to ingredient variable
+    const ingredient: IngredientDto = {
+      name: this.ingredientFormGroup.value.name,
+      recipeIngredients: []
+    }
 
     // Creating the ingredient in the backend
   }
