@@ -2,7 +2,9 @@
     <div class="card-header">
         <div mat-dialog-actions>
             <button type="button" mat-stroked-button color="accent" mat-dialog-close>Cancel</button>
-            <button type="submit" mat-stroked-button color="primary" mat-dialog-close [disabled]="!ingredientFormGroup.valid" (click)="save()">Create</button>
+            <button type="submit" mat-stroked-button color="primary" mat-dialog-close [disabled]="!ingredientFormGroup" (click)="save()">
+                {{ isEditMode ? 'Save' : 'Create' }}
+            </button>
         </div>
     </div>
     <div class="card-body">
