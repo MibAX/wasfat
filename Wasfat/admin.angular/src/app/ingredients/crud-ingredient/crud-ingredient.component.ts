@@ -54,8 +54,15 @@ export class CrudIngredientComponent {
       recipeIngredients: []
     }
 
-    this.ingredientAdminSvc.create(ingredient).subscribe((ingredient) => {
-      console.log('Ingredient created successfully', ingredient);
-    });
+    if (this.isEditMode) {
+      this.ingredientAdminSvc.update(this.ingredientId, ingredient).subscribe((ingredient) => {
+        console.log(`Ingredient updated successfully`, ingredient);
+      })
+    }
+    else {
+      this.ingredientAdminSvc.create(ingredient).subscribe((ingredient) => {
+        console.log('Ingredient created successfully', ingredient);
+      });
+    }
   }
 }
