@@ -16,4 +16,8 @@ export class CrudIngredientComponent {
   ) {
     console.log('CrudIngredientComponent > constructor')
   }
+
+  ngOnInit(): void {
+    console.log('CrudIngredientComponent > ngOnInit!')
+  }
 }
