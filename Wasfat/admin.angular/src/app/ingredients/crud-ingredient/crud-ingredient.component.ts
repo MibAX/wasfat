@@ -25,6 +25,13 @@ export class CrudIngredientComponent {
   ngOnInit(): void {
     console.log('CrudIngredientComponent > ngOnInit!')
     this.buildForm();
+
+    if(this.ingredientId) {
+      this.isEditMode = true
+
+      // Loading the ingredient from the backend
+        // Patching form values
+    }
   }
 
   private buildForm(): void {
