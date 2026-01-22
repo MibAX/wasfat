@@ -39,6 +39,8 @@ export class CrudIngredientComponent {
       recipeIngredients: []
     }
 
-    // Creating the ingredient in the backend
+    this.ingredientAdminSvc.create(ingredient).subscribe((ingredient) => {
+      console.log('Ingredient created successfully', ingredient);
+    });
   }
 }
