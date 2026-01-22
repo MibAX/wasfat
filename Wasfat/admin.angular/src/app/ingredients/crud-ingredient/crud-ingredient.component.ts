@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { IngredientAdminService } from '@proxy/ingredients';
 
 @Component({
   selector: 'app-crud-ingredient',
@@ -8,4 +9,11 @@ import { FormGroup } from '@angular/forms';
 })
 export class CrudIngredientComponent {
   ingredientFormGroup: FormGroup;
+  
+  constructor(
+    private ingredientAdminSvc: IngredientAdminService,
+    private fb: FormBuilder
+  ) {
+    console.log('CrudIngredientComponent > constructor')
+  }
 }
