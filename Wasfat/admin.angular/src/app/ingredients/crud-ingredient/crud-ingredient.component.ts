@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { IngredientAdminService } from '@proxy/ingredients';
 
 @Component({
@@ -9,7 +9,7 @@ import { IngredientAdminService } from '@proxy/ingredients';
 })
 export class CrudIngredientComponent {
   ingredientFormGroup: FormGroup;
-  
+
   constructor(
     private ingredientAdminSvc: IngredientAdminService,
     private fb: FormBuilder
@@ -19,5 +19,12 @@ export class CrudIngredientComponent {
 
   ngOnInit(): void {
     console.log('CrudIngredientComponent > ngOnInit!')
+    this.buildForm();
+  }
+
+  private buildForm(): void {
+    this.ingredientFormGroup = this.fb.group({
+      name: ['', Validators.required]
+    })
   }
 }
