@@ -1,1 +1,18 @@
-<p>crud-ingredient works!</p>
+<div class="card">
+    <div class="card-header">
+        <div mat-dialog-actions>
+            <button type="button" mat-stroked-button color="accent">Cancel</button>
+            <button type="submit" mat-stroked-button color="primary" [disabled]="!ingredientFormGroup.valid">Create</button>
+        </div>
+    </div>
+    <div class="card-body">
+        <div mat-dialog-content>
+            <form [formGroup]="ingredientFormGroup">
+                <mat-form-field appearance="outline" class="w-100">
+                    <mat-label>Name</mat-label>
+                    <input matInput formControlName="name">
+                </mat-form-field>
+            </form>
+        </div>
+    </div>
+</div>
