@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { IngredientAdminService, IngredientDto } from '@proxy/ingredients';
+import { CrudIngredientComponent } from '../crud-ingredient/crud-ingredient.component';
 
 @Component({
   selector: 'app-ingredients-list',
@@ -9,13 +11,29 @@ import { IngredientAdminService, IngredientDto } from '@proxy/ingredients';
 export class IngredientsListComponent implements OnInit {
   ingredients: IngredientDto[] = [];
 
-  constructor(private ingredientAdminSvc: IngredientAdminService) {
+  constructor(
+    private ingredientAdminSvc: IngredientAdminService,
+    private dialog: MatDialog
+  ) {
     console.log('IngredientsListComponent > constructor')
   }
   
   ngOnInit(): void {
     console.log('IngredientsListComponent > ngOnInit!')
 
+    this.getAllIngredients();
+  }
+
+  private getAllIngredients(): void {
     this.ingredientAdminSvc.getAllIngredients().subscribe(data => this.ingredients = data);
+  }
+
+  openDialog(): void {
+    const dialogRef = this.dialog.open(CrudIngredientComponent, {
+      width: '20rem',
+      disableClose: false
+    })
+
+    dialogRef.afterClosed().subscribe(() => this.getAllIngredients())
   }
 }
