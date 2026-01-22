@@ -28,10 +28,11 @@ export class IngredientsListComponent implements OnInit {
     this.ingredientAdminSvc.getAllIngredients().subscribe(data => this.ingredients = data);
   }
 
-  openDialog(): void {
+  openDialog(ingredientId?: number): void {
     const dialogRef = this.dialog.open(CrudIngredientComponent, {
       width: '20rem',
-      disableClose: true
+      disableClose: true,
+      data: { ingredientId: ingredientId }
     })
 
     dialogRef.afterClosed().subscribe(() => this.getAllIngredients())
