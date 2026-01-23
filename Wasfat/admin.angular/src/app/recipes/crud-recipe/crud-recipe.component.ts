@@ -22,7 +22,8 @@ export class CrudRecipeComponent implements OnInit {
 
   get instructionsArray(): FormArray { return this.form.get('instructions') as FormArray };
   get categoryIds(): FormControl { return this.form.get('categoryIds') as FormControl };
-  
+  get recipeIngredientsArray(): FormArray { return this.form.get('recipeIngredients') as FormArray };
+
   constructor(
     private recipeAdminSvc: RecipeAdminService,
     private categoryAdminSvc: CategoryAdminService,
