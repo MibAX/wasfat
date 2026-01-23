@@ -153,6 +153,10 @@ export class CrudRecipeComponent implements OnInit {
     this.ingredientAdminSvc.getLookups().subscribe(result => this.ingredientLookups = result)
   }
 
+  getIngredientLabel(ingredientId: number): string {
+    return this.ingredientLookups.find(i => i.id === ingredientId).displayName;
+  }
+  
   cancel(): void {
     this.router.navigate(["/recipes/list"]);
   }
