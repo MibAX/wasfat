@@ -5,6 +5,7 @@ import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CategoryAdminService } from '@proxy/categories';
 import { LookupDto } from '@proxy/common';
+import { IngredientAdminService } from '@proxy/ingredients';
 import { InstructionDto } from '@proxy/instructions';
 import { RecipeIngredientDto } from '@proxy/recipe-ingredients';
 import { RecipeAdminService, RecipeDto } from '@proxy/recipes';
@@ -20,6 +21,7 @@ export class CrudRecipeComponent implements OnInit {
   isEditMode: boolean = false;
   isDragEnabled: boolean = false;
   categoryLookups: LookupDto[];
+  ingredientLookups: LookupDto[];
 
   get instructionsArray(): FormArray { return this.form.get('instructions') as FormArray };
   get categoryIds(): FormControl { return this.form.get('categoryIds') as FormControl };
@@ -28,6 +30,7 @@ export class CrudRecipeComponent implements OnInit {
   constructor(
     private recipeAdminSvc: RecipeAdminService,
     private categoryAdminSvc: CategoryAdminService,
+    private ingredientAdminSvc: IngredientAdminService,
     private fb: FormBuilder,
     private router: Router,
     private activatedRoute: ActivatedRoute) {
@@ -38,6 +41,7 @@ export class CrudRecipeComponent implements OnInit {
     this.buildForm();
     this.patchIfEditMode();
     this.getCategoryLookups();
+    this.getIngredientLookups();
   }
 
   private buildForm() {
@@ -143,6 +147,10 @@ export class CrudRecipeComponent implements OnInit {
       quantity: recipeIngredient.quantity,
       unit: recipeIngredient.unit
     })
+  }
+
+  private getIngredientLookups(): void {
+    this.ingredientAdminSvc.getLookups().subscribe(result => this.ingredientLookups = result)
   }
 
   cancel(): void {
