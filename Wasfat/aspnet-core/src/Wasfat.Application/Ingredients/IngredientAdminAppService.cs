@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
 using Volo.Abp.Domain.Repositories;
+using Wasfat.Common;
 
 namespace Wasfat.Ingredients
 {
@@ -25,6 +26,15 @@ namespace Wasfat.Ingredients
             var ingredientDtos = ObjectMapper.Map<List<Ingredient>, List<IngredientDto>>(ingredients);
 
             return ingredientDtos;
+        }
+
+        public async Task<List<LookupDto>> GetLookupsAsync()
+        {
+            var ingredients = await _ingredientsRepository.GetListAsync();
+
+            var ingredientLookupDtos = ObjectMapper.Map<List<Ingredient>, List<LookupDto>>(ingredients);
+
+            return ingredientLookupDtos;
         }
     }
 }
