@@ -7,7 +7,7 @@ import { CategoryAdminService } from '@proxy/categories';
 import { LookupDto } from '@proxy/common';
 import { IngredientAdminService } from '@proxy/ingredients';
 import { InstructionDto } from '@proxy/instructions';
-import { RecipeIngredientDto } from '@proxy/recipe-ingredients';
+import { measurementUnitOptions, RecipeIngredientDto } from '@proxy/recipe-ingredients';
 import { RecipeAdminService, RecipeDto } from '@proxy/recipes';
 
 @Component({
@@ -22,6 +22,7 @@ export class CrudRecipeComponent implements OnInit {
   isDragEnabled: boolean = false;
   categoryLookups: LookupDto[];
   ingredientLookups: LookupDto[];
+  measurementUnitOptions = measurementUnitOptions;
 
   get instructionsArray(): FormArray { return this.form.get('instructions') as FormArray };
   get categoryIds(): FormControl { return this.form.get('categoryIds') as FormControl };
@@ -156,7 +157,7 @@ export class CrudRecipeComponent implements OnInit {
   getIngredientLabel(ingredientId: number): string {
     return this.ingredientLookups.find(i => i.id === ingredientId).displayName;
   }
-  
+
   cancel(): void {
     this.router.navigate(["/recipes/list"]);
   }
