@@ -43,7 +43,8 @@ export class CrudRecipeComponent implements OnInit {
       name: ['', [Validators.required, Validators.minLength(3)]],
       description: [''],
       instructions: this.fb.array([]),
-      categoryIds: [[]]
+      categoryIds: [[]],
+      recipeIngredients: this.fb.array([])
     });
   }
 
