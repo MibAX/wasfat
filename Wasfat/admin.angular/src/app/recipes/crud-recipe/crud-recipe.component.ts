@@ -6,6 +6,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { CategoryAdminService } from '@proxy/categories';
 import { LookupDto } from '@proxy/common';
 import { InstructionDto } from '@proxy/instructions';
+import { RecipeIngredientDto } from '@proxy/recipe-ingredients';
 import { RecipeAdminService, RecipeDto } from '@proxy/recipes';
 
 @Component({
@@ -81,14 +82,7 @@ export class CrudRecipeComponent implements OnInit {
 
     this.recipeIngredientsArray.clear();
     if (recipe.recipeIngredients?.length) {
-      recipe.recipeIngredients.forEach(recipeIngredient => this.recipeIngredientsArray.push(
-        this.fb.group({
-          recipeId: recipeIngredient.recipeId,
-          ingredientId: recipeIngredient.ingredientId,
-          quantity: recipeIngredient.quantity,
-          unit: recipeIngredient.unit
-        })
-      ))
+      recipe.recipeIngredients.forEach(recipeIngredient => this.recipeIngredientsArray.push(this.buildRecipeIngredientGroup(recipeIngredient)))
     }
   }
 
@@ -142,6 +136,15 @@ export class CrudRecipeComponent implements OnInit {
     this.categoryIds.patchValue(updatedIds);
   }
   
+  private buildRecipeIngredientGroup(recipeIngredient: RecipeIngredientDto): FormGroup {
+    return this.fb.group({
+      recipeId: recipeIngredient.recipeId,
+      ingredientId: recipeIngredient.ingredientId,
+      quantity: recipeIngredient.quantity,
+      unit: recipeIngredient.unit
+    })
+  }
+
   cancel(): void {
     this.router.navigate(["/recipes/list"]);
   }
