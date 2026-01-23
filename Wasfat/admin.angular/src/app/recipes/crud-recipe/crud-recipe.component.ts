@@ -78,6 +78,18 @@ export class CrudRecipeComponent implements OnInit {
     if (recipe.instructions?.length) {
       recipe.instructions.forEach(instruction => this.instructionsArray.push(this.buildInstructionGroup(instruction)))
     }
+
+    this.recipeIngredientsArray.clear();
+    if (recipe.recipeIngredients?.length) {
+      recipe.recipeIngredients.forEach(recipeIngredient => this.recipeIngredientsArray.push(
+        this.fb.group({
+          recipeId: recipeIngredient.recipeId,
+          ingredientId: recipeIngredient.ingredientId,
+          quantity: recipeIngredient.quantity,
+          unit: recipeIngredient.unit
+        })
+      ))
+    }
   }
 
   private buildInstructionGroup(instruction?: InstructionDto): FormGroup {
