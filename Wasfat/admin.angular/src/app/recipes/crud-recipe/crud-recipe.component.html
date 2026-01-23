@@ -65,7 +65,11 @@
                                 <div class="col-3">
                                     <mat-form-field appearance="outline" class="w-100">
                                         <mat-label>Unit</mat-label>
-                                        <input matInput type="number" formControlName="unit">
+                                        <mat-select formControlName="unit">
+                                            <mat-option *ngFor="let measurementUnitOption of measurementUnitOptions" [value]="measurementUnitOption.value">
+                                                {{measurementUnitOption.key}}
+                                            </mat-option>
+                                        </mat-select>
                                     </mat-form-field>
                                 </div>
                                 <div class="col-1">
