@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Wasfat.Common;
 
 namespace Wasfat.Ingredients
 {
@@ -7,6 +8,8 @@ namespace Wasfat.Ingredients
         public IngredientMapperProfile()
         {
             CreateMap<Ingredient, IngredientDto>().ReverseMap();
+            CreateMap<Ingredient, LookupDto>().ForMember(dest => dest.DisplayName, 
+                                                        opt => opt.MapFrom(src => src.Name));
         }
     }
 }
