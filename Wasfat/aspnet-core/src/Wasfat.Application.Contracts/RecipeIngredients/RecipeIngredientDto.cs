@@ -11,8 +11,5 @@ namespace Wasfat.RecipeIngredients
 
         public decimal Quantity { get; set; }
         public MeasurementUnit Unit { get; set; }
-
-        public RecipeDto Recipe { get; set; }
-        public IngredientDto Ingredient { get; set; }
     }
 }
