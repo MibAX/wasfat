@@ -188,7 +188,12 @@ export class CrudRecipeComponent implements OnInit {
       })),
       categories: [],
       categoryIds: formValue.categoryIds,
-      recipeIngredients: []
+      recipeIngredients: formValue.recipeIngredients.map((recipeIngredient: RecipeIngredientDto) => ({
+        recipeId: recipeIngredient.recipeId,
+        ingredientId: recipeIngredient.ingredientId,
+        quantity: recipeIngredient.quantity,
+        unit: recipeIngredient.unit
+      }))
     };
   }
 
