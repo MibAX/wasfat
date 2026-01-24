@@ -44,6 +44,15 @@ export class IngredientAdminService {
     { apiName: this.apiName,...config });
   
 
+  getAutoComplete = (searchKey: string, selectedIds: number[], config?: Partial<Rest.Config>) =>
+    this.restService.request<any, LookupDto[]>({
+      method: 'GET',
+      url: '/api/app/ingredient-admin/auto-complete',
+      params: { searchKey, selectedIds },
+    },
+    { apiName: this.apiName,...config });
+  
+
   getList = (input: PagedAndSortedResultRequestDto, config?: Partial<Rest.Config>) =>
     this.restService.request<any, PagedResultDto<IngredientDto>>({
       method: 'GET',
