@@ -9,7 +9,7 @@ import { IngredientAdminService } from '@proxy/ingredients';
 import { InstructionDto } from '@proxy/instructions';
 import { measurementUnitOptions, RecipeIngredientDto } from '@proxy/recipe-ingredients';
 import { RecipeAdminService, RecipeDto } from '@proxy/recipes';
-import { Observable } from 'rxjs';
+import { debounceTime, distinctUntilChanged, Observable, switchMap } from 'rxjs';
 
 @Component({
   selector: 'app-crud-recipe',
@@ -46,6 +46,7 @@ export class CrudRecipeComponent implements OnInit {
     this.patchIfEditMode();
     this.getCategoryLookups();
     this.getIngredientLookups();
+    this.initAutoCompleteStream();
   }
 
   private buildForm() {
@@ -159,6 +160,17 @@ export class CrudRecipeComponent implements OnInit {
 
   getIngredientLabel(ingredientId: number): string {
     return this.ingredientLookups.find(i => i.id === ingredientId).displayName;
+  }
+
+  private initAutoCompleteStream(): void {
+    this.suggestedIngredients$ = this.ingredientAutoCompleteControl.valueChanges.pipe(
+      debounceTime(300),
+      distinctUntilChanged(),
+      switchMap(searchKey => {
+        const selectedIngredientsIds = this.recipeIngredientsArray.controls.map((ctrl: FormGroup) => ctrl.get('ingredientId')?.value);
+        return this.ingredientAdminSvc.getAutoComplete(searchKey, selectedIngredientsIds);;
+      })
+    );
   }
 
   cancel(): void {
