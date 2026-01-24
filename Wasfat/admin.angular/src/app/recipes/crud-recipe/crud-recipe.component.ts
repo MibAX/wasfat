@@ -146,12 +146,12 @@ export class CrudRecipeComponent implements OnInit {
     this.categoryIds.patchValue(updatedIds);
   }
   
-  private buildRecipeIngredientGroup(recipeIngredient: RecipeIngredientDto): FormGroup {
+  private buildRecipeIngredientGroup(recipeIngredient?: RecipeIngredientDto, ingredientId?: number): FormGroup {
     return this.fb.group({
-      recipeId: recipeIngredient.recipeId,
-      ingredientId: recipeIngredient.ingredientId,
-      quantity: recipeIngredient.quantity,
-      unit: recipeIngredient.unit
+      recipeId: [recipeIngredient?.recipeId ?? 0],
+      ingredientId: [recipeIngredient?.ingredientId ?? ingredientId],
+      quantity: [recipeIngredient?.quantity ?? 0],
+      unit: [recipeIngredient?.unit ?? MeasurementUnit.Gram]
     })
   }
 
@@ -175,12 +175,7 @@ export class CrudRecipeComponent implements OnInit {
   }
 
   addRecipeIngredient(event: MatAutocompleteSelectedEvent): void {
-    this.recipeIngredientsArray.push(this.fb.group({
-      recipeId: 0,
-      ingredientId: event.option.value,
-      quantity: 0,
-      unit: MeasurementUnit.Gram
-    }))
+    this.recipeIngredientsArray.push(this.buildRecipeIngredientGroup(null, event.option.value))
     this.ingredientAutoCompleteControl.setValue('');
   }
 
