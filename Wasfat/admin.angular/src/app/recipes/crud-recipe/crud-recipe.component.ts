@@ -9,6 +9,7 @@ import { IngredientAdminService } from '@proxy/ingredients';
 import { InstructionDto } from '@proxy/instructions';
 import { measurementUnitOptions, RecipeIngredientDto } from '@proxy/recipe-ingredients';
 import { RecipeAdminService, RecipeDto } from '@proxy/recipes';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-crud-recipe',
@@ -23,6 +24,7 @@ export class CrudRecipeComponent implements OnInit {
   categoryLookups: LookupDto[];
   ingredientLookups: LookupDto[];
   measurementUnitOptions = measurementUnitOptions;
+  suggestedIngredients$: Observable<LookupDto[]>;
 
   get instructionsArray(): FormArray { return this.form.get('instructions') as FormArray };
   get categoryIds(): FormControl { return this.form.get('categoryIds') as FormControl };
