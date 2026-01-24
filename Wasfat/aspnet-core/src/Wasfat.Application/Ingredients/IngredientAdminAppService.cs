@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
@@ -31,6 +33,20 @@ namespace Wasfat.Ingredients
         public async Task<List<LookupDto>> GetLookupsAsync()
         {
             var ingredients = await _ingredientsRepository.GetListAsync();
+
+            var ingredientLookupDtos = ObjectMapper.Map<List<Ingredient>, List<LookupDto>>(ingredients);
+
+            return ingredientLookupDtos;
+        }
+
+        public async Task<List<LookupDto>> GetAutoCompleteAsync(string? searchKey, int[] selectedIds)
+        {
+            var query = await _ingredientsRepository.GetQueryableAsync();
+
+            var ingredients = await query.Where(i =>
+                                                i.Name.Contains(searchKey) &&
+                                                !selectedIds.Contains(i.Id)
+                                                ).ToListAsync();
 
             var ingredientLookupDtos = ObjectMapper.Map<List<Ingredient>, List<LookupDto>>(ingredients);
 
