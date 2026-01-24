@@ -13,6 +13,7 @@ import { MatDialogModule } from '@angular/material/dialog'
 import { MatSelectModule } from '@angular/material/select'
 import { MatChipsModule } from '@angular/material/chips'
 import { MatIconModule } from '@angular/material/icon'
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 @NgModule({
   declarations: [],
@@ -30,7 +31,8 @@ import { MatIconModule } from '@angular/material/icon'
     MatDialogModule,
     MatSelectModule,
     MatChipsModule,
-    MatIconModule
+    MatIconModule,
+    MatAutocompleteModule
   ],
   exports: [
     CoreModule,
@@ -46,7 +48,8 @@ import { MatIconModule } from '@angular/material/icon'
     MatDialogModule,
     MatSelectModule,
     MatChipsModule,
-    MatIconModule
+    MatIconModule,
+    MatAutocompleteModule
   ],
   providers: []
 })
