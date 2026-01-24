@@ -13,5 +13,6 @@ namespace Wasfat.Ingredients
     {
         Task<List<IngredientDto>> GetAllIngredientsAsync();
         Task<List<LookupDto>> GetLookupsAsync();
+        Task<List<LookupDto>> GetAutoCompleteAsync(string? searchKey, int[] selectedIds);
     }
 }
