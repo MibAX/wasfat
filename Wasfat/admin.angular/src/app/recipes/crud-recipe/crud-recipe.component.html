@@ -51,7 +51,7 @@
                         <input type="text" matInput [formControl]="ingredientAutoCompleteControl"
                             [matAutocomplete]="ingredientAutoComplete" placeholder="Search ingredients..." />
 
-                        <mat-autocomplete #ingredientAutoComplete="matAutocomplete">
+                        <mat-autocomplete #ingredientAutoComplete="matAutocomplete" (optionSelected)="addRecipeIngredient($event)">
                             <mat-option *ngFor="let suggestedIngredient of suggestedIngredients$ | async" [value]="suggestedIngredient?.id">
                                 {{ suggestedIngredient?.displayName }}
                             </mat-option>

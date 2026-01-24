@@ -1,13 +1,14 @@
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormArray, Validators, FormControl } from '@angular/forms';
+import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CategoryAdminService } from '@proxy/categories';
 import { LookupDto } from '@proxy/common';
 import { IngredientAdminService } from '@proxy/ingredients';
 import { InstructionDto } from '@proxy/instructions';
-import { measurementUnitOptions, RecipeIngredientDto } from '@proxy/recipe-ingredients';
+import { MeasurementUnit, measurementUnitOptions, RecipeIngredientDto } from '@proxy/recipe-ingredients';
 import { RecipeAdminService, RecipeDto } from '@proxy/recipes';
 import { debounceTime, distinctUntilChanged, Observable, switchMap } from 'rxjs';
 
@@ -171,6 +172,16 @@ export class CrudRecipeComponent implements OnInit {
         return this.ingredientAdminSvc.getAutoComplete(searchKey, selectedIngredientsIds);;
       })
     );
+  }
+
+  addRecipeIngredient(event: MatAutocompleteSelectedEvent): void {
+    this.recipeIngredientsArray.push(this.fb.group({
+      recipeId: 0,
+      ingredientId: event.option.value,
+      quantity: 0,
+      unit: MeasurementUnit.Gram
+    }))
+    this.ingredientAutoCompleteControl.setValue('');
   }
 
   cancel(): void {
