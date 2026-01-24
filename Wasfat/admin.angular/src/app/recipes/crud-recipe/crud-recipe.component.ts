@@ -25,6 +25,7 @@ export class CrudRecipeComponent implements OnInit {
   ingredientLookups: LookupDto[];
   measurementUnitOptions = measurementUnitOptions;
   suggestedIngredients$: Observable<LookupDto[]>;
+  ingredientAutoCompleteControl: FormControl = new FormControl<string>('');
 
   get instructionsArray(): FormArray { return this.form.get('instructions') as FormArray };
   get categoryIds(): FormControl { return this.form.get('categoryIds') as FormControl };
