@@ -179,6 +179,10 @@ export class CrudRecipeComponent implements OnInit {
     this.ingredientAutoCompleteControl.setValue('');
   }
 
+  removeRecipeIngredient(index: number): void {
+    this.recipeIngredientsArray.removeAt(index);
+  }
+
   cancel(): void {
     this.router.navigate(["/recipes/list"]);
   }
