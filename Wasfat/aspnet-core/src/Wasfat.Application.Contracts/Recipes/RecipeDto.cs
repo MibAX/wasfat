@@ -11,6 +11,9 @@ namespace Wasfat.Recipes
     {
         public string Name { get; set; }
         public string Description { get; set; }
+        public string? ImageUrl { get; set; }
+        public bool IsFeatured { get; set; }
+        public bool IsDisplayedInHero { get; set; }
 
         public List<InstructionDto> Instructions { get; set; } = new List<InstructionDto>();
         public List<CategoryDto> Categories { get; set; } = new List<CategoryDto>();

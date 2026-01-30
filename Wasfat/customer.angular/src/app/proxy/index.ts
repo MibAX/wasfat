@@ -1,2 +1,2 @@
-import * as Recipes from './recipes';
-export { Recipes };
+import * as Wasfat from './wasfat';
+export { Wasfat };

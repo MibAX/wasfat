@@ -11,6 +11,8 @@
 :root  {
   --lpx-logo: url('/assets/images/logo/logo-light.png');
   --lpx-logo-icon: url('/assets/images/logo/logo-light-thumbnail.png');
+
+  --navbar-bg: 90deg,#0a1a33 0%,#050d1a 50%,#000000 100%
 }
 .donut {
   display: inline-block;
@@ -28,4 +30,24 @@
     transform: translate(-50%, -50%);
   }
 
+}
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+abp-dynamic-layout .navbar,
+.main-navbar {
+  font-family: "Rakkas", serif;
+  background: linear-gradient(var(--navbar-bg));
+  flex-direction: row !important;
+  padding-block: 0.5em;
+  margin-bottom: 0 !important;
+}
+
+.mat-mdc-form-field-subscript-wrapper {
+    height: 0 !important;
+}
+
+.ff-rakkas {
+  font-family: 'Rakkas', serif !important;
 }
