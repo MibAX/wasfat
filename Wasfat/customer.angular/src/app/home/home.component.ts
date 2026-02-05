@@ -1,4 +1,4 @@
-import { AuthService } from '@abp/ng.core';
+import { AuthService, EnvironmentService } from '@abp/ng.core';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
@@ -13,8 +13,11 @@ import { debounceTime, distinctUntilChanged, map, Observable, switchMap } from '
   styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent implements OnInit {
+  apiUrl: string;
   searchForm: FormGroup;
   suggestedRecipes$: Observable<LookupDto[]>;
+  heroDisplayedRecipes: RecipeDto[];
+  featuredRecipes: RecipeDto[];
 
   get recipeAutoCompleteControl(): FormControl { return this.searchForm.get('recipeAutoCompleteControl') as FormControl } 
 
@@ -26,16 +29,24 @@ export class HomeComponent implements OnInit {
     private authService: AuthService,
     private fb: FormBuilder,
     private recipeSvc: RecipeAdminService,
-    private router: Router
+    private router: Router,
+    private environmentSvc: EnvironmentService
   ) {}
   
   ngOnInit(): void {
+    this.getApiUrl();
     this.buildForm();
     this.initAutoCompleteStream();
+    this.getHeroDisplayedRecipes();
+    this.getFeaturedRecipes();
   }
 
   login() {
     this.authService.navigateToLogin();
+  }
+
+  private getApiUrl(): void {
+    this.apiUrl = this.environmentSvc.getApiUrl('default');
   }
 
   private buildForm(): void {
@@ -56,5 +67,13 @@ export class HomeComponent implements OnInit {
   onRecipeSelected(event: MatAutocompleteSelectedEvent) {
     this.router.navigate(['recipes/details/', event.option.value,]);
     this.recipeAutoCompleteControl.setValue('');
+  }
+
+  private getHeroDisplayedRecipes(): void {
+    this.recipeSvc.getHeroDisplayed().subscribe(response => this.heroDisplayedRecipes = response);
+  }
+
+  private getFeaturedRecipes(): void {
+    this.recipeSvc.getFeatured().subscribe(response => this.featuredRecipes = response);
   }
 }

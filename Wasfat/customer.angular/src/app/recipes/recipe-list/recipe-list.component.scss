@@ -1,0 +1,71 @@
+/* Recipe card hover & image effects */
+.recipe-card {
+    transition: box-shadow 0.25s ease;
+    border-radius: 16px;
+    overflow: hidden;
+}
+
+.recipe-card:hover {
+    box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.12);
+}
+
+.recipe-img-wrapper {
+    position: relative;
+    overflow: hidden;
+}
+
+.recipe-img-wrapper img {
+    width: 100%;
+    height: 230px;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+}
+
+.img-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.25); 
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.recipe-img-wrapper:hover .img-overlay {
+    opacity: 1;
+}
+
+.recipe-img-wrapper:hover img {
+    transform: scale(1.05);
+}
+
+//---
+
+.recipe-search-simple {
+    display: flex;
+    justify-content: flex-end;
+}
+
+/* The input itself */
+.recipe-search-input {
+    width: 100%;                 
+    padding: 1rem 1.5rem;
+    font-size: 0.95rem;
+    font-family: 'Rakkas', serif;
+
+    border-radius: 25px;
+    border: 1px solid #cfcfcf;
+    background-color: #fff;
+
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* Focus state */
+.recipe-search-input:focus {
+    outline: none;
+    border-color: #999;
+    box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.04);
+}
+
+/* Placeholder */
+.recipe-search-input::placeholder {
+    color: #6e6e6e;
+}

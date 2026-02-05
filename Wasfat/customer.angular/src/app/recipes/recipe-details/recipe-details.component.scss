@@ -1,0 +1,22 @@
+.recipe-hero {
+  min-height: 340px;           /* fallback for small images */
+}
+
+@media (min-width: 992px) {
+  .recipe-hero {
+    min-height: 100%;          /* stretch to match content height */
+  }
+}
+
+.list-group-item {
+  border-bottom: 1px solid rgba(0,0,0,0.05) !important;
+}
+
+.list-group-item:last-child {
+  border-bottom: none !important;
+}
+
+ol.list-group-numbered .list-group-item::before {
+  color: #dc3545;              /* accent color for numbers – change as needed */
+  font-weight: 600;
+}

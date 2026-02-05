@@ -1,14 +1,17 @@
 import { CoreModule } from '@abp/ng.core';
-import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbCarouselModule, NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgModule } from '@angular/core';
 import { ThemeSharedModule } from '@abp/ng.theme.shared';
 import { NgxValidateCoreModule } from '@ngx-validate/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatIconModule } from '@angular/material/icon';
+import { MatChipsModule } from '@angular/material/chips'
+import { FirstWordsPipe } from './first-words.pipe';
 
 @NgModule({
-  declarations: [],
+  declarations: [FirstWordsPipe],
   imports: [
     CoreModule,
     ThemeSharedModule,
@@ -16,7 +19,10 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
     NgxValidateCoreModule,
     MatFormFieldModule,
     MatInputModule,
-    MatAutocompleteModule
+    MatAutocompleteModule,
+    NgbCarouselModule,
+    MatIconModule,
+    MatChipsModule
   ],
   exports: [
     CoreModule,
@@ -25,7 +31,11 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
     NgxValidateCoreModule,
     MatFormFieldModule,
     MatInputModule,
-    MatAutocompleteModule
+    MatAutocompleteModule,
+    NgbCarouselModule,
+    FirstWordsPipe,
+    MatIconModule,
+    MatChipsModule
   ],
   providers: []
 })

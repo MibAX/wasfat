@@ -12,7 +12,7 @@
   --lpx-logo: url('/assets/images/logo/logo-light.png');
   --lpx-logo-icon: url('/assets/images/logo/logo-light-thumbnail.png');
 
-  --navbar-bg: 90deg,#0a1a33 0%,#050d1a 50%,#000000 100%
+  --navbar-bg: 90deg, #252525 0%, #141414 50%, #000000 100%;
 }
 .donut {
   display: inline-block;
@@ -50,4 +50,8 @@ abp-dynamic-layout .navbar,
 
 .ff-rakkas {
   font-family: 'Rakkas', serif !important;
+}
+
+.cursor-pointer {
+  cursor: pointer;
 }

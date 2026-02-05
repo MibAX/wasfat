@@ -1,2 +1,81 @@
-<h1 style="font-family:'Rakkas'">{{recipe?.name}}</h1>
-<img [src]="apiUrl + recipe?.imageUrl" alt="{{recipe?.name}}" width="25%">
+<article class="py-5" [@pageEnter] [@staggerContent]>
+    <div class="row justify-content-center">
+        <div class="col-12 col-xl-10">
+            <div class="bg-white shadow rounded-4 overflow-hidden border border-light"
+                 [@pageEnter]>
+
+                <div class="row g-0 flex-column flex-lg-row">
+
+                    <!-- Hero Image – no extra animation, inherits from parent -->
+                    <div class="col-lg-5 col-xl-6">
+                        <img [src]="apiUrl + recipe?.imageUrl" 
+                             alt="{{ recipe?.name }}" 
+                             class="recipe-hero img-fluid object-fit-cover w-100 h-100" />
+                    </div>
+
+                    <!-- Content Area -->
+                    <div class="col-lg-7 col-xl-6 d-flex flex-column p-4 p-lg-5">
+
+                        <!-- Title -->
+                        <h1 class="ff-rakkas mb-4 fs-1 anim-section">   <!-- ← stagger animation -->
+                            {{ recipe?.name }}
+                        </h1>
+
+                        <!-- Categories -->
+                        <section class="anim-section">   <!-- ← stagger animation -->
+                            <div class="d-flex align-items-center flex-wrap gap-3">
+                                <h2 class="fs-5 text-muted mb-0 me-2">Categories:</h2>
+                                <mat-chip-listbox class="ff-rakkas d-flex flex-wrap gap-2">
+                                    <mat-chip *ngFor="let category of recipe?.categories" 
+                                              highlighted 
+                                              class="bg-danger">
+                                        {{ category.name }}
+                                    </mat-chip>
+                                </mat-chip-listbox>
+                            </div>
+                        </section>
+
+                        <hr>
+
+                        <!-- Description -->
+                        <section class="mb-5 anim-section">   <!-- ← stagger animation -->
+                            <p class="text-muted lh-base fs-5 mb-0">
+                                {{ recipe?.description }}
+                            </p>
+                        </section>
+
+                        <!-- Ingredients -->
+                        <section class="mb-5 anim-section">   <!-- ← stagger animation -->
+                            <h3 class="fs-6 fw-bold">Ingredients</h3>
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item px-0 py-2 border-bottom"
+                                    *ngFor="let ingredient of recipe?.recipeIngredients">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <span class="fw-medium">
+                                            {{ getIngredientLabel(ingredient.ingredientId) }}
+                                        </span>
+                                        <span class="text-muted small">
+                                            {{ ingredient.quantity }} {{ getMeasurementUnitName(ingredient.unit) }}
+                                        </span>
+                                    </div>
+                                </li>
+                            </ul>
+                        </section>
+
+                        <!-- Instructions -->
+                        <section class="anim-section">   <!-- ← stagger animation -->
+                            <h3 class="fs-6 fw-bold">Instructions</h3>
+                            <ol class="list-group list-group-numbered ps-0">
+                                <li class="list-group-item px-0 py-2 border-0 bg-transparent"
+                                    *ngFor="let instruction of recipe?.instructions">
+                                    {{ instruction.text }}
+                                </li>
+                            </ol>
+                        </section>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</article>
