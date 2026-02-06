@@ -128,6 +128,30 @@ public class OpenIddictDataSeedContributor : IDataSeedContributor, ITransientDep
             );
         }
 
+        //Console Test / Angular Customer Client
+        var consoleAndAngularCustomerClientId = configurationSection["Wasfat_Customer:ClientId"];
+        if (!consoleAndAngularCustomerClientId.IsNullOrWhiteSpace())
+        {
+            var consoleAndAngularCustomerClientRootUrl = configurationSection["Wasfat_Customer:RootUrl"]?.TrimEnd('/');
+            await CreateApplicationAsync(
+                name: consoleAndAngularCustomerClientId!,
+                type: OpenIddictConstants.ClientTypes.Public,
+                consentType: OpenIddictConstants.ConsentTypes.Implicit,
+                displayName: "Console Test / Angular Customer Application",
+                secret: null,
+                grantTypes: new List<string> {
+                    OpenIddictConstants.GrantTypes.AuthorizationCode,
+                    OpenIddictConstants.GrantTypes.Password,
+                    OpenIddictConstants.GrantTypes.ClientCredentials,
+                    OpenIddictConstants.GrantTypes.RefreshToken
+                },
+                scopes: commonScopes,
+                redirectUri: consoleAndAngularCustomerClientRootUrl,
+                clientUri: consoleAndAngularCustomerClientRootUrl,
+                postLogoutRedirectUri: consoleAndAngularCustomerClientRootUrl
+            );
+        }
+
         // Blazor Client
         var blazorClientId = configurationSection["Wasfat_Blazor:ClientId"];
         if (!blazorClientId.IsNullOrWhiteSpace())
