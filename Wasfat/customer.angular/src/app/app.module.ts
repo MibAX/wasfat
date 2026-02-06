@@ -17,6 +17,7 @@ import { FeatureManagementModule } from '@abp/ng.feature-management';
 import { AbpOAuthModule } from '@abp/ng.oauth';
 import { ThemeBasicModule } from '@abp/ng.theme.basic';
 import { ServiceWorkerModule } from '@angular/service-worker';
+import { CustomLayoutModule } from './layout/custom-layout/custom-layout.module';
 
 @NgModule({
   imports: [
@@ -42,6 +43,7 @@ import { ServiceWorkerModule } from '@angular/service-worker';
             // or after 30 seconds (whichever comes first).
             registrationStrategy: 'registerWhenStable:30000'
           }),
+    CustomLayoutModule
   ],
   declarations: [AppComponent],
   providers: [APP_ROUTE_PROVIDER],

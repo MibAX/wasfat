@@ -13,6 +13,7 @@
   --lpx-logo-icon: url('/assets/images/logo/logo-light-thumbnail.png');
 
   --navbar-bg: 90deg, #252525 0%, #141414 50%, #000000 100%;
+  
 }
 .donut {
   display: inline-block;
@@ -38,7 +39,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 abp-dynamic-layout .navbar,
 .main-navbar {
   font-family: "Rakkas", serif;
-  background: linear-gradient(var(--navbar-bg));
+  // background: linear-gradient(var(--navbar-bg));
   flex-direction: row !important;
   padding-block: 0.5em;
   margin-bottom: 0 !important;

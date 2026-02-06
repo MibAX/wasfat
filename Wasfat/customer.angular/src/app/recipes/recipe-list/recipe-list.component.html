@@ -1,37 +1,39 @@
-<div class="row my-4 align-items-center">
-    <div class="col-lg-6">
-        <div>
-            <h1 class="ff-rakkas mb-2 fs-1 text-lg-start text-center">Recipes</h1>
-            <p class="text-secondary mb-0 text-lg-start text-center">Discover the tastes around the world</p>
+<div class="container">
+    <div class="row my-4 align-items-center">
+        <div class="col-lg-6">
+            <div>
+                <h1 class="ff-rakkas mb-2 fs-1 text-lg-start text-center">Recipes</h1>
+                <p class="text-secondary mb-0 text-lg-start text-center">Discover the tastes around the world</p>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <form [formGroup]="searchForm" class="recipe-search-simple">
+                <input type="text" class="recipe-search-input mt-lg-0 mt-3" formControlName="recipeName" placeholder="Search recipes…"
+                    autocomplete="off" />
+            </form>
         </div>
     </div>
-    <div class="col-lg-6">
-        <form [formGroup]="searchForm" class="recipe-search-simple">
-            <input type="text" class="recipe-search-input mt-lg-0 mt-3" formControlName="recipeName" placeholder="Search recipes…"
-                autocomplete="off" />
-        </form>
-    </div>
-</div>
-
-<hr class="opacity-25">
-
-<div class="row mt-4 g-4">
-    <div *ngFor="let recipe of filteredRecipes" @cardAnim class="col-xl-4 col-md-6">
-        <div class="card recipe-card h-100 border-0 shadow-sm">
-            <div class="recipe-img-wrapper cursor-pointer" [routerLink]="'/recipes/details/' + recipe.id">
-                <img class="card-img-top" [src]="apiUrl + recipe.imageUrl" [alt]="recipe.name" />
-                <div class="img-overlay"></div>
-            </div>
-            <div class="card-body d-flex flex-column">
-                <h3 class="card-title ff-rakkas mb-2 fs-3">
-                    {{ recipe.name }}
-                </h3>
-                <p class="card-text text-muted flex-grow-1 fs-6">
-                    {{ recipe.description | firstWords:15 }}
-                </p>
-                <a [routerLink]="'/recipes/details/' + recipe.id" class="btn btn-outline-danger mt-3 align-self-start">
-                    View Recipe
-                </a>
+    
+    <hr class="opacity-25">
+    
+    <div class="row py-4 g-4">
+        <div *ngFor="let recipe of filteredRecipes" @cardAnim class="col-xl-4 col-md-6">
+            <div class="card recipe-card h-100 border-0 shadow-sm">
+                <div class="recipe-img-wrapper cursor-pointer" [routerLink]="'/recipes/details/' + recipe.id">
+                    <img class="card-img-top" [src]="apiUrl + recipe.imageUrl" [alt]="recipe.name" />
+                    <div class="img-overlay"></div>
+                </div>
+                <div class="card-body d-flex flex-column">
+                    <h3 class="card-title ff-rakkas mb-2 fs-3">
+                        {{ recipe.name }}
+                    </h3>
+                    <p class="card-text text-muted flex-grow-1 fs-6">
+                        {{ recipe.description | firstWords:15 }}
+                    </p>
+                    <a [routerLink]="'/recipes/details/' + recipe.id" class="btn btn-outline-danger mt-3 align-self-start">
+                        View Recipe
+                    </a>
+                </div>
             </div>
         </div>
     </div>
