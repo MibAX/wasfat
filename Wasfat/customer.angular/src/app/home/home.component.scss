@@ -9,7 +9,7 @@
 
 .hero-carousel .carousel-img-wrapper {
   width: 100%;
-  height: 800px;
+  height: 650px;
   overflow: hidden;
   position: relative;
 }
@@ -31,7 +31,9 @@
 }
 
 .hero-carousel .carousel-caption {
-  bottom: 20%;
+  top: 50%;
+  transform: translateY(-50%);
+  bottom: auto;
   z-index: 10;
 }
 
@@ -43,16 +45,17 @@
 
 #featured-heading h2 {
     color: #e67e22;
+    font-weight: bold;
 }
 
-.explore-all-link {
+.featured-recipes-link {
     color: #e67e22 !important;
     text-decoration: none;
     font-weight: 600;
     transition: transform 0.2s ease;
 }
 
-.explore-all-link:hover {
+.featured-recipes-link:hover {
     transform: translateX(5px);
 }
 
@@ -62,8 +65,30 @@
 }
 
 /* Recipe Cards */
+#featured-recipes .card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+#featured-recipes .card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 8px 24px rgba(230, 126, 34, 0.2) !important;
+}
+
+#featured-recipes .card img {
+    height: 250px;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+#featured-recipes .card:hover img {
+    transform: scale(1.05);
+}
+
 #featured-recipes .card-title {
     color: #2d3436;
+    font-weight: bold;
 }
 
 #featured-recipes .card-text {
@@ -72,11 +97,11 @@
 
 .btn-view-recipe {
     background: linear-gradient(135deg, #ff6b6b 0%, #e67e22 100%);
-    font-family: 'Rakkas', serif;
     color: white;
     border: none;
     padding: 0.5rem 1.5rem;
     border-radius: 25px;
+    font-weight: 600;
     transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
@@ -86,25 +111,31 @@
     color: white;
 }
 
-/* Button styles */
+/* Hero button styles */
 .btn-gradient-orange {
-  background: linear-gradient(135deg, #e67e22, #f39c12);
+  background: linear-gradient(135deg, #ff6b6b 0%, #e67e22 100%);
   color: white;
   border: none;
-  transition: all 0.3s ease;
+  padding: 0.75rem 2rem;
+  border-radius: 30px;
+  font-weight: 600;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .btn-gradient-orange:hover {
-  background: linear-gradient(135deg, #d35400, #e67e22);
+  transform: scale(1.05);
+  box-shadow: 0 6px 20px rgba(230, 126, 34, 0.4);
   color: white;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(230, 126, 34, 0.4);
 }
 
 .btn-outline-orange {
-  background: transparent;
-  color: white;
-  border: 2px solid white;
+  border: 2px solid #fff;
+  color: #fff;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  padding: 0.75rem 2rem;
+  border-radius: 30px;
+  font-weight: 600;
   transition: all 0.3s ease;
 }
 
@@ -112,5 +143,4 @@
   background: white;
   color: #e67e22;
   border-color: white;
-  transform: translateY(-2px);
 }

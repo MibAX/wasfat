@@ -12,6 +12,46 @@
     font-size: 1rem;
 }
 
+.nav-container {
+    position: relative;
+}
+
+.center-search {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 50%;
+    max-width: 600px;
+}
+
+@media (max-width: 991.98px) {
+    .center-search {
+        position: static;
+        transform: none;
+        width: 100%;
+        max-width: none;
+        order: 3;
+        margin-bottom: 0.5rem;
+    }
+    
+    .navbar-brand {
+        order: 1;
+    }
+    
+    .navbar-toggler {
+        order: 2;
+        margin-left: auto;
+    }
+    
+    .navbar-collapse {
+        order: 4;
+    }
+    
+    .nav-container {
+        flex-wrap: wrap;
+    }
+}
+
 .nav-link {
     color: #6c757d;
     font-weight: 500;
@@ -69,14 +109,3 @@ footer p {
     color: #6c757d;
 }
 
-@media (min-width: 992px) {
-    .w-lg-50 {
-        width: 50% !important;
-    }
-}
-
-@media (min-width: 576px) {
-    .w-sm-75 {
-        width: 75% !important;
-    }
-}

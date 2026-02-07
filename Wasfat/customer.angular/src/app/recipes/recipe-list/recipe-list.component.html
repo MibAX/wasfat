@@ -1,13 +1,16 @@
 <div class="recipe-list-page">
+    <section class="page-header text-center">
+        <div class="container">
+            <h1 class="page-title">Explore Our Recipes</h1>
+            <p class="page-subtitle">Discover delicious dishes from around the world</p>
+        </div>
+    </section>
+
     <div class="container">
-        <div class="row my-4 align-items-center">
-            <div class="col-lg-6">
-                <h1 class="ff-rakkas mb-2 fs-1 text-lg-start text-center page-title">Recipes</h1>
-                <p class="text-secondary mb-0 text-lg-start text-center">Discover the tastes around the world</p>
-            </div>
-            <div class="col-lg-6">
-                <form [formGroup]="searchForm" class="d-flex justify-content-lg-end">
-                    <input type="text" class="search-input mt-lg-0 mt-3" formControlName="recipeName" 
+        <div class="row mb-4">
+            <div class="col-lg-6 mx-auto">
+                <form [formGroup]="searchForm">
+                    <input type="text" class="search-input" formControlName="recipeName" 
                            placeholder="Filter recipes…" autocomplete="off" />
                 </form>
             </div>
