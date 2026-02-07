@@ -3,7 +3,26 @@
     --mdc-outlined-text-field-caret-color: #e67e22 !important;
     --mdc-outlined-text-field-focus-outline-color: #e67e22 !important;
     --mdc-outlined-text-field-focus-label-text-color: rgba(0, 0, 0, 0.87) !important;
-    --mdc-outlined-text-field-hover-outline-color: #ffeaa7 !important; //hover
+    --mdc-outlined-text-field-hover-outline-color: #ffeaa7 !important;
+    --mdc-shape-small: 25px !important;
+}
+
+::ng-deep .center-search .mat-mdc-form-field {
+    .mat-mdc-text-field-wrapper {
+        border-radius: 25px;
+    }
+    
+    .mdc-notched-outline {
+        .mdc-notched-outline__leading {
+            border-radius: 25px 0 0 25px;
+            min-width: 25px;
+            width: 25px;
+        }
+        
+        .mdc-notched-outline__trailing {
+            border-radius: 0 25px 25px 0;
+        }
+    }
 }
 
 .navbar {
