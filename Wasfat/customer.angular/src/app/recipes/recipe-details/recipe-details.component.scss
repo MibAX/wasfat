@@ -6,19 +6,19 @@
 /* Page header section */
 .page-header {
     background: linear-gradient(135deg, #fff5e6 0%, #ffe8cc 100%);
-    padding: 4rem 0 3rem;
+    padding: 5rem 0;
     margin-bottom: 0;
 }
 
 .page-title {
     color: #e67e22;
-    font-size: 3rem;
+    font-size: 2.5rem;
     font-weight: bold;
-    margin-bottom: 0;
+    margin-bottom: 1rem;
 }
 
 .category-display {
-    margin-top: 1.5rem;
+    margin-top: 0.5rem;
 }
 
 .category-label {
@@ -61,7 +61,7 @@
 .recipe-hero-image {
     width: 100%;
     height: 100%;
-    min-height: 500px;
+    min-height: 400px;
     overflow: hidden;
     border-radius: 12px;
 }
@@ -79,7 +79,7 @@
     flex-direction: column;
     justify-content: center;
     height: 100%;
-    min-height: 500px;
+    min-height: 400px;
 }
 
 .content-title {
@@ -101,7 +101,7 @@
 
 @media (max-width: 991px) {
     .recipe-hero-image {
-        min-height: 400px;
+        min-height: 350px;
         margin-bottom: 2rem;
     }
     
