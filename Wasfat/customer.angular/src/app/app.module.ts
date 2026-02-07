@@ -47,7 +47,7 @@ import { RecipeDetailsComponent } from './recipes/recipe-details/recipe-details.
           }),
     CustomLayoutModule
   ],
-  declarations: [AppComponent, RecipeListComponent, RecipeDetailsComponent],
+  declarations: [AppComponent],
   providers: [APP_ROUTE_PROVIDER],
   bootstrap: [AppComponent],
 })

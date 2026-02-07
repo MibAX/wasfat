@@ -5,6 +5,8 @@ import { CoreModule } from '@abp/ng.core';
 import { ThemeBasicModule } from '@abp/ng.theme.basic';
 import { ThemeSharedModule } from '@abp/ng.theme.shared';
 import { RouterModule } from '@angular/router';
+import { NgbCollapseModule, NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
+import { SharedModule } from 'src/app/shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -13,7 +15,7 @@ import { RouterModule } from '@angular/router';
   imports: [
     CommonModule,
     RouterModule,
-    CoreModule,
+    SharedModule,
     ThemeSharedModule,
     ThemeBasicModule,
   ]

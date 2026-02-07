@@ -1,5 +1,5 @@
 import { CoreModule } from '@abp/ng.core';
-import { NgbCarouselModule, NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbCarouselModule, NgbCollapseModule, NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgModule } from '@angular/core';
 import { ThemeSharedModule } from '@abp/ng.theme.shared';
 import { NgxValidateCoreModule } from '@ngx-validate/core';
@@ -22,7 +22,9 @@ import { FirstWordsPipe } from './first-words.pipe';
     MatAutocompleteModule,
     NgbCarouselModule,
     MatIconModule,
-    MatChipsModule
+    MatChipsModule,
+    NgbCollapseModule,
+    NgbDropdownModule
   ],
   exports: [
     CoreModule,
@@ -35,7 +37,9 @@ import { FirstWordsPipe } from './first-words.pipe';
     MatAutocompleteModule,
     NgbCarouselModule,
     MatIconModule,
-    MatChipsModule
+    MatChipsModule,
+    NgbCollapseModule,
+    NgbDropdownModule
   ],
   providers: []
 })

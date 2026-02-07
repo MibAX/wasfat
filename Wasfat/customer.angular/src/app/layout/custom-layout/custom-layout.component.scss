@@ -1,0 +1,82 @@
+::ng-deep :root {
+    --mdc-outlined-text-field-outline-color: #ffeaa7 !important;
+    --mdc-outlined-text-field-caret-color: #e67e22 !important;
+    --mdc-outlined-text-field-focus-outline-color: #e67e22 !important;
+    --mdc-outlined-text-field-focus-label-text-color: rgba(0, 0, 0, 0.87) !important;
+    --mdc-outlined-text-field-hover-outline-color: #ffeaa7 !important; //hover
+}
+
+.navbar {
+    background: linear-gradient(135deg, #fff5e6 0%, #ffffff 100%) !important;
+    border-bottom: 2px solid #ffeaa7;
+    font-size: 1rem;
+}
+
+.nav-link {
+    color: #6c757d;
+    font-weight: 500;
+    transition: color 0.3s ease;
+    position: relative;
+}
+
+.nav-link:hover {
+    color: #e67e22;
+}
+
+.nav-link.active {
+    color: #e67e22;
+    font-weight: 600;
+}
+
+footer h5 {
+    font-size: 2rem;
+    font-family: 'Rakkas', serif;
+    color: #e67e22;
+}
+
+footer .nav-item .nav-link {
+    transition: color 0.3s ease, transform 0.2s ease;
+}
+
+footer .nav-item:hover .nav-link {
+    color: #e67e22 !important;
+    transform: translateX(5px);
+}
+
+footer .social-links a {
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    background: linear-gradient(135deg, #ff6b6b 0%, #e67e22 100%);
+    font-size: 1rem;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 40px;
+    margin-bottom: 0.5rem;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+footer .social-links a:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 12px rgba(230, 126, 34, 0.4);
+}
+
+footer .social-links a i {
+    color: white;
+}
+
+footer p {
+    color: #6c757d;
+}
+
+@media (min-width: 992px) {
+    .w-lg-50 {
+        width: 50% !important;
+    }
+}
+
+@media (min-width: 576px) {
+    .w-sm-75 {
+        width: 75% !important;
+    }
+}
