@@ -1,24 +1,27 @@
 <div class="recipe-details-page">
     <!-- Recipe Hero -->
     <div class="recipe-hero">
-        <div class="recipe-hero-image">
-            <img [src]="apiUrl + recipe?.imageUrl" [alt]="recipe?.name" />
-            <div class="hero-overlay"></div>
-        </div>
         <div class="container">
-            <div class="row">
-                <div class="col-12">
-                    <h1 class="recipe-title">{{ recipe?.name }}</h1>
-                    
-                    <div class="category-display d-flex flex-wrap align-items-center gap-2 mb-4">
-                        <span class="text-white-50">Categories:</span>
-                        <button *ngFor="let category of recipe?.categories" class="category-chip">
-                            {{ category.name }}
-                        </button>
+            <div class="row g-0">
+                <div class="col-lg-6">
+                    <div class="recipe-hero-image">
+                        <img [src]="apiUrl + recipe?.imageUrl" [alt]="recipe?.name" />
                     </div>
-                    
-                    <div class="recipe-description">
-                        <p>{{ recipe?.description }}</p>
+                </div>
+                <div class="col-lg-6">
+                    <div class="recipe-hero-content">
+                        <h1 class="recipe-title">{{ recipe?.name }}</h1>
+                        
+                        <div class="category-display d-flex flex-wrap align-items-center gap-2 mb-4">
+                            <span class="text-muted">Categories:</span>
+                            <button *ngFor="let category of recipe?.categories" class="category-chip">
+                                {{ category.name }}
+                            </button>
+                        </div>
+                        
+                        <div class="recipe-description">
+                            <p>{{ recipe?.description }}</p>
+                        </div>
                     </div>
                 </div>
             </div>
