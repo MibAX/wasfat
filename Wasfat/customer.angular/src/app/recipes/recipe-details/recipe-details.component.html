@@ -2,8 +2,13 @@
     <!-- Page Header -->
     <section class="page-header text-center">
         <div class="container">
-            <h1 class="page-title">Recipe Details</h1>
-            <p class="page-subtitle">Discover the perfect recipe for your next meal</p>
+            <h1 class="page-title">{{ recipe?.name }}</h1>
+            <div class="category-display d-flex flex-wrap justify-content-center align-items-center gap-2 mt-3">
+                <span class="category-label">Categories:</span>
+                <button *ngFor="let category of recipe?.categories" class="category-chip">
+                    {{ category.name }}
+                </button>
+            </div>
         </div>
     </section>
 
@@ -18,15 +23,7 @@
                 </div>
                 <div class="col-lg-6">
                     <div class="recipe-hero-content">
-                        <h1 class="recipe-title">{{ recipe?.name }}</h1>
-                        
-                        <div class="category-display d-flex flex-wrap align-items-center gap-2 mb-4">
-                            <span class="text-muted">Categories:</span>
-                            <button *ngFor="let category of recipe?.categories" class="category-chip">
-                                {{ category.name }}
-                            </button>
-                        </div>
-                        
+                        <h2 class="content-title">About This Recipe</h2>
                         <div class="recipe-description">
                             <p>{{ recipe?.description }}</p>
                         </div>
