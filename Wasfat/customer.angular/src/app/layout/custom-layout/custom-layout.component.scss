@@ -7,7 +7,7 @@
 }
 
 .navbar {
-    background: linear-gradient(135deg, #fff5e6 0%, #ffffff 100%) !important;
+    background: #ffffff !important;
     border-bottom: 2px solid #ffeaa7;
     font-size: 1rem;
 }
@@ -66,6 +66,11 @@
 .nav-link.active {
     color: #e67e22;
     font-weight: 600;
+}
+
+footer {
+    background: linear-gradient(135deg, #fff5e6 0%, #ffe8cc 100%);
+    padding-top: 2rem;
 }
 
 footer h5 {
