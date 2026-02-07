@@ -160,7 +160,9 @@ namespace Wasfat.Recipes
 
         public async Task<List<RecipeDto>> GetAllRecipesAsync()
         {
-            var recipes = await _recipesRepository.GetListAsync();
+            var queryable = await _recipesRepository.GetQueryableAsync();
+
+            var recipes = await queryable.Include(r => r.Categories).ToListAsync();
 
             var recipeDtos = ObjectMapper.Map<List<Recipe>, List<RecipeDto>>(recipes);
 
