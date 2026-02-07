@@ -50,6 +50,17 @@ export class RecipeDetailsComponent implements OnInit {
   }
 
   getMeasurementUnitName(value: number): string {
-  return this.measurementUnitOptions.find(o => o.value === value)?.key ?? '';
-}
+    return this.measurementUnitOptions.find(o => o.value === value)?.key ?? '';
+  }
+
+  getIngredientsColumn(columnIndex: number) {
+    if (!this.recipe?.recipeIngredients) return [];
+    
+    const ingredients = this.recipe.recipeIngredients;
+    const midpoint = Math.ceil(ingredients.length / 2);
+    
+    return columnIndex === 0 
+      ? ingredients.slice(0, midpoint)
+      : ingredients.slice(midpoint);
+  }
 }
