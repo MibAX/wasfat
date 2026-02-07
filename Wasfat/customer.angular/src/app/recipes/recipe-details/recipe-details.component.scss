@@ -1,0 +1,63 @@
+.recipe-details-page {
+    background: linear-gradient(135deg, #fff5e6 0%, #ffe8cc 100%);
+}
+
+.details-card {
+    background: white;
+    border-radius: 16px;
+    overflow: hidden;
+}
+
+.recipe-hero {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    min-height: 340px;
+}
+
+@media (min-width: 992px) {
+    .recipe-hero {
+        min-height: 100%;
+    }
+}
+
+.recipe-title {
+    color: #e67e22;
+    font-size: 2.5rem;
+}
+
+.recipe-description {
+    color: #636e72;
+    font-size: 1.1rem;
+    line-height: 1.6;
+}
+
+.category-chip {
+    background: linear-gradient(135deg, #ff6b6b 0%, #e67e22 100%);
+    color: white;
+}
+
+.divider {
+    border-color: #ffeaa7;
+    border-width: 2px;
+    opacity: 1;
+}
+
+.section-title {
+    color: #2d3436;
+    font-size: 1.25rem;
+    margin-bottom: 1rem;
+}
+
+.list-group-item {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05) !important;
+    background: transparent;
+}
+
+.list-group-item:last-child {
+    border-bottom: none !important;
+}
+
+ol.list-group-numbered .list-group-item::before {
+    color: #e67e22;
+}
