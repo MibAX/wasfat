@@ -2,6 +2,7 @@ import type { RecipeDto } from './models';
 import { RestService, Rest } from '@abp/ng.core';
 import type { PagedAndSortedResultRequestDto, PagedResultDto } from '@abp/ng.core';
 import { Injectable } from '@angular/core';
+import type { LookupDto } from '../common/models';
 
 @Injectable({
   providedIn: 'root',
@@ -31,6 +32,47 @@ export class RecipeAdminService {
     this.restService.request<any, RecipeDto>({
       method: 'GET',
       url: `/api/app/recipe-admin/${id}`,
+    },
+    { apiName: this.apiName,...config });
+  
+
+  getAllRecipes = (config?: Partial<Rest.Config>) =>
+    this.restService.request<any, RecipeDto[]>({
+      method: 'GET',
+      url: '/api/app/recipe-admin/recipes',
+    },
+    { apiName: this.apiName,...config });
+  
+
+  getAutoComplete = (searchKey: string, config?: Partial<Rest.Config>) =>
+    this.restService.request<any, LookupDto[]>({
+      method: 'GET',
+      url: '/api/app/recipe-admin/auto-complete',
+      params: { searchKey },
+    },
+    { apiName: this.apiName,...config });
+  
+
+  getFeatured = (config?: Partial<Rest.Config>) =>
+    this.restService.request<any, RecipeDto[]>({
+      method: 'GET',
+      url: '/api/app/recipe-admin/featured',
+    },
+    { apiName: this.apiName,...config });
+  
+
+  getFiltered = (categoryId: number, config?: Partial<Rest.Config>) =>
+    this.restService.request<any, RecipeDto[]>({
+      method: 'GET',
+      url: `/api/app/recipe-admin/filtered/${categoryId}`,
+    },
+    { apiName: this.apiName,...config });
+  
+
+  getHeroDisplayed = (config?: Partial<Rest.Config>) =>
+    this.restService.request<any, RecipeDto[]>({
+      method: 'GET',
+      url: '/api/app/recipe-admin/hero-displayed',
     },
     { apiName: this.apiName,...config });
   

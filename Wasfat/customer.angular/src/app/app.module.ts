@@ -18,6 +18,8 @@ import { AbpOAuthModule } from '@abp/ng.oauth';
 import { ThemeBasicModule } from '@abp/ng.theme.basic';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { CustomLayoutModule } from './layout/custom-layout/custom-layout.module';
+import { RecipeListComponent } from './recipes/recipe-list/recipe-list.component';
+import { RecipeDetailsComponent } from './recipes/recipe-details/recipe-details.component';
 
 @NgModule({
   imports: [
@@ -45,7 +47,7 @@ import { CustomLayoutModule } from './layout/custom-layout/custom-layout.module'
           }),
     CustomLayoutModule
   ],
-  declarations: [AppComponent],
+  declarations: [AppComponent, RecipeListComponent, RecipeDetailsComponent],
   providers: [APP_ROUTE_PROVIDER],
   bootstrap: [AppComponent],
 })
