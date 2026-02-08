@@ -134,7 +134,7 @@ export class CrudRecipeComponent implements OnInit {
   private getCategoryLookups(): void {
     this.categoryAdminSvc.getLookups().subscribe(result => this.categoryLookups = result)
   }
-  
+
   getCategoryLabel(categoryId: number): string {
     return this.categoryLookups.find(c => c.id === categoryId).displayName;
   }
@@ -145,7 +145,7 @@ export class CrudRecipeComponent implements OnInit {
 
     this.categoryIds.patchValue(updatedIds);
   }
-  
+
   private buildRecipeIngredientGroup(recipeIngredient?: RecipeIngredientDto, ingredientId?: number): FormGroup {
     return this.fb.group({
       recipeId: [recipeIngredient?.recipeId ?? 0],
@@ -218,7 +218,10 @@ export class CrudRecipeComponent implements OnInit {
         ingredientId: recipeIngredient.ingredientId,
         quantity: recipeIngredient.quantity,
         unit: recipeIngredient.unit
-      }))
+      })),
+      imageUrl: null,
+      isDisplayedInHero: false,
+      isFeatured: false
     };
   }
 
