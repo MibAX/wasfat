@@ -3,9 +3,12 @@ import { ThemeSharedModule } from '@abp/ng.theme.shared';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { CustomLayoutComponent } from './custom-layout.component';
 
 @NgModule({
-  declarations: [],
+  declarations: [
+    CustomLayoutComponent
+  ],
   imports: [
     SharedModule,
     RouterModule,
