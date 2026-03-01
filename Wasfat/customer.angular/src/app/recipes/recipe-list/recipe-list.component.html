@@ -1,1 +1,11 @@
-<p>recipe-list works!</p>
+<div class="container">
+    <div class="row g-4">
+        <div *ngFor="let recipe of recipes" class="col-lg-4 col-md-6">
+            <div class="border border-black rounded-3 p-3 h-100">
+                <span>Recipe: {{recipe.name}}</span>
+                <hr>
+                <span>Description: {{recipe.description}}</span>
+            </div>
+        </div>
+    </div>
+</div>
