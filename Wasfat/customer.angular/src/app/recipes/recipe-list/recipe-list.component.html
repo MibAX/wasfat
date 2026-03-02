@@ -22,9 +22,12 @@
             <div *ngFor="let recipe of filteredRecipes" class="col-lg-4 col-md-6">
                 <div class="card">
                     <img [src]="apiUrl + recipe.imageUrl" alt="recipe.name" class="img-fluid rounded-3">
-                    <div class="card-body">
+                    <div class="card-body d-flex flex-column">
                         <h4>{{recipe.name}}</h4>
-                        <p class="card-description">{{recipe.description}}</p>
+                        <p class="card-description flex-grow-1">{{recipe.description}}</p>
+                        <a [routerLink]="'/recipes/details/' + recipe.id" class="btn custom-btn-primary align-self-start">
+                            View Recipe
+                        </a>
                     </div>
                 </div>
             </div>
