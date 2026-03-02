@@ -8,10 +8,12 @@
     
     <div class="container py-4">
         <div class="d-flex flex-wrap justify-content-center gap-2">
-            <button (click)="selectCategory(null)">
+            <button class="custom-chip" [ngClass]="{ 'active': selectedCategoryId === null }" 
+            (click)="selectCategory(null)">
                 All Recipes
             </button>
-            <button *ngFor="let category of categoryLookups" (click)="selectCategory(category.id)">
+            <button *ngFor="let category of categoryLookups" class="custom-chip" [ngClass]="{ 'active': selectedCategoryId === category.id }" 
+            (click)="selectCategory(category.id)">
                 {{ category.displayName }}
             </button>
         </div>

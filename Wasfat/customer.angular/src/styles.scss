@@ -24,6 +24,8 @@
   --custom-color-primary: #e67e22;
   --custom-background-primary: linear-gradient(135deg, #fff5e6 0%, #ffe8cc 100%);
 
+  --custom-btn-primary: linear-gradient(135deg, #ff6b6b 0%, #e67e22 100%);
+
   --custom-box-shadow-primary: 0 8px 8px rgba(230, 126, 34, 0.3);
 }
 .donut {
@@ -110,4 +112,36 @@ p {
 .page-header-primary .page-subtitle {
   color: var(--bs-secondary-color);
   margin-bottom: 0;
+}
+
+/* ================
+   Chips
+   ================ */
+
+.custom-chip {
+  background: white;
+  color: var(--bs-secondary-color);
+  border: 2px solid #e0e0e0;
+  padding: 0.5rem 1.25rem;
+  border-radius: 25px;
+  font-weight: var(--custom-fw-medium);
+  transition: all 0.2s ease;
+}
+
+.custom-chip:hover {
+  border-color: var(--custom-color-primary);
+  color: var(--custom-color-primary);
+  transform: translateY(-2px);
+}
+
+.custom-chip.active {
+  background: var(--custom-btn-primary);
+  color: white;
+  border-color: transparent;
+  transition: transform 0.2s ease, box-shadow 0.2s ease !important;
+}
+
+.custom-chip.active:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--custom-box-shadow-primary);
 }
