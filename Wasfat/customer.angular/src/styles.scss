@@ -11,6 +11,18 @@
 :root  {
   --lpx-logo: url('/assets/images/logo/logo-light.png');
   --lpx-logo-icon: url('/assets/images/logo/logo-light-thumbnail.png');
+
+  --custom-fs-xl: 2.5rem;
+  --custom-fs-lg: 2rem;
+  --custom-fs-md: 1.25rem;
+  --custom-fs-base: 1rem;
+
+  --custom-fw-bold: 700;
+  --custom-fw-semibold: 600;
+  --custom-fw-medium: 500;
+
+  --custom-color-primary: #e67e22;
+  --custom-background-primary: linear-gradient(135deg, #fff5e6 0%, #ffe8cc 100%);
 }
 .donut {
   display: inline-block;
@@ -28,4 +40,45 @@
     transform: translate(-50%, -50%);
   }
 
+}
+
+/* =================================
+   Application Shared Rules & Styles
+   ================================= */
+
+/* ================
+   Element Typography
+   ================ */
+   
+h1 {
+  font-size: var(--custom-fs-xl) !important;
+}
+
+h2 {
+  font-size: var(--custom-fs-lg) !important;
+}
+
+p {
+  font-size: var(--custom-fs-md) !important;
+}
+
+/* ================
+   Page Headers
+   ================ */
+
+.page-header-primary {
+  background: var(--custom-background-primary);
+  text-align: center;
+  padding: 5rem 0;
+}
+
+.page-header-primary .page-title {
+  color: var(--custom-color-primary);
+  font-weight: var(--custom-fw-bold);
+  margin-bottom: 0.5rem;
+}
+
+.page-header-primary .page-subtitle {
+  color: var(--bs-secondary-color);
+  margin-bottom: 0;
 }
