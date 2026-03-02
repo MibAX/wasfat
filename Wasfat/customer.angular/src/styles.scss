@@ -23,6 +23,8 @@
 
   --custom-color-primary: #e67e22;
   --custom-background-primary: linear-gradient(135deg, #fff5e6 0%, #ffe8cc 100%);
+
+  --custom-box-shadow-primary: 0 8px 8px rgba(230, 126, 34, 0.3);
 }
 .donut {
   display: inline-block;
@@ -60,6 +62,33 @@ h2 {
 
 p {
   font-size: var(--custom-fs-md) !important;
+}
+
+/* ================
+   Cards
+   ================ */
+
+.card {
+  height: 100% !important;
+  border: none !important;
+  border-radius: 12px !important;
+  overflow: hidden !important;
+  transition: box-shadow 0.3s ease !important;
+  box-shadow: var(--bs-box-shadow-sm) !important;
+}
+
+.card:hover {
+  box-shadow: var(--custom-box-shadow-primary) !important;
+}
+
+.card img {
+  height: 250px !important;
+  object-fit: cover !important;
+}
+
+.card .card-description {
+  font-size: var(--custom-fs-base) !important;
+  color: var(--bs-secondary-color);
 }
 
 /* ================
