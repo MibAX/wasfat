@@ -6,6 +6,16 @@
 
         <hr>
 
+        <h5>Ingredients:</h5>
+        <ul>
+            <li *ngFor="let recipeIngredient of recipe?.recipeIngredients">
+                <strong class="d-block">{{ getIngredientLabel(recipeIngredient.ingredientId) }}</strong>
+                <span>{{ recipeIngredient.quantity}} {{ getMeasurementUnitKey(recipeIngredient.unit) }}</span>
+            </li>
+        </ul>
+
+        <hr>
+        
         <h5>Instructions:</h5>
         <ol>
             <li *ngFor="let instruction of recipe?.instructions">
