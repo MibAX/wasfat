@@ -1,1 +1,16 @@
-<p>recipe-details works!</p>
+<div class="container py-4">
+    <div class="border border-black rounded-3 p-3 h-100">
+        <img [src]="apiUrl + recipe.imageUrl" [alt]="recipe.name" class="img-fluid rounded-3">
+        <h4 class="mt-3">Recipe: {{recipe.name}}</h4>
+        <span>Description: {{recipe.description}}</span>
+
+        <hr>
+
+        <h5>Instructions:</h5>
+        <ol>
+            <li *ngFor="let instruction of recipe?.instructions">
+                <span style="display:inline-block">{{ instruction.text }}</span>
+            </li>
+        </ol>
+    </div>
+</div>
