@@ -6,9 +6,18 @@
         </div>
     </section>
     
-    <div class="container py-3">
-        <div class="row g-4">
-            <div *ngFor="let recipe of recipes" class="col-lg-4 col-md-6">
+    <div class="container py-4">
+        <div class="d-flex flex-wrap justify-content-center gap-2">
+            <button (click)="selectCategory(null)">
+                All Recipes
+            </button>
+            <button *ngFor="let category of categoryLookups" (click)="selectCategory(category.id)">
+                {{ category.displayName }}
+            </button>
+        </div>
+
+        <div class="row pt-4 g-4">
+            <div *ngFor="let recipe of filteredRecipes" class="col-lg-4 col-md-6">
                 <div class="card">
                     <img [src]="apiUrl + recipe.imageUrl" alt="recipe.name" class="img-fluid rounded-3">
                     <div class="card-body">
