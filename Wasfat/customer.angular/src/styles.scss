@@ -30,6 +30,7 @@
 
   --custom-box-shadow-primary: 0 8px 8px rgba(230, 126, 34, 0.3);
 
+  --custom-radius-xl: 30px;
   --custom-radius-lg: 25px;
   --custom-radius-md: 12px;
 }
@@ -170,4 +171,23 @@ p {
 
 .custom-btn-primary:hover {
   box-shadow: var(--custom-box-shadow-primary) !important;
+}
+
+//  SECONDARY BUTTON
+
+.custom-btn-secondary {
+  background: var(--custom-btn-secondary) !important;
+  font-family: var(--custom-font-rakkas) !important;
+  color: white !important;
+  backdrop-filter: blur(10px);
+  padding: 0.5rem 1.5rem !important;
+  border: 2px solid #fff !important;
+  border-radius: 25px !important;
+  transition: all 0.3s ease !important;
+}
+
+.custom-btn-secondary:hover {
+  background: white !important;
+  color: var(--custom-color-primary) !important;
+  border-color: white !important;
 }
