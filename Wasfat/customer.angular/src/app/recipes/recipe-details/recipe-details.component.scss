@@ -40,21 +40,9 @@
     border-bottom: 3px solid var(--custom-color-secondary);
 }
 
-/* Ingredients List */
+/* Ingredients & Instructions Shared */
 
-.ingredient-wrapper .ingredient-item {
-    padding: 1rem 0;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-    font-size: var(--custom-fs-base);
-    color: var(--bs-body-color);
-}
-
-.ingredient-wrapper:last-child .ingredient-item {
-    border-bottom: none;
-} 
-
-/* Instructions List */
-
+.ingredient-wrapper .ingredient-item,
 .instruction-wrapper .instruction-item {
     padding: 1rem 0;
     border-bottom: 1px solid rgba(0, 0, 0, 0.05);
@@ -62,9 +50,12 @@
     color: var(--bs-body-color);
 }
 
+.ingredient-wrapper:last-child .ingredient-item,
 .instruction-wrapper:last-child .instruction-item {
     border-bottom: none;
 } 
+
+/* Instructions List */
 
 .step-badge {
     display: flex;
