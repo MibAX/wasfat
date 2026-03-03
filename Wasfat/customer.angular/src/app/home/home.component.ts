@@ -9,7 +9,7 @@ import { RecipeAdminService, RecipeDto } from '@proxy/recipes';
 })
 export class HomeComponent implements OnInit {
   apiUrl: string;
-  recipes: RecipeDto[];
+  heroDisplayedRecipes: RecipeDto[];
   
   get hasLoggedIn(): boolean {
     return this.authService.isAuthenticated;
@@ -27,14 +27,14 @@ export class HomeComponent implements OnInit {
 
   ngOnInit(): void {
     this.getApiUrl();
-    this.getRecipes();
+    this.getHeroDisplayedRecipes();
   }
 
   private getApiUrl(): void {
     this.apiUrl = this.environmentSvc.getApiUrl('default');
   }
 
-  private getRecipes(): void {
-    this.recipeSvc.getAllRecipes().subscribe(result => this.recipes = result);
+  private getHeroDisplayedRecipes(): void {
+    this.recipeSvc.getHeroDisplayed().subscribe(result => this.heroDisplayedRecipes = result);
   }
 }
