@@ -1,4 +1,5 @@
 /* Recipe Hero Section */
+
 .recipe-hero {
     background: var(--custom-background-secondary);
     padding: 3rem 0;
@@ -27,4 +28,53 @@
 .hero-description {
     color: var(--bs-secondary-color);
     font-size: var(--custom-fs-base);
+}
+
+/* Section Heading */
+
+.section-heading {
+    color: var(--custom-color-primary);
+    font-weight: var(--custom-fw-bold);
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 3px solid var(--custom-color-secondary);
+}
+
+/* Ingredients List */
+
+.ingredient-wrapper .ingredient-item {
+    padding: 1rem 0;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    font-size: var(--custom-fs-base);
+    color: var(--bs-body-color);
+}
+
+.ingredient-wrapper:last-child .ingredient-item {
+    border-bottom: none;
+} 
+
+/* Instructions List */
+
+.instruction-wrapper .instruction-item {
+    padding: 1rem 0;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    font-size: var(--custom-fs-base);
+    color: var(--bs-body-color);
+}
+
+.instruction-wrapper:last-child .instruction-item {
+    border-bottom: none;
+} 
+
+.step-badge {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--custom-btn-primary);
+    color: white;
+    border-radius: 50%;
+    width: 2.5rem;
+    height: 2.5rem;
+    font-weight: var(--custom-fw-bold);
+    font-size: var(--custom-fs-md);
 }
