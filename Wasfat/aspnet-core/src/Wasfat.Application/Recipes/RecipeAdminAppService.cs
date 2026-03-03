@@ -187,5 +187,16 @@ namespace Wasfat.Recipes
 
             return heroRecipeDtos;
         }
+
+        public async Task<List<RecipeDto>> GetFeaturedAsync()
+        {
+            var query = await _recipesRepository.GetQueryableAsync();
+
+            var featuredRecipes = await query.Where(r => r.IsFeatured).ToListAsync();
+
+            var featuredRecipeDtos = ObjectMapper.Map<List<Recipe>, List<RecipeDto>>(featuredRecipes);
+
+            return featuredRecipeDtos;
+        }
     }
 }

@@ -16,5 +16,6 @@ namespace Wasfat.Recipes
         Task<List<RecipeDto>> GetAllRecipesAsync();
         Task<List<RecipeDto>> GetFilteredAsync(int categoryId);
         Task<List<RecipeDto>> GetHeroDisplayedAsync();
+        Task<List<RecipeDto>> GetFeaturedAsync();
     }
 }

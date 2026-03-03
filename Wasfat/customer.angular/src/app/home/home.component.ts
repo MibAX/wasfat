@@ -10,7 +10,8 @@ import { RecipeAdminService, RecipeDto } from '@proxy/recipes';
 export class HomeComponent implements OnInit {
   apiUrl: string;
   heroDisplayedRecipes: RecipeDto[];
-  
+  featuredRecipes: RecipeDto[];
+
   get hasLoggedIn(): boolean {
     return this.authService.isAuthenticated;
   }
@@ -28,6 +29,7 @@ export class HomeComponent implements OnInit {
   ngOnInit(): void {
     this.getApiUrl();
     this.getHeroDisplayedRecipes();
+    this.getFeaturedRecipes();
   }
 
   private getApiUrl(): void {
@@ -36,5 +38,9 @@ export class HomeComponent implements OnInit {
 
   private getHeroDisplayedRecipes(): void {
     this.recipeSvc.getHeroDisplayed().subscribe(result => this.heroDisplayedRecipes = result);
+  }
+
+  private getFeaturedRecipes(): void {
+    this.recipeSvc.getFeatured().subscribe(result => this.featuredRecipes = result);
   }
 }

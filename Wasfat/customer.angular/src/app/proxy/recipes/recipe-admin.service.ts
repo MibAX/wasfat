@@ -43,6 +43,14 @@ export class RecipeAdminService {
     { apiName: this.apiName,...config });
   
 
+  getFeatured = (config?: Partial<Rest.Config>) =>
+    this.restService.request<any, RecipeDto[]>({
+      method: 'GET',
+      url: '/api/app/recipe-admin/featured',
+    },
+    { apiName: this.apiName,...config });
+  
+
   getFiltered = (categoryId: number, config?: Partial<Rest.Config>) =>
     this.restService.request<any, RecipeDto[]>({
       method: 'GET',

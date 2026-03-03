@@ -1,3 +1,5 @@
+/* Hero Carousel */
+
 .hero-carousel .carousel-img-wrapper {
   width: 100%;
   height: 650px;
@@ -33,4 +35,25 @@
   border-radius: var(--custom-radius-xl) !important;
   font-family: var(--bs-btn-font-family) !important;
   font-weight: var(--custom-fw-semibold) !important;
+}
+
+/* Featured Recipes */
+
+.featured-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: var(--custom-color-primary) !important;
+}
+
+.featured-heading a {
+    color: var(--custom-color-primary) !important;
+    text-decoration: none;
+    font-size: var(--custom-fs-md);
+    font-weight: var(--custom-fw-semibold);
+    transition: transform 0.2s ease;
+}
+
+.featured-heading a:hover {
+    transform: translateX(5px);
 }
