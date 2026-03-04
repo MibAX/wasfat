@@ -5,12 +5,12 @@
             <img src="/assets/images/logo/tasty-bites-rectangular-logo.png" alt="Logo">
         </a>
 
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
-            aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+        <button class="navbar-toggler" type="button" (click)="isCollapsed = !isCollapsed" [attr.aria-expanded]="!isCollapsed"
+            aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        
-        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+
+        <div class="collapse navbar-collapse" [ngbCollapse]="isCollapsed">
             <div class="navbar-nav">
                 <a class="nav-link" routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
                     <i class="fas fa-home me-1"></i>
