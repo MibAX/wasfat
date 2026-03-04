@@ -4,6 +4,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
+using Wasfat.Common;
 
 namespace Wasfat.Recipes
 {
@@ -17,5 +18,6 @@ namespace Wasfat.Recipes
         Task<List<RecipeDto>> GetFilteredAsync(int categoryId);
         Task<List<RecipeDto>> GetHeroDisplayedAsync();
         Task<List<RecipeDto>> GetFeaturedAsync();
+        Task<List<LookupDto>> GetAutoCompleteAsync(string? searchKey);
     }
 }

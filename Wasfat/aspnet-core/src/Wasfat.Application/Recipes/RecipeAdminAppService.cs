@@ -9,6 +9,7 @@ using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
 using Volo.Abp.Domain.Repositories;
 using Wasfat.Categories;
+using Wasfat.Common;
 
 namespace Wasfat.Recipes
 {
@@ -197,6 +198,17 @@ namespace Wasfat.Recipes
             var featuredRecipeDtos = ObjectMapper.Map<List<Recipe>, List<RecipeDto>>(featuredRecipes);
 
             return featuredRecipeDtos;
+        }
+
+        public async Task<List<LookupDto>> GetAutoCompleteAsync(string? searchKey)
+        {
+            var query = await _recipesRepository.GetQueryableAsync();
+
+            var recipes = await query.Where(i => i.Name.Contains(searchKey)).ToListAsync();
+
+            var recipeLookupDtos = ObjectMapper.Map<List<Recipe>, List<LookupDto>>(recipes);
+
+            return recipeLookupDtos;
         }
     }
 }
