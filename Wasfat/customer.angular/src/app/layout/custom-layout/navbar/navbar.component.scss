@@ -1,3 +1,98 @@
+::ng-deep :root {
+    --mdc-outlined-text-field-outline-color: var(--custom-color-secondary) !important;
+    --mdc-outlined-text-field-caret-color: var(--custom-color-primary) !important;
+    --mdc-outlined-text-field-focus-outline-color: var(--custom-color-primary) !important;
+    --mdc-outlined-text-field-focus-label-text-color: rgba(0, 0, 0, 0.87) !important;
+    --mdc-outlined-text-field-hover-outline-color: var(--custom-color-secondary) !important;
+    --mdc-shape-small: 15px !important;
+}
+
+::ng-deep .center-search .mat-mdc-form-field .mat-mdc-text-field-wrapper {
+    border-radius: 15px;
+}
+
+::ng-deep .center-search .mat-mdc-form-field .mdc-notched-outline .mdc-notched-outline__leading {
+    border-radius: 15px 0 0 15px;
+    min-width: 15px;
+    width: 15px;
+}
+
+::ng-deep .center-search .mat-mdc-form-field .mdc-notched-outline .mdc-notched-outline__trailing{
+    border-radius: 0 15px 15px 0;
+}
+
+::ng-deep .mat-mdc-autocomplete-panel {
+    border-radius: 15px !important;
+    overflow: hidden !important;
+}
+
+::ng-deep .mdc-menu-surface {
+    border-radius: 15px !important;
+}
+
+::ng-deep .mat-mdc-option {
+    transition: background-color 0.2s ease;
+}
+
+::ng-deep .mat-mdc-option:hover {
+    background-color: #fff5e6 !important;
+}
+
+::ng-deep .mat-mdc-option:first-child {
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+}
+
+::ng-deep .mat-mdc-option:last-child {
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
+}
+
+.navbar {
+    background: white !important;
+    border-bottom: 2px solid var(--custom-color-secondary);
+}
+
+.nav-container {
+    position: relative;
+}
+
+.center-search {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 50%;
+    max-width: 600px;
+}
+
+@media (max-width: 992px) {
+    .center-search {
+        position: static;
+        transform: none;
+        width: 100%;
+        max-width: none;
+        order: 4;
+        margin-bottom: 0.5rem;
+    }
+    
+    .navbar-brand {
+        order: 1;
+    }
+    
+    .navbar-toggler {
+        order: 2;
+        margin-left: auto;
+    }
+    
+    .navbar-collapse {
+        order: 3;
+    }
+    
+    .nav-container {
+        flex-wrap: wrap;
+    }
+}
+
 .nav-link {
   color: var(--bs-secondary-color) !important;
   font-weight: var(--custom-fw-medium) !important;

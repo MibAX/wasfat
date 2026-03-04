@@ -1,8 +1,21 @@
 <nav class="navbar navbar-expand-lg">
-    <div class="container">
+    <div class="container nav-container">
         <a class="navbar-brand" routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
             <img src="/assets/images/logo/tasty-bites-rectangular-logo.png" alt="Logo">
         </a>
+
+        <form [formGroup]="searchForm" class="center-search">
+            <mat-form-field appearance="outline" class="w-100 bg-white">
+                <input type="text" matInput formControlName="recipeAutoCompleteControl"
+                    [matAutocomplete]="recipeAutoComplete" placeholder="Search recipes..." />
+
+                <mat-autocomplete #recipeAutoComplete="matAutocomplete" (optionSelected)="onRecipeSelected($event)">
+                    <mat-option *ngFor="let suggestedRecipe of suggestedRecipes$ | async" [value]="suggestedRecipe?.id">
+                        {{ suggestedRecipe?.displayName }}
+                    </mat-option>
+                </mat-autocomplete>
+            </mat-form-field>
+        </form>
 
         <button class="navbar-toggler" type="button" (click)="isCollapsed = !isCollapsed"
             [attr.aria-expanded]="!isCollapsed" aria-label="Toggle navigation">
@@ -10,31 +23,16 @@
         </button>
 
         <div class="collapse navbar-collapse" [ngbCollapse]="isCollapsed">
-            <div class="navbar-nav">
+            <div class="navbar-nav ms-auto">
                 <a class="nav-link" routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
                     <i class="fas fa-home me-1"></i>
                     <span>Home</span>
                 </a>
-                
+
                 <a class="nav-link" routerLink="/recipes/list" routerLinkActive="active">
                     <i class="fas fa-utensils me-1"></i>
                     <span>Recipes</span>
                 </a>
-
-                <form [formGroup]="searchForm" class="center-search">
-                    <mat-form-field appearance="outline" class="w-100 bg-white">
-                        <input type="text" matInput formControlName="recipeAutoCompleteControl"
-                            [matAutocomplete]="recipeAutoComplete" placeholder="Search recipes..." />
-
-                        <mat-autocomplete #recipeAutoComplete="matAutocomplete"
-                            (optionSelected)="onRecipeSelected($event)">
-                            <mat-option *ngFor="let suggestedRecipe of suggestedRecipes$ | async"
-                                [value]="suggestedRecipe?.id">
-                                {{ suggestedRecipe?.displayName }}
-                            </mat-option>
-                        </mat-autocomplete>
-                    </mat-form-field>
-                </form>
             </div>
         </div>
     </div>
