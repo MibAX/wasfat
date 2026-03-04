@@ -4,10 +4,12 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { CustomLayoutComponent } from './custom-layout.component';
+import { NavbarComponent } from './navbar/navbar.component';
 
 @NgModule({
   declarations: [
-    CustomLayoutComponent
+    CustomLayoutComponent,
+    NavbarComponent
   ],
   imports: [
     SharedModule,
