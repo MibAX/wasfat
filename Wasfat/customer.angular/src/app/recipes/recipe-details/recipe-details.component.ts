@@ -35,8 +35,10 @@ export class RecipeDetailsComponent implements OnInit {
   }
 
   private getRecipe(): void {
-    const ID_PARAM = Number(this.activatedRoute.snapshot.paramMap.get('id'));
-    this.recipeSvc.get(ID_PARAM).subscribe(result => this.recipe = result);
+    this.activatedRoute.paramMap.subscribe(params => {
+      const ID_PARAM = Number(params.get('id'));
+      this.recipeSvc.get(ID_PARAM).subscribe(result => this.recipe = result)
+    })
   }
 
   private getIngredientLookups(): void {
