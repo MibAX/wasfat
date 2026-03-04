@@ -191,3 +191,5 @@ p {
   color: var(--custom-color-primary) !important;
   border-color: white !important;
 }
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

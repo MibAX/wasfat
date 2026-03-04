@@ -3,6 +3,9 @@ import { NgbCarouselModule, NgbCollapseModule, NgbDropdownModule } from '@ng-boo
 import { NgModule } from '@angular/core';
 import { ThemeSharedModule } from '@abp/ng.theme.shared';
 import { NgxValidateCoreModule } from '@ngx-validate/core';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 @NgModule({
   declarations: [],
@@ -12,7 +15,10 @@ import { NgxValidateCoreModule } from '@ngx-validate/core';
     NgbDropdownModule,
     NgxValidateCoreModule,
     NgbCarouselModule,
-    NgbCollapseModule
+    NgbCollapseModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatAutocompleteModule,
   ],
   exports: [
     CoreModule,
@@ -20,7 +26,10 @@ import { NgxValidateCoreModule } from '@ngx-validate/core';
     NgbDropdownModule,
     NgxValidateCoreModule,
     NgbCarouselModule,
-    NgbCollapseModule
+    NgbCollapseModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatAutocompleteModule,
   ],
   providers: []
 })
