@@ -2354,11 +2354,50 @@ covering everything from entity creation to frontend integration.
 
 11.02 Terminology
 
-11.03 Adding the Instruction Entity
+### 11.03 Adding the Instruction Entity
 
-11.04 Establishing One-to-Many Relationship
+📍 **Location:**  
+`aspnet-core/src/Wasfat.Domain/Instructions/Instruction.cs`
 
-11.05 Adding the Instruction Entity to the DbContext
+```csharp
+using Volo.Abp.Domain.Entities;
+
+namespace Wasfat.Instructions
+{
+    public class Instruction : Entity<int>
+    {
+        public string Text { get; set; }
+        public int Order { get; set; }
+    }
+}
+````
+
+### 11.04 Establishing One-to-Many Relationship
+
+📍 **Location:**
+`aspnet-core/src/Wasfat.Domain/Instructions/Instruction.cs`
+
+```csharp
+public int RecipeId { get; set; }
+```
+
+📍 **Location:**
+`aspnet-core/src/Wasfat.Domain/Recipes/Recipe.cs`
+
+```csharp
+public List<Instruction> Instructions { get; set; } = new List<Instruction>();
+```
+
+### 11.05 Adding the Instruction Entity to the DbContext
+
+📍 **Location:**
+`aspnet-core/src/Wasfat.EntityFrameworkCore/EntityFrameworkCore/WasfatDbContext.cs`
+
+```csharp
+public DbSet<Instruction> Instructions { get; set; }
+```
+
+
 
 11.06 Mapping the Instruction Entity to a Database Table
 
